@@ -17,38 +17,52 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  FILE    : src/trunk/kernel/Kernel.cpp                                        *
+ *  FILE    : Gdt.cpp                                                            *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Kernel entry point (kmain). Reads like a table of contents —       *
- *            calls subsystem init functions in order, never returns.            *
- *            No logic lives here. If it does, it belongs in a subsystem file.   *
+ *  PURPOSE : Defines and initalizes the permanent 64-bit                        *
+ *            Global Descriptor Table.                                           *
  *                                                                               *
  ********************************************************************************/
-
-#include <trunk/kernel/Kernel.h>
-
 #include <trunk/cpu/Gdt.h>
 
 namespace trunk
 {
+    static GdtEntry gdt[5];
+    static GdtPointer gdt_pointer;
+
+    constexpr u8 GDT_PRESENT = 0x80;
+    constexpr u8 GDT_RING0 = 0x00;
+    constexpr u8 GDT_RING3 = 0x60;
+    constexpr u8 GDT_SYSTEM = 0x10;
+    constexpr u8 GDT_EXECUTABLE = 0x08;
+    constexpr u8 GDT_READ_WRITE = 0x02;
+    constexpr u8 GDT_LONG_MODE = 0x20;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : kmain                                                              *
+     *  FUNC    : gdt_init                                                           *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Top-level kernel entry.                                            *
+     *  PURPOSE : Initializes the global descriptor table subsystem                  *
      ********************************************************************************/
-    [[noreturn]]
-    void kmain(const BootInfo &info) noexcept
+    void gdt_init() noexcept
     {
-        (void)info;
+        gdt[0] = GdtEntry{0, 0, 0, 0, 0, 0};
 
-        gdt_init();
+        // Kernel Code
+        gdt[1] = GdtEntry::create(GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_EXECUTABLE | GDT_READ_WRITE, GDT_LONG_MODE);
 
-        for (;;)
-        {
-            asm volatile("hlt");
-        }
+        // Kernel Data
+        gdt[2] = GdtEntry::create(GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_READ_WRITE, 0);
+
+        // User Code
+        gdt[3] = GdtEntry::create(GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_EXECUTABLE | GDT_READ_WRITE, GDT_LONG_MODE);
+
+        // User Data
+        gdt[4] = GdtEntry::create(GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_READ_WRITE, 0);
+
+        gdt_pointer.limit = sizeof(gdt) - 1;
+        gdt_pointer.base = reinterpret_cast<uptr>(&gdt);
+
+        gdt_flush(reinterpret_cast<uptr>(&gdt_pointer));
     }
-
-} // namespace trunk
+}

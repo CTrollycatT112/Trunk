@@ -31,7 +31,7 @@
 namespace trunk
 {
 
-    // ── MB2 constants ─────────────────────────────────────────────────────────────
+    // ── MB2 constants ───────────────────────────────────────
 
     static constexpr u32 MB2_MAGIC = 0x36d76289;
     static constexpr u32 TAG_END = 0;
@@ -42,7 +42,7 @@ namespace trunk
     static constexpr u32 MMAP_NVS = 4;
     static constexpr u32 MMAP_BADRAM = 5;
 
-    // ── Raw MB2 structs (private to this file) ────────────────────────────────────
+    // ── Raw MB2 structs  ────────────────────────────────────
 
     struct [[gnu::packed]] MB2Tag
     {
@@ -87,7 +87,7 @@ namespace trunk
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : parse_mmap                                                         *
      *  DATE    : 2026                                                               *
-     *  PURPOSE : Copies MB2 memory map entries into BootInfo using our own types.   *
+     *  PURPOSE : Copies MB2 memory map entries into BootInfo                        *
      ********************************************************************************/
     static void parse_mmap(const MB2MmapTag *tag, BootInfo &info) noexcept
     {

@@ -1,8 +1,4 @@
-#define COMMENTS_NO_INCLUDE
-
-#ifdef COMMENTS_NO_INCLUDE
-#error Please do not include 'COMMENTS.cpp'
-#endif
+#error COMMENTS.cpp included in source tree
 
 // This is the  TOP_LEVEL_COMMENT for all files.
 
