@@ -9,8 +9,6 @@ if [[ ! -f "$ISO" ]]; then
     exit 1
 fi
 
-echo "[trunk] Booting $ISO in QEMU..."
-
 qemu-system-x86_64 \
     -name "Trunk OS"                \
     -machine q35,accel=tcg          \
