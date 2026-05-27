@@ -49,6 +49,7 @@ CXXFLAGS := \
 	-m64                    \
 	-Wall                   \
 	-Wextra                 \
+	-MMD -MP				\
 	-O2                     \
 	$(INCLUDES)
 

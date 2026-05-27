@@ -55,6 +55,6 @@ using i64 = signed long long;
  *  DATE    : 2026                                                               *
  *  PURPOSE : usize for counts/sizes, uptr for physical/virtual addresses.       *
  ********************************************************************************/
-using usize = unsigned long long;
-using isize = signed long long;
-using uptr = unsigned long long;
+using usize = unsigned long;
+using isize = long;
+using uptr = unsigned long;
