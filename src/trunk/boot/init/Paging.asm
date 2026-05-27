@@ -17,7 +17,7 @@
 ; *******************************************************************************
 ; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
-; *  FILE    : src/trunk/arch/x86_64/boot/Paging.asm                            *
+; *  FILE    : Paging.asm                                                       *
 ; *  DATE    : 2026                                                             *
 ; *  PURPOSE : Builds the early boot page tables and enables 64-bit long mode.  *
 ; *            Two mappings are created over the same first 1GB of physical     *

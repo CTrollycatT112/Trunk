@@ -17,7 +17,7 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  FILE    : src/trunk/kernel/Kernel.cpp                                        *
+ *  FILE    : Kernel.cpp                                                         *
  *  DATE    : 2026                                                               *
  *  PURPOSE : Kernel entry point (kmain). Reads like a table of contents —       *
  *            calls subsystem init functions in order, never returns.            *

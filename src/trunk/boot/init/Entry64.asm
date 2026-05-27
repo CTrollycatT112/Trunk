@@ -17,7 +17,7 @@
 ; *******************************************************************************
 ; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
-; *  FILE    : src/trunk/arch/x86_64/boot/Entry64.asm                           *
+; *  FILE    : Entry64.asm                                                      *
 ; *  DATE    : 2026                                                             *
 ; *  PURPOSE : 64-bit landing pad. Arrived at via far jump from Entry32.asm.    *
 ; *            Responsibilities (in order):                                     *

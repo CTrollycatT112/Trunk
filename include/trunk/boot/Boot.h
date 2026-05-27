@@ -17,7 +17,7 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  FILE    : include/trunk/boot/Boot.h                                          *
+ *  FILE    : Boot.h                                                             *
  *  DATE    : 2026                                                               *
  *  PURPOSE : Defines BootInfo — the clean interface between the boot layer      *
  *            and the kernel. Boot.cpp fills this from raw Multiboot2 tags.      *

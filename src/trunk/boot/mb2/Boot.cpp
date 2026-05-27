@@ -17,7 +17,7 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  FILE    : src/trunk/arch/x86_64/boot/Boot.cpp                                *
+ *  FILE    : Boot.cpp                                                           *
  *  DATE    : 2026                                                               *
  *  PURPOSE : Multiboot2 bridge. Validates the bootloader handoff, parses        *
  *            the MB2 info struct into a clean BootInfo, then calls kmain.       *

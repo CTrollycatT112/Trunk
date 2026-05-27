@@ -17,7 +17,7 @@
 ; *******************************************************************************
 ; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
-; *  FILE    : src/trunk/arch/x86_64/boot/Entry32.asm                           *
+; *  FILE    : Entry32.asm                                                      *
 ; *  DATE    : 2026                                                             *
 ; *  PURPOSE : 32-bit protected mode entry point (_start). GRUB jumps here.     *
 ; *            Saves MB2 magic + info ptr, builds page tables, enables long     *

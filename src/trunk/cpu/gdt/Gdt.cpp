@@ -65,4 +65,4 @@ namespace trunk
 
         gdt_flush(reinterpret_cast<uptr>(&gdt_pointer));
     }
-}
+} // namespace trunk

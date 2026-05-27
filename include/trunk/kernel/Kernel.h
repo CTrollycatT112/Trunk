@@ -17,7 +17,7 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  FILE    : include/trunk/kernel/Kernel.h                                      *
+ *  FILE    : Kernel.h                                                           *
  *  DATE    : 2026                                                               *
  *  PURPOSE : Declares kmain — the only symbol Boot.cpp needs from the kernel.   *
  *                                                                               *

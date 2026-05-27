@@ -17,7 +17,7 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  FILE    : include/trunk/Types.h                                              *
+ *  FILE    : Types.h                                                            *
  *  DATE    : 2026                                                               *
  *  PURPOSE : Freestanding primitive type aliases for the entire kernel.         *
  *            No standard library headers are included anywhere in Trunk.        *

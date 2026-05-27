@@ -17,7 +17,7 @@
 ; *******************************************************************************
 ; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
-; *  FILE    : src/trunk/arch/x86_64/boot/Header.asm                            *
+; *  FILE    : Header.asm                                                       *
 ; *  DATE    : 2026                                                             *
 ; *  PURPOSE : Multiboot2 magic header blob. Must be within the first 32KB      *
 ; *            of the final binary. Isolated here so the linker script can      *
