@@ -2,7 +2,7 @@
 
 # --- Identity ---
 KERNEL_NAME    := trunk
-VERSION        := 0.2.2
+VERSION        := 0.3.3
 
 # --- Toolchain ---
 CXX            := x86_64-elf-g++

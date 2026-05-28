@@ -33,12 +33,6 @@
 namespace trunk
 {
 
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : MemoryType                                                         *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Describes what a region of physical memory contains.               *
-     ********************************************************************************/
     enum class MemoryType : u32
     {
         Available = 0,
@@ -48,12 +42,6 @@ namespace trunk
         BadRam = 4,
     };
 
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : MemoryRegion                                                       *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : One contiguous physical memory region with a type tag.             *
-     ********************************************************************************/
     struct MemoryRegion
     {
         u64 base;
@@ -64,13 +52,6 @@ namespace trunk
         [[nodiscard]] constexpr bool available() const noexcept { return type == MemoryType::Available; }
     };
 
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : BootInfo                                                           *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Complete picture of the machine at boot. Filled by Boot.cpp,       *
-     *            passed by const-ref into kmain. kmain never sees MB2 directly.     *
-     ********************************************************************************/
     struct BootInfo
     {
         static constexpr usize MAX_MMAP_ENTRIES = 64;

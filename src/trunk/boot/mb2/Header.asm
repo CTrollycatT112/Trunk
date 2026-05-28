@@ -36,14 +36,6 @@ HEADER_LEN      equ (mb2_end - mb2_start)
 MB2_CHECKSUM    equ -(MB2_MAGIC + MB2_ARCH + HEADER_LEN)
 
 ; ── Header ────────────────────────────────────────────────────────────────────
-; *******************************************************************************
-; *  AUTHOR  : Trollycat                                                        *
-; *  FUNC    : .multiboot2 section                                              *
-; *  DATE    : 2026                                                             *
-; *  PURPOSE : The four required dwords GRUB checks to identify a Multiboot2    *
-; *            kernel, followed by any optional request tags, terminated by     *
-; *            the end tag. GRUB scans the first 32KB of the ELF for this.      *
-; *******************************************************************************
 
 section .multiboot2
 align 8

@@ -1,60 +1,430 @@
-/* *******************************************************************************
- *                                                                               *
- *  Copyright 2026 Trollycat                                                     *
- *                                                                               *
- *  Licensed under the Apache License, Version 2.0 (the "License");              *
- *  you may not use this file except in compliance with the License.             *
- *  You may obtain a copy of the License at                                      *
- *                                                                               *
- *      http://www.apache.org/licenses/LICENSE-2.0                               *
- *                                                                               *
- *  Unless required by applicable law or agreed to in writing, software          *
- *  distributed under the License is distributed on an "AS IS" BASIS,            *
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.     *
- *  See the License for the specific language governing permissions and          *
- *  limitations under the License.                                               *
- *                                                                               *
- *********************************************************************************
- *                                                                               *
- *  AUTHOR  : Trollycat                                                          *
- *  FILE    : Types.h                                                            *
- *  DATE    : 2026                                                               *
- *  PURPOSE : Freestanding primitive type aliases for the entire kernel.         *
- *            No standard library headers are included anywhere in Trunk.        *
- *            Every file that needs a sized integer includes this.               *
- *                                                                               *
- ********************************************************************************/
+/* ******************************************************************************
+ *                                                                              *
+ *  Copyright 2026 Trollycat                                                    *
+ *                                                                              *
+ *  Licensed under the Apache License, Version 2.0 (the "License");             *
+ *  you may not use this file except in compliance with the License.            *
+ *  You may obtain a copy of the License at                                     *
+ *                                                                              *
+ *      http://www.apache.org/licenses/LICENSE-2.0                              *
+ *                                                                              *
+ *  Unless required by applicable law or agreed to in writing, software         *
+ *  distributed under the License is distributed on an "AS IS" BASIS,           *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.    *
+ *  See the License for the specific language governing permissions and         *
+ *  limitations under the License.                                              *
+ *                                                                              *
+ ********************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  FILE    : Types.h                                                           *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Freestanding primitive type aliases for the entire kernel.        *
+ *            No standard library headers are included anywhere in Trunk.       *
+ *            Every file that needs a sized integer includes this.              *
+ *                                                                              *
+ * *****************************************************************************/
 
 #pragma once
 
-/* *******************************************************************************
- *  AUTHOR  : Trollycat                                                          *
- *  FUNC    : Unsigned integer aliases                                           *
- *  DATE    : 2026                                                               *
- *  PURPOSE : Fixed-width unsigned types.                                        *
- ********************************************************************************/
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : Unsigned integer aliases                                          *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Fixed-width unsigned types.                                       *
+ *                                                                              *
+ * *****************************************************************************/
 using u8 = unsigned char;
 using u16 = unsigned short;
 using u32 = unsigned int;
 using u64 = unsigned long long;
+using u128 = unsigned __int128;
 
-/* *******************************************************************************
- *  AUTHOR  : Trollycat                                                          *
- *  FUNC    : Signed integer aliases                                             *
- *  DATE    : 2026                                                               *
- *  PURPOSE : Fixed-width signed types.                                          *
- ********************************************************************************/
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : Signed integer aliases                                            *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Fixed-width signed types.                                         *
+ *                                                                              *
+ * *****************************************************************************/
 using i8 = signed char;
 using i16 = signed short;
 using i32 = signed int;
 using i64 = signed long long;
+using i128 = __int128;
 
-/* *******************************************************************************
- *  AUTHOR  : Trollycat                                                          *
- *  FUNC    : Size and pointer-sized types                                       *
- *  DATE    : 2026                                                               *
- *  PURPOSE : usize for counts/sizes, uptr for physical/virtual addresses.       *
- ********************************************************************************/
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : Size and pointer-sized types                                      *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : usize/isize: counts and offsets (size_t/ptrdiff_t equivalent).    *
+ *            uptr: raw physical or virtual addresses.                          *
+ *                                                                              *
+ * *****************************************************************************/
 using usize = unsigned long;
 using isize = long;
 using uptr = unsigned long;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : Floating point aliases                                            *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : f32 / f64 for cases where floating point is needed.               *
+ *            Avoid in hot paths - kernel code prefers fixed point.             *
+ *                                                                              *
+ * *****************************************************************************/
+using f32 = float;
+using f64 = double;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : Boolean alias                                                     *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Explicit bool alias. Keeps parity with the other type aliases.    *
+ *                                                                              *
+ * *****************************************************************************/
+using b8 = bool;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : Null pointer type                                                 *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : nullptr_t lets functions explicitly accept or return nullptr.     *
+ *            Mirrors std::nullptr_t without any standard header.               *
+ *                                                                              *
+ * *****************************************************************************/
+using nullptr_t = decltype(nullptr);
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : Byte type                                                         *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Raw memory byte. Distinct from u8 to prevent arithmetic.          *
+ *            Use when the value is raw memory, not a number.                   *
+ *                                                                              *
+ * *****************************************************************************/
+enum class byte : unsigned char
+{
+};
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : Integer limits                                                    *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Compile-time min/max constants for every integer type.            *
+ *            Avoids pulling in <climits> or <limits.h>.                        *
+ *                                                                              *
+ * *****************************************************************************/
+namespace limits
+{
+    inline constexpr u8 u8_min = 0;
+    inline constexpr u8 u8_max = 0xFF;
+    inline constexpr u16 u16_min = 0;
+    inline constexpr u16 u16_max = 0xFFFF;
+    inline constexpr u32 u32_min = 0;
+    inline constexpr u32 u32_max = 0xFFFF'FFFFu;
+    inline constexpr u64 u64_min = 0;
+    inline constexpr u64 u64_max = 0xFFFF'FFFF'FFFF'FFFFull;
+
+    inline constexpr i8 i8_min = -128;
+    inline constexpr i8 i8_max = 127;
+    inline constexpr i16 i16_min = -32768;
+    inline constexpr i16 i16_max = 32767;
+    inline constexpr i32 i32_min = -2147483648;
+    inline constexpr i32 i32_max = 2147483647;
+    inline constexpr i64 i64_min = -9223372036854775807LL - 1;
+    inline constexpr i64 i64_max = 9223372036854775807LL;
+
+    inline constexpr usize usize_max = ~usize{0};
+    inline constexpr uptr uptr_max = ~uptr{0};
+} // namespace limits
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : remove_reference                                                  *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Strip reference qualifier from T.                                 *
+ *            Required for forward() and move() to work correctly.              *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T>
+struct remove_reference
+{
+    using type = T;
+};
+template <typename T>
+struct remove_reference<T &>
+{
+    using type = T;
+};
+template <typename T>
+struct remove_reference<T &&>
+{
+    using type = T;
+};
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  FUNC    : forward                                                           *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Perfect forward t as T.                                           *
+ *            Replaces std::forward - no <utility> needed.                      *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T>
+[[nodiscard]] constexpr T &&
+forward(typename remove_reference<T>::type &t) noexcept
+{
+    return static_cast<T &&>(t);
+}
+
+template <typename T>
+[[nodiscard]] constexpr T &&
+forward(typename remove_reference<T>::type &&t) noexcept
+{
+    return static_cast<T &&>(t);
+}
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  FUNC    : move                                                              *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Cast t to rvalue reference.                                       *
+ *            Replaces std::move - no <utility> needed.                         *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T>
+[[nodiscard]] constexpr typename remove_reference<T>::type &&
+move(T &&t) noexcept
+{
+    return static_cast<typename remove_reference<T>::type &&>(t);
+}
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  FUNC    : exchange                                                          *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Replace obj with new_val, return old value.                       *
+ *            Useful in move constructors and swap implementations.             *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T, typename U = T>
+constexpr T exchange(T &obj, U &&new_val) noexcept
+{
+    T old = move(obj);
+    obj = forward<U>(new_val);
+    return old;
+}
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  FUNC    : addressof                                                         *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Take address of ref bypassing overloaded operator&.               *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T>
+[[nodiscard]] constexpr T *addressof(T &ref) noexcept
+{
+    return __builtin_addressof(ref);
+}
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  FUNC    : declval                                                           *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Produce T&& in unevaluated contexts without constructing T.       *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T>
+typename remove_reference<T>::type &&declval() noexcept;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : is_same                                                           *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Compile-time check whether two types are identical.               *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename A, typename B>
+struct is_same
+{
+    static constexpr bool value = false;
+};
+template <typename A>
+struct is_same<A, A>
+{
+    static constexpr bool value = true;
+};
+
+template <typename A, typename B>
+inline constexpr bool is_same_v = is_same<A, B>::value;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : is_integral                                                       *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Compile-time check whether T is an integer type.                  *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T>
+struct is_integral
+{
+    static constexpr bool value = false;
+};
+template <>
+struct is_integral<u8>
+{
+    static constexpr bool value = true;
+};
+template <>
+struct is_integral<u16>
+{
+    static constexpr bool value = true;
+};
+template <>
+struct is_integral<u32>
+{
+    static constexpr bool value = true;
+};
+template <>
+struct is_integral<u64>
+{
+    static constexpr bool value = true;
+};
+template <>
+struct is_integral<i8>
+{
+    static constexpr bool value = true;
+};
+template <>
+struct is_integral<i16>
+{
+    static constexpr bool value = true;
+};
+template <>
+struct is_integral<i32>
+{
+    static constexpr bool value = true;
+};
+template <>
+struct is_integral<i64>
+{
+    static constexpr bool value = true;
+};
+template <>
+struct is_integral<bool>
+{
+    static constexpr bool value = true;
+};
+
+template <typename T>
+inline constexpr bool is_integral_v = is_integral<T>::value;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : is_pointer                                                        *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Compile-time check whether T is a pointer type.                   *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T>
+struct is_pointer
+{
+    static constexpr bool value = false;
+};
+template <typename T>
+struct is_pointer<T *>
+{
+    static constexpr bool value = true;
+};
+template <typename T>
+struct is_pointer<T *const>
+{
+    static constexpr bool value = true;
+};
+
+template <typename T>
+inline constexpr bool is_pointer_v = is_pointer<T>::value;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : is_const                                                          *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Compile-time check whether T is const-qualified.                  *
+ *                                                                              *
+ * *****************************************************************************/
+template <typename T>
+struct is_const
+{
+    static constexpr bool value = false;
+};
+template <typename T>
+struct is_const<const T>
+{
+    static constexpr bool value = true;
+};
+
+template <typename T>
+inline constexpr bool is_const_v = is_const<T>::value;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : conditional                                                       *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : Select type A if Cond is true, type B otherwise.                  *
+ *                                                                              *
+ * *****************************************************************************/
+template <bool Cond, typename A, typename B>
+struct conditional
+{
+    using type = A;
+};
+template <typename A, typename B>
+struct conditional<false, A, B>
+{
+    using type = B;
+};
+
+template <bool Cond, typename A, typename B>
+using conditional_t = typename conditional<Cond, A, B>::type;
+
+/* ******************************************************************************
+ *                                                                              *
+ *  AUTHOR  : Trollycat                                                         *
+ *  SECTION : enable_if                                                         *
+ *  DATE    : 2026                                                              *
+ *  PURPOSE : SFINAE helper. Provides member type only if Cond is true.         *
+ *                                                                              *
+ * *****************************************************************************/
+template <bool Cond, typename T = void>
+struct enable_if
+{
+};
+template <typename T>
+struct enable_if<true, T>
+{
+    using type = T;
+};
+
+template <bool Cond, typename T = void>
+using enable_if_t = typename enable_if<Cond, T>::type;

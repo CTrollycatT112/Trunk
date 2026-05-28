@@ -26,7 +26,7 @@
  ********************************************************************************/
 
 #include <trunk/kernel/Kernel.h>
-#include <trunk/cpu/Gdt.h>
+#include <trunk/gdt/Gdt.h>
 
 namespace trunk
 {
