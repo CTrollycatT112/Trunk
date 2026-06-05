@@ -89,3 +89,12 @@ Feel free to use any of them, debug as you wish.
 # make sym Dump symbol table
 
 # make headers Show ELF headers
+
+## Changing configurations
+
+Changing configurations Is not allowed right now as it involves manually editing the .cfg files which are a basic template right now.
+Later I might add KConfig to allow you to change configurations in real time without manually editing the files.
+
+## Credits
+
+Thanks to linux and Windows for their awesome system design.
