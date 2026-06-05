@@ -39,14 +39,14 @@ Usually you are on Linux if you are compiling an operating system anyway.
 
 If you wish to boot via HDD with .img (recommended) this is the standard command order:
 
-make MODE=DEBUG
-make disk
-make install
+make MODE=DEBUG  
+make disk  
+make install  
 make run-kvm, or run-gdb, or run-headless.
 
 If you want to boot via DVD/CD with a .iso:
 
-make MODE=DEBUG
+make MODE=DEBUG  
 make run-iso
 
 Here is the Makefile list of commands.
