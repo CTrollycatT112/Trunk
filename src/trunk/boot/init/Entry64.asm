@@ -35,7 +35,7 @@ bits 64
 extern boot_entry           ; Boot.cpp  — C linkage
 extern __bss_start          ; linker script symbol
 extern __bss_end            ; linker script symbol
-extern __stack_top          ; linker script symbol
+extern __boot_stack_top     ; linker script symbol
 extern __init_array_start   ; linker script symbol
 extern __init_array_end     ; linker script symbol
 
@@ -72,8 +72,8 @@ entry64:
     mov ss, ax
 
     ; ── 2. Switch to the kernel stack (higher-half virtual address) ───────────
-    ; The linker script defines __stack_top at the top of the .stack section.
-    mov rsp, __stack_top
+    ; The linker script defines __boot_stack_top at the top of the .stack section.
+    mov rsp, __boot_stack_top
     xor rbp, rbp                    ; mark end of stack frames for debuggers
 
     ; ── 3. Zero BSS ───────────────────────────────────────────────────────────

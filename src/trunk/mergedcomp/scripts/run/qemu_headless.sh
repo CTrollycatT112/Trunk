@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#  Trunk — Headless QEMU, serial to stdout
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#  Trunk — Installs GRUB (UEFI + BIOS fallback) and kernel onto disk
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -11,7 +10,6 @@ source "$ROOT_DIR/config/disk.cfg"
 require_root
 check_deps grub-install losetup mount umount
 
-# --- Arguments ---------------------------------------------------------------
 TARGET_TYPE="img"
 TARGET="$DISK_IMAGE"
 
@@ -24,9 +22,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 require_kernel
-[[ -f "$GRUB_DIR/grub.cfg" ]] || fail "grub.cfg not found."
+[[ -f "$GRUB_DIR/grub.cfg" ]] || fail "grub.cfg not found: $GRUB_DIR/grub.cfg"
 
-# --- Safety warning ----------------------------------------------------------
 if [[ "$TARGET_TYPE" == "disk" ]]; then
     [[ -b "$TARGET" ]] || fail "$TARGET is not a block device"
     warn "WARNING: This will ERASE all data on $TARGET"
@@ -42,28 +39,25 @@ else
     PART1="${LOOP}p1"
 fi
 
-# --- Cleanup trap ------------------------------------------------------------
 MOUNT=$(mktemp -d)
 cleanup() {
-    umount "$MOUNT"      2>/dev/null || true
+    umount "$MOUNT"    2>/dev/null || true
     rm -rf "$MOUNT"
-    [[ -n "$LOOP" ]] && losetup -d "$LOOP" 2>/dev/null || true
+    [[ -n "${LOOP:-}" ]] && losetup -d "$LOOP" 2>/dev/null || true
 }
 trap cleanup EXIT
 
-# --- Mount ESP ---------------------------------------------------------------
 step "Mounting ESP..."
 mount "$PART1" "$MOUNT"
 ok "Mounted at $MOUNT"
 
-# --- Copy files --------------------------------------------------------------
-step "Copying kernel and grub.cfg..."
+step "Copying boot stage and kernel..."
 mkdir -p "$MOUNT/boot/grub"
-cp "$KERNEL_ELF"  "$MOUNT/boot/trunk.elf"
-cp "$GRUB_DIR/grub.cfg"  "$MOUNT/boot/grub/grub.cfg"
+cp "$BOOT_ELF"       "$MOUNT/boot/trboot.elf"
+cp "$KERN_ELF"       "$MOUNT/boot/troskern.elf"
+cp "$GRUB_DIR/grub.cfg" "$MOUNT/boot/grub/grub.cfg"
 ok "Files copied"
 
-# --- Install GRUB UEFI -------------------------------------------------------
 step "Installing GRUB (UEFI x86_64-efi)..."
 mkdir -p "$LOG_BUILD_DIR"
 grub-install \
@@ -76,7 +70,6 @@ grub-install \
     && ok "GRUB UEFI installed" \
     || warn "GRUB UEFI failed — see $LOG_BUILD_DIR/grub_uefi.log"
 
-# --- Install GRUB BIOS fallback ----------------------------------------------
 step "Installing GRUB (BIOS i386-pc fallback)..."
 grub-install \
     --target=i386-pc \

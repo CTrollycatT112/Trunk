@@ -82,9 +82,9 @@ Feel free to use any of them, debug as you wish.
 
 # make info Show build configuration
 
-# make list-srcs List all discovered source files
+# make disasm-boot Disassemble boot code
 
-# make disasm Disassemble kernel
+# make disasm-kern Disassemble kernel
 
 # make sym Dump symbol table
 

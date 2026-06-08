@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#  Trunk — KVM accelerated QEMU (UEFI with BIOS fallback)
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"

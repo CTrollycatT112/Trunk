@@ -32,38 +32,33 @@
 
 namespace serial = trunk::drivers::serial;
 
-namespace trunk::kernel
+/* *******************************************************************************
+ *  AUTHOR  : Trollycat                                                          *
+ *  FUNC    : kmain                                                              *
+ *  DATE    : 2026                                                               *
+ *  PURPOSE : Top-level kernel entry.                                            *
+ ********************************************************************************/
+extern "C" [[noreturn]]
+void kmain(const trunk::boot::BootInfo &info) noexcept
 {
+    (void)info;
 
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : kmain                                                              *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Top-level kernel entry.                                            *
-     ********************************************************************************/
-    [[noreturn]]
-    void kmain(const boot::BootInfo &info) noexcept
+    serial::serial_init();
+
+    serial::serial_puts("Entered kmain()...\n");
+    serial::serial_puts("BootInfo voided...\n");
+
+    serial::serial_puts("Initializing GDT...\n");
+
+    trunk::gdt::gdt_init();
+
+    serial::serial_puts("GDT initialized.\n");
+
+    serial::serial_puts("Kernel halting.\n");
+    for (;;)
     {
-        (void)info;
-
-        serial::serial_init();
-
-        serial::serial_puts("Entered kmain()...\n");
-        serial::serial_puts("BootInfo voided...\n");
-
-        serial::serial_puts("Initializing GDT...\n");
-
-        gdt::gdt_init();
-
-        serial::serial_puts("GDT initialized.\n");
-
-        serial::serial_puts("Kernel halting.\n");
-        for (;;)
-        {
-            serial::serial_puts("Kernel halted. Press ALT F4 to exit.\n");
-            asm volatile("hlt");
-            serial::serial_puts("Kernel resumed after halt. This should never happen.\n");
-        }
+        serial::serial_puts("Kernel halted. Press ALT F4 to exit.\n");
+        asm volatile("hlt");
+        serial::serial_puts("Kernel resumed after halt. This should never happen.\n");
     }
-
-} // namespace trunk
+}
