@@ -1,4 +1,4 @@
-BOOT_STARTUP_DIR := $(SRC_DIR)/trunk/boot/startup
+BOOT_STARTUP_DIR := $(SRC_DIR)/trunk/boot/trldr/startup
 
 BOOT_STARTUP_SRCS_NASM := $(wildcard $(BOOT_STARTUP_DIR)/*.asm)
 BOOT_STARTUP_SRCS_CXX  := $(wildcard $(BOOT_STARTUP_DIR)/*.cpp)

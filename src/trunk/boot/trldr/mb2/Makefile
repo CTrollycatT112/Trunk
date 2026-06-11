@@ -1,4 +1,4 @@
-BOOT_MB2_DIR := $(SRC_DIR)/trunk/boot/mb2
+BOOT_MB2_DIR := $(SRC_DIR)/trunk/boot/trldr/mb2
 
 BOOT_MB2_SRCS_NASM := $(wildcard $(BOOT_MB2_DIR)/*.asm)
 BOOT_MB2_SRCS_CXX  := $(wildcard $(BOOT_MB2_DIR)/*.cpp)
