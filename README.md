@@ -82,9 +82,7 @@ Feel free to use any of them, debug as you wish.
 
 # make info Show build configuration
 
-# make disasm-boot Disassemble boot code
-
-# make disasm-kern Disassemble kernel
+# make disasm Disassemble code
 
 # make sym Dump symbol table
 

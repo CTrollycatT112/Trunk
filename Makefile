@@ -233,7 +233,7 @@ disasm: $(TRUNK_ELF)
 .PHONY: sym
 sym: $(TRUNK_ELF)
 	$(call _info,Dumping symbol table...)
-	@$(NM) -n $< > $(LOG_BUILD_DIR)/symbols.txt
+	@$(OBJDUMP) -t $< > $(LOG_BUILD_DIR)/symbols.txt
 	$(call _ok,→ $(LOG_BUILD_DIR)/symbols.txt)
 
 .PHONY: headers
