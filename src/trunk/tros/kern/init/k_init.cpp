@@ -44,7 +44,9 @@ namespace trunk::kernel
      ********************************************************************************/
     void TrkSetupSubsystems() noexcept
     {
+        serial::serial_puts("ALERT: CALL gdt_init()\n");
         gdt::gdt_init();
+        serial::serial_puts("ALERT: CALL idt_init()\n");
         interrupts::idt_init();
     }
 
@@ -56,16 +58,18 @@ namespace trunk::kernel
      ********************************************************************************/
     STARTUP_FUNC_FLAGS void TrkStartup(const boot::BootInfo &info) noexcept
     {
-        TrkSetupSubsystems();
-
         serial::serial_puts("ALERT: TrkStartup() reached\n");
 
+        serial::serial_puts("ALERT: CALL TrkSetupSubsystems()\n");
+        TrkSetupSubsystems();
+
+        serial::serial_puts("ALERT: Enabling Interrupts\n");
         asi::sti();
-        serial::serial_puts("Interrupts enabled (STI)\n");
 
         (void)info;
         for (;;)
         {
+            serial::serial_puts("ALERT: HALTING KERNEL");
             asm volatile("hlt");
         }
     }
