@@ -57,9 +57,7 @@ namespace trunk::interrupts
         else
         {
             if (vector < 32)
-            {
                 kernel::kabort("Unhandled architectural processor exception trapped by dispatcher.");
-            }
         }
     }
 

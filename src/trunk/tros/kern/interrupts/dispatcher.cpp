@@ -41,7 +41,7 @@ namespace trunk::interrupts
 
         execute_interrupt_handler(vector, frame);
 
-        if (vector >= drivers::pic::PIC1_OFFSET && vector < (::trunk::drivers::pic::PIC1_OFFSET + 16))
+        if (vector >= drivers::pic::PIC1_OFFSET && vector < (drivers::pic::PIC1_OFFSET + 16))
         {
             const u8 irq = vector - drivers::pic::PIC1_OFFSET;
             drivers::pic::irq_ack(irq);
