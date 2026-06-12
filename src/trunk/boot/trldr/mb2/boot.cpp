@@ -28,9 +28,13 @@
  * *****************************************************************************/
 
 #include <trunk/boot/mb2/boot.h>
-
 #include <trunk/boot/mm/b_mmap.h>
 #include <trunk/boot/verify/b_verify.h>
+
+#include <trunk/drivers/serial/serial.h>
+#include <trunk/tros/kern/kabort.h>
+
+#include <assert.h>
 
 namespace trunk::boot
 {
@@ -66,18 +70,16 @@ namespace trunk::boot
     extern "C" [[noreturn]]
     void Trkload(u32 mb2_magic, u32 mb2_phys) noexcept
     {
+        drivers::serial::serial_init();
+
         if (!VerifyMB2(mb2_magic, mb2_phys))
-            for (;;)
-                asm volatile("cli; hlt");
+            kernel::kabort("Fatal: Multiboot2 verification failed. Magic number or alignment mismatch.");
 
         parse_mb2(static_cast<uptr>(mb2_phys), g_boot_info);
 
         TrkStartup(g_boot_info);
 
-        for (;;)
-        {
-            asm volatile("cli; hlt");
-        }
+        ASSERT(false, "Kernel execution unexpectedly dropped out of TrkStartup baseline.");
     }
 
 } // namespace trunk::boot

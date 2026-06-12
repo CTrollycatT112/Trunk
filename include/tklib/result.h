@@ -25,6 +25,7 @@
 #pragma once
 
 #include <types.h>
+#include <assert.h>
 
 namespace tklib
 {
@@ -79,33 +80,25 @@ namespace tklib
 
         T &value()
         {
-            if (!m_is_ok)
-                for (;;)
-                    asm volatile("cli; hlt");
+            ASSERT(m_is_ok, "Attempted to unwrap a Result object containing an error state value");
             return *reinterpret_cast<T *>(m_storage);
         }
 
         const T &value() const
         {
-            if (!m_is_ok)
-                for (;;)
-                    asm volatile("cli; hlt");
+            ASSERT(m_is_ok, "Attempted to unwrap a Result object containing an error state value");
             return *reinterpret_cast<const T *>(m_storage);
         }
 
         E &error()
         {
-            if (m_is_ok)
-                for (;;)
-                    asm volatile("cli; hlt");
+            ASSERT(!m_is_ok, "Attempted to extract an error code from a successful Result object context");
             return *reinterpret_cast<E *>(m_storage);
         }
 
         const E &error() const
         {
-            if (m_is_ok)
-                for (;;)
-                    asm volatile("cli; hlt");
+            ASSERT(!m_is_ok, "Attempted to extract an error code from a successful const Result object context");
             return *reinterpret_cast<const E *>(m_storage);
         }
 

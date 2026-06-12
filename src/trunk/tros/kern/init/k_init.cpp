@@ -44,7 +44,6 @@ namespace trunk::kernel
      ********************************************************************************/
     void TrkSetupSubsystems() noexcept
     {
-        serial::serial_init();
         gdt::gdt_init();
         interrupts::idt_init();
     }

@@ -29,4 +29,16 @@
 #else
     #define STATIC_ASSERT(expr, msg) _Static_assert(expr, msg)
 #endif
+
+#if defined(TRUNK_DEBUG) || !defined(NDEBUG)
+    #define ASSERT(condition, message)                                            \
+        do {                                                                      \
+            if (!(condition)) [[unlikely]] {                                      \
+                ::trunk::kernel::kabort("ASSERTION FAILED: " message " (" #condition ")"); \
+            }                                                                     \
+        } while (false)
+#else
+    #define ASSERT(condition, message) do { (void)sizeof(condition); } while (false)
+#endif
+
 // clang-format on
