@@ -23,6 +23,8 @@
  ********************************************************************************/
 #pragma once
 
+#include <trunk/tros/kern/kabort.h>
+
 // clang-format off
 #ifdef __cplusplus
     #define STATIC_ASSERT(expr, msg) static_assert(expr, msg)

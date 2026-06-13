@@ -21,14 +21,15 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE : Kernel entry point (TrkStartup)                                    *
  ********************************************************************************/
-
 #include <trunk/tros/kern/init/k_init.h>
 
-#include <trunk/tros/interrupts/idt/idt.h>
-#include <trunk/tros/gdt/gdt.h>
+#include <trunk/asi/io.h>
 
 #include <trunk/drivers/serial/serial.h>
-#include <trunk/asi/io.h>
+#include <trunk/drivers/hal/pic.h>
+
+#include <trunk/tros/gdt/gdt.h>
+#include <trunk/tros/interrupts/idt/idt.h>
 
 namespace serial = trunk::drivers::serial;
 
@@ -44,10 +45,9 @@ namespace trunk::kernel
      ********************************************************************************/
     void TrkSetupSubsystems() noexcept
     {
-        serial::serial_puts("ALERT: CALL gdt_init()\n");
         gdt::gdt_init();
-        serial::serial_puts("ALERT: CALL idt_init()\n");
         interrupts::idt_init();
+        drivers::pic::pic_init();
     }
 
     /* *******************************************************************************
@@ -71,7 +71,7 @@ namespace trunk::kernel
         for (;;)
         {
             serial::serial_puts("ALERT: HALTING KERNEL\n");
-            asm volatile("hlt");
+            asm volatile("cli; hlt");
         }
     }
 } // namespace trunk::kernel
