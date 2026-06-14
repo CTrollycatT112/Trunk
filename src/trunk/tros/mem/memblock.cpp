@@ -26,7 +26,6 @@
 #include <assert.h>
 
 #include <tklib/math.h>
-#include <tklib/bitf.h>
 
 extern "C" char __kernel_phys_start[];
 extern "C" char __kernel_phys_end[];

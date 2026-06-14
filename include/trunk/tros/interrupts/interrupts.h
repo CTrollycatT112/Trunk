@@ -26,7 +26,6 @@
 #include <types.h>
 
 #include <trunk/tros/interrupts/dispatcher.h>
-#include <trunk/tros/interrupts/trstatus.h>
 
 namespace trunk::interrupts
 {
@@ -47,13 +46,5 @@ namespace trunk::interrupts
      *  PURPOSE : Invoked to route traffic or detect unhandled traps                 *
      ********************************************************************************/
     void execute_interrupt_handler(u8 vector, InterruptFrame *frame) noexcept;
-
-    /* *******************************************************************************
-     *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : vector_to_status                                                   *
-     *  DATE    : 2026                                                               *
-     *  PURPOSE : Translates raw CPU exceptions (0-31) to the STATUS enum            *
-     ********************************************************************************/
-    STATUS vector_to_status(u8 vector) noexcept;
 
 } // namespace trunk::interrupts
