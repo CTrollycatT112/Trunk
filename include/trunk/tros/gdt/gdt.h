@@ -26,6 +26,8 @@
 
 #pragma once
 
+#include <trunk/tros/gdt/tss.h>
+
 #include <types.h>
 #include <macros.h>
 
@@ -67,12 +69,43 @@ namespace trunk::gdt
         }
     };
 
+    struct GNU_PACKED TssDescriptor
+    {
+        u16 limit_low;
+        u16 base_low;
+        u8 base_middle;
+
+        u8 type : 4;
+        u8 zero : 1;
+        u8 dpl : 2;
+        u8 p : 1;
+
+        u8 limit_high : 4;
+        u8 avl : 1;
+        u8 l : 1;
+        u8 db : 1;
+        u8 g : 1;
+
+        u8 base_high;
+        u32 base_upper;
+        u32 reserved;
+    };
+
+    struct GNU_PACKED GdtLayout
+    {
+        GdtEntry null_desc;
+        GdtEntry kernel_code;
+        GdtEntry kernel_data;
+        GdtEntry user_code;
+        GdtEntry user_data;
+        TssDescriptor tss_desc;
+    };
+
     struct GNU_PACKED GdtPointer
     {
         u16 limit;
         uptr base;
     };
-
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : gdt_init                                                           *
@@ -88,5 +121,13 @@ namespace trunk::gdt
      *  PURPOSE : Flushes/Reloads the global descriptor table (external assembly)    *
      ********************************************************************************/
     extern "C" void gdt_flush(uptr gdt_ptr_addr) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : gdt_install_tss                                                    *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Installs the TSS                                                   *
+     ********************************************************************************/
+    [[nodiscard]] u16 gdt_install_tss(const Tss *tss_ptr) noexcept;
 
 } // namespace trunk::gdt

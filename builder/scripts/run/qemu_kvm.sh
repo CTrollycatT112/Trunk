@@ -41,6 +41,9 @@ $QEMU_BIN \
     -display "$QEMU_DISPLAY" \
     -serial  "$QEMU_SERIAL" \
     -D       "$LOG" \
+    -d       int \
+    -no-reboot \
+    -no-shutdown \
     $UEFI_FLAGS \
     $BOOT_FLAGS \
     $QEMU_FLAGS_COMMON

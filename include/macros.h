@@ -27,8 +27,11 @@
 #if defined(__GNUC__) || defined(__clang__)
     #define GNU_PACKED [[gnu::packed]]
     #define ALIGNED(x) __attribute__((aligned(x)))
+    #define OFFSET_OF(type, member) reinterpret_cast<usize>(&(reinterpret_cast<type*>(0)->member))
 #else
     #define GNU_PACKED
     #define ALIGNED
+    #define OFFSET_OF
 #endif
+
 // clang-format on
