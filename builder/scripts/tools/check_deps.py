@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-#  Trunk — Toolchain and system dependency checker
 
 import shutil
 import sys
 import os
 import subprocess
 
-# --- Colors ------------------------------------------------------------------
 RED    = '\033[0;31m'
 GREEN  = '\033[0;32m'
 CYAN   = '\033[0;36m'
@@ -17,8 +15,6 @@ def ok(msg):   print(f"  {GREEN}[ OK ]{RESET}  {msg}")
 def info(msg): print(f"  {CYAN}[INFO]{RESET}  {msg}")
 def warn(msg): print(f"  {YELLOW}[WARN]{RESET}  {msg}")
 def fail(msg): print(f"  {RED}[FAIL]{RESET}  {msg}")
-
-# --- Dependency groups -------------------------------------------------------
 
 CROSS_TOOLCHAIN = [
     ("x86_64-elf-g++",     "Cross C++ compiler"),
@@ -53,8 +49,6 @@ QEMU_TOOLS = [
 OPTIONAL = [
     ("ovmf",           "UEFI firmware (apt: ovmf)"),
 ]
-
-# --- Checker -----------------------------------------------------------------
 
 def check_group(name, deps):
     print(f"\n  {CYAN}{name}{RESET}")
@@ -92,8 +86,6 @@ def check_gcc_version():
         info(f"Compiler: {out}")
     except Exception:
         pass
-
-# --- Main --------------------------------------------------------------------
 
 def main():
     print(f"\n  {CYAN}{'='*50}{RESET}")

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#  Trunk — Standard QEMU (TCG, SDL, UEFI with BIOS fallback)
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
