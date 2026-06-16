@@ -15,7 +15,6 @@
  *  limitations under the License.                                               *
  *                                                                               *
  *********************************************************************************
- *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Kernel abortion                                                    *
  *  DATE    : 2026                                                               *
@@ -40,7 +39,6 @@ namespace trunk::kernel
         drivers::serial::serial_puts("                        KERNEL ABORTED                     \n");
         drivers::serial::serial_puts("STOP_REASON: ");
         drivers::serial::serial_puts(message);
-        drivers::serial::serial_puts("\n\nSystem execution permanently halted...\n");
 
         asm volatile(
             ".lockdown_loop:\n\t"

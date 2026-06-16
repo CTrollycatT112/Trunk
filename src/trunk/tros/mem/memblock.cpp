@@ -15,7 +15,6 @@
  *  limitations under the License.                                               *
  *                                                                               *
  *********************************************************************************
- *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Memory management system                                           *
  *  DATE    : 2026                                                               *
@@ -45,7 +44,7 @@ namespace trunk::mem
          *  AUTHOR  : Trollycat                                                          *
          *  FUNC    : insertion_sort_regions                                             *
          *  DATE    : 2026                                                               *
-         *  PURPOSE : Sort regions by base address.                                      *
+         *  PURPOSE : Sort regions by base address                                       *
          ********************************************************************************/
         void insertion_sort_regions(MemoryRegion *regions, usize count) noexcept
         {
@@ -69,7 +68,7 @@ namespace trunk::mem
          *  AUTHOR  : Trollycat                                                          *
          *  FUNC    : merge_reserved_regions                                             *
          *  DATE    : 2026                                                               *
-         *  PURPOSE : Coalesce adjacent or overlapping reserved regions into one entry.  *
+         *  PURPOSE : Merge overlapping reserved regions into one entry                  *
          ********************************************************************************/
         void merge_reserved_regions() noexcept
         {
@@ -101,8 +100,7 @@ namespace trunk::mem
          *  AUTHOR  : Trollycat                                                          *
          *  FUNC    : carve_free_region                                                  *
          *  DATE    : 2026                                                               *
-         *  PURPOSE : Remove [base, base + size) from the free list. Splits the          *
-         *            containing region into left/right remainders as needed.            *
+         *  PURPOSE : Remove [base, base + size) from the free list.                     *
          ********************************************************************************/
         bool carve_free_region(u64 base, u64 size) noexcept
         {
@@ -169,7 +167,8 @@ namespace trunk::mem
             if (entry.available())
             {
                 ASSERT(s_memory_count < MAX_MEMBLOCK_REGIONS,
-                       "EXCEEDED MAX_MEMBLOCK_REGIONS IN MEMORY TRACKER");
+                       "S_MEMORY_COUNT EXCEEDED MAX_MEMBLOCK_REGIONS");
+
                 s_memory_regions[s_memory_count++] = {entry.base, entry.length};
                 s_total_free += entry.length;
             }
@@ -185,6 +184,7 @@ namespace trunk::mem
 
         insertion_sort_regions(s_memory_regions, s_memory_count);
         insertion_sort_regions(s_reserved_regions, s_reserved_count);
+
         merge_reserved_regions();
     }
 

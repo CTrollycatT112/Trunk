@@ -15,11 +15,10 @@
 ; *  limitations under the License.                                             *
 ; *                                                                             *
 ; *******************************************************************************
-; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  MODULE  : Bootstrapping                                                    *
 ; *  DATE    : 2026                                                             *
-; *  PURPOSE : 64-bit landing pad. Arrived at via far jump from entry32.asm.    *
+; *  PURPOSE : 64-bit landing pad. Arrived from far jump in entry32.asm         *
 ; *******************************************************************************
 
 bits 64
@@ -28,7 +27,9 @@ extern TrSystemStartup
 
 extern __bss_start
 extern __bss_end
+
 extern __stack_top
+
 extern __init_array_start
 extern __init_array_end
 

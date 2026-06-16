@@ -15,7 +15,6 @@
  *  limitations under the License.                                              *
  *                                                                              *
  ********************************************************************************
- *                                                                              *
  *  AUTHOR  : Trollycat                                                         *
  *  MODULE  : Serial communication driver                                       *
  *  DATE    : 2026                                                              *

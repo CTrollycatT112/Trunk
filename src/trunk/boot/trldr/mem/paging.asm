@@ -18,9 +18,8 @@
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  MODULE  : Bootstrapping                                                    *
 ; *  DATE    : 2026                                                             *
-; *  PURPOSE : Builds the early boot page tables and enables 64-bit long mode.  *
+; *  PURPOSE : Builds the early boot page tables and enables long mode          *
 ; *******************************************************************************
-
 bits 32
 
 PML4_ADDR       equ 0x1000
@@ -56,7 +55,7 @@ zero_page_tables:
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  FUNC    : populate_page_tables                                             *
 ; *  DATE    : 2026                                                             *
-; *  PURPOSE : Populates the page tables with appropriate mappings              *
+; *  PURPOSE : Populates the page tables with mappings                          *
 ; *******************************************************************************
 populate_page_tables:
     mov dword [PML4_ADDR],                   PDPT_ID | PTE_FLAGS
@@ -91,8 +90,7 @@ setup_page_tables:
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  FUNC    : enable_long_mode                                                 *
 ; *  DATE    : 2026                                                             *
-; *  PURPOSE : Loads CR3, enables PAE in CR4, sets EFER.LME via MSR, then       *
-; *            enables paging in CR0 which activates 64-bit long mode.          *
+; *  PURPOSE : Enables long mode                                                *
 ; *******************************************************************************
 global enable_long_mode
 enable_long_mode:

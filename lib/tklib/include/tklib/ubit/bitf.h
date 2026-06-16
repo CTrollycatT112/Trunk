@@ -14,11 +14,11 @@
  *  See the License for the specific language governing permissions and          *
  *  limitations under the License.                                               *
  *                                                                               *
- *                                                                               *
+ *********************************************************************************
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Standard library utilites                                          *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Bit-based helper functions (bitwise helpers inside bit.h)          *
+ *  PURPOSE : Bit-based helper functions                                         *
  ********************************************************************************/
 #pragma once
 

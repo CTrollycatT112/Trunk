@@ -15,14 +15,11 @@
 ; *  limitations under the License.                                             *
 ; *                                                                             *
 ; *******************************************************************************
-; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  MODULE  : Bootstrapping                                                    *
 ; *  DATE    : 2026                                                             *
-; *  PURPOSE : 32-bit protected mode entry point (_start). GRUB jumps here.     *
-; *            Saves MB2 magic + info ptr, builds page tables, enables long     *
-; *            mode, loads a minimal 64-bit GDT, jumps to entry64.              *
-; *                                                                             *
+; *  PURPOSE : Saves MB2 magic + info ptr,                                      *
+; *                  loads a minimal 64-bit GDT, jumps to entry64.              *
 ; *******************************************************************************
 
 bits 32
@@ -52,7 +49,7 @@ save_mb2_to_memory:
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  FUNC    : _start                                                           *
 ; *  DATE    : 2026                                                             *
-; *  PURPOSE : GRUB entry. Orchestrates the 32→64 bit switch.                   *
+; *  PURPOSE : GRUB entry. The 32-64 bit switch.                                *
 ; *******************************************************************************
 _start:
     cli
@@ -78,9 +75,7 @@ bits 64
 trampoline64:
     mov rax, [entry64_vaddr]
     jmp rax
-
     jmp tr_early_fault_lockdown
-
 
 align 16
 gdt64:

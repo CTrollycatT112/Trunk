@@ -15,16 +15,11 @@
  *  limitations under the License.                                              *
  *                                                                              *
  ********************************************************************************
- *                                                                              *
  *  AUTHOR  : Trollycat                                                         *
  *  MODULE  : Global definitions                                                *
  *  DATE    : 2026                                                              *
- *  PURPOSE : Freestanding primitive type aliases for the entire kernel.        *
- *            No standard library headers are included anywhere in Trunk.       *
- *            Every file that needs a sized integer includes this.              *
- *                                                                              *
+ *  PURPOSE : Type aliases                                                      *
  * *****************************************************************************/
-
 #pragma once
 
 #pragma GCC diagnostic push

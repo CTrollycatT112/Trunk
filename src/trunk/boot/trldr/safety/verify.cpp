@@ -18,18 +18,17 @@
  *  AUTHOR  : Trollycat                                                         *
  *  MODULE  : Bootstrapping                                                     *
  *  DATE    : 2026                                                              *
- *  PURPOSE : Boot-stage validation routines.                                   *
+ *  PURPOSE : Boot-stage validation.                                            *
  * *****************************************************************************/
 #include <trunk/boot/trldr/safety/verify.h>
 
 namespace trunk::boot
 {
-
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : verify_mb2_magic                                                  *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Check the MB2 handoff magic value matches the spec.               *
+     *  PURPOSE : Check the MB2 handoff magic value matches the spec                *
      * *****************************************************************************/
     bool verify_mb2_magic(u32 magic) noexcept
     {
@@ -40,7 +39,7 @@ namespace trunk::boot
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : verify_mb2_ptr                                                    *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Sanity-check the MB2 info struct pointer before walking it.       *
+     *  PURPOSE : Check the MB2 info struct pointer before walking it               *
      * *****************************************************************************/
     bool verify_mb2_ptr(u32 phys) noexcept
     {

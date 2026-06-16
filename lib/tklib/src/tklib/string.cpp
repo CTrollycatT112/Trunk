@@ -15,7 +15,6 @@
  *  limitations under the License.                                              *
  *                                                                              *
  ********************************************************************************
- *                                                                              *
  *  AUTHOR  : Trollycat                                                         *
  *  MODULE  : Standard library utility                                          *
  *  DATE    : 2026                                                              *
@@ -28,12 +27,10 @@ namespace tklib
 {
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : memcpy                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy n bytes from src to dst. Regions must not overlap.           *
-     *                                                                              *
      * *****************************************************************************/
     void *memcpy(void *dst, const void *src, usize n) noexcept
     {
@@ -45,12 +42,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : memset                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Fill n bytes of dst with value.                                   *
-     *                                                                              *
      * *****************************************************************************/
     void *memset(void *dst, u8 value, usize n) noexcept
     {
@@ -61,12 +56,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : memmove                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy n bytes from src to dst. Regions may overlap.                *
-     *                                                                              *
      * *****************************************************************************/
     void *memmove(void *dst, const void *src, usize n) noexcept
     {
@@ -87,13 +80,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : memcmp                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Compare n bytes of a and b.                                       *
-     *            Returns 0 if equal, <0 if a < b, >0 if a > b.                     *
-     *                                                                              *
      * *****************************************************************************/
     i32 memcmp(const void *a, const void *b, usize n) noexcept
     {
@@ -108,13 +98,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : memchr                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of value in first n bytes of ptr.           *
-     *            Returns pointer to found byte or nullptr.                         *
-     *                                                                              *
      * *****************************************************************************/
     const void *memchr(const void *ptr, u8 value, usize n) noexcept
     {
@@ -126,13 +113,11 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strlen                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return the length of a null-terminated string, not including      *
      *            the null terminator.                                              *
-     *                                                                              *
      * *****************************************************************************/
     usize strlen(const char *s) noexcept
     {
@@ -143,13 +128,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strnlen                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return the length of s, stopping at max.                          *
-     *            Safe alternative to strlen for untrusted input.                   *
-     *                                                                              *
      * *****************************************************************************/
     usize strnlen(const char *s, usize max) noexcept
     {
@@ -160,13 +142,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strcmp                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Compare two null-terminated strings.                              *
-     *            Returns 0 if equal, <0 if a < b, >0 if a > b.                     *
-     *                                                                              *
      * *****************************************************************************/
     i32 strcmp(const char *a, const char *b) noexcept
     {
@@ -179,12 +158,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strncmp                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Compare up to n characters of two strings.                        *
-     *                                                                              *
      * *****************************************************************************/
     i32 strncmp(const char *a, const char *b, usize n) noexcept
     {
@@ -199,12 +176,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strcasecmp                                                        *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Case-insensitive comparison of two null-terminated strings.       *
-     *                                                                              *
      * *****************************************************************************/
     i32 strcasecmp(const char *a, const char *b) noexcept
     {
@@ -217,12 +192,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strncasecmp                                                       *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Case-insensitive comparison of up to n characters.                *
-     *                                                                              *
      * *****************************************************************************/
     i32 strncasecmp(const char *a, const char *b, usize n) noexcept
     {
@@ -239,12 +212,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strcpy                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy src into dst including null terminator. Prefer strlcpy.      *
-     *                                                                              *
      * *****************************************************************************/
     char *strcpy(char *dst, const char *src) noexcept
     {
@@ -256,13 +227,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strncpy                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Copy at most n bytes of src into dst. Pads with null bytes.       *
-     *            Does not guarantee null termination. Prefer strlcpy.              *
-     *                                                                              *
      * *****************************************************************************/
     char *strncpy(char *dst, const char *src, usize n) noexcept
     {
@@ -275,13 +243,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strlcpy                                                           *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Copy src into dst writing at most (size - 1) chars, always null   *
-     *            terminating. Returns length of src. Prefer over strcpy.           *
-     *                                                                              *
+     *  PURPOSE : Copy src into dst writing at most (size - 1) chars.               *
      * *****************************************************************************/
     usize strlcpy(char *dst, const char *src, usize size) noexcept
     {
@@ -296,12 +261,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strcat                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append src to dst. dst must have enough space. Prefer strlcat.    *
-     *                                                                              *
      * *****************************************************************************/
     char *strcat(char *dst, const char *src) noexcept
     {
@@ -313,12 +276,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strncat                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append at most n characters of src to dst.                        *
-     *                                                                              *
      * *****************************************************************************/
     char *strncat(char *dst, const char *src, usize n) noexcept
     {
@@ -331,13 +292,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strlcat                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Append src to dst writing at most (size - strlen(dst) - 1) chars. *
-     *            Always null terminates. Returns total length attempted.           *
-     *                                                                              *
      * *****************************************************************************/
     usize strlcat(char *dst, const char *src, usize size) noexcept
     {
@@ -354,12 +312,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strchr                                                            *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Find first occurrence of c in s. Returns pointer or nullptr.      *
-     *                                                                              *
+     *  PURPOSE : Find first occurrence of c in s.                                  *
      * *****************************************************************************/
     const char *strchr(const char *s, char c) noexcept
     {
@@ -370,12 +326,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strrchr                                                           *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Find last occurrence of c in s. Returns pointer or nullptr.       *
-     *                                                                              *
+     *  PURPOSE : Find last occurrence of c in s.                                   *
      * *****************************************************************************/
     const char *strrchr(const char *s, char c) noexcept
     {
@@ -387,13 +341,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strstr                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of needle in haystack.                      *
-     *            Returns pointer to it or nullptr.                                 *
-     *                                                                              *
      * *****************************************************************************/
     const char *strstr(const char *haystack, const char *needle) noexcept
     {
@@ -415,13 +366,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strnstr                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first occurrence of needle in at most n bytes of haystack.   *
-     *            Returns pointer to it or nullptr.                                 *
-     *                                                                              *
      * *****************************************************************************/
     const char *strnstr(const char *haystack, const char *needle, usize n) noexcept
     {
@@ -440,13 +388,10 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strpbrk                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Find first character in s that appears in accept.                 *
-     *            Returns pointer to it or nullptr.                                 *
-     *                                                                              *
      * *****************************************************************************/
     const char *strpbrk(const char *s, const char *accept) noexcept
     {
@@ -458,13 +403,11 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strspn                                                            *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return length of leading segment of s made entirely of chars      *
      *            found in accept.                                                  *
-     *                                                                              *
      * *****************************************************************************/
     usize strspn(const char *s, const char *accept) noexcept
     {
@@ -485,13 +428,11 @@ namespace tklib
     }
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : strcspn                                                           *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Return length of leading segment of s made entirely of chars      *
      *            NOT found in reject.                                              *
-     *                                                                              *
      * *****************************************************************************/
     usize strcspn(const char *s, const char *reject) noexcept
     {

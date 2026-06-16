@@ -15,16 +15,11 @@
  *  limitations under the License.                                              *
  *                                                                              *
  ********************************************************************************
- *                                                                              *
  *  AUTHOR  : Trollycat                                                         *
  *  MODULE  : Bootstrapping                                                     *
  *  DATE    : 2026                                                              *
  *  PURPOSE : MB2 info struct parser for the boot stage.                        *
- *            Owns all raw Multiboot2 struct definitions. Extracts the memory   *
- *            map and bootloader name into BootInfo.                            *
- *                                                                              *
  * *****************************************************************************/
-
 #include <trunk/boot/trldr/mem/mmap.h>
 
 #include <tklib/string.h>
@@ -33,7 +28,6 @@
 
 namespace trunk::boot
 {
-
     struct GNU_PACKED MB2Tag
     {
         u32 type;
@@ -61,7 +55,7 @@ namespace trunk::boot
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : next_tag                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Advance to the next MB2 tag. Tags are 8-byte aligned.             *
+     *  PURPOSE : Advance to the next MB2 tag.                                      *
      * *****************************************************************************/
     [[nodiscard]]
     static const MB2Tag *next_tag(const MB2Tag *tag) noexcept

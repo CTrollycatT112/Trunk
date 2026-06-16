@@ -20,17 +20,17 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE : Boot information serial dump.                                      *
  ********************************************************************************/
-
 #include <trunk/boot/trldr/safety/bdump.h>
 #include <trunk/boot/trldr/mb2/boot.h>
+
 #include <trunk/drivers/serial/serial.h>
+
 #include <tklib/formatter.h>
 
 namespace serial = trunk::drivers::serial;
 
 namespace trunk::boot
 {
-
     static char s_buf[67];
 
     /* *******************************************************************************

@@ -15,7 +15,6 @@
 ; *  limitations under the License.                                             *
 ; *                                                                             *
 ; *******************************************************************************
-; *                                                                             *
 ; *  AUTHOR  : Trollycat                                                        *
 ; *  MODULE  : System startup landing pad                                       *
 ; *  DATE    : 2026                                                             *

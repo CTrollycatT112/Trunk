@@ -20,7 +20,6 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE : Number to string utilites                                          *
  ********************************************************************************/
-
 #include <tklib/formatter.h>
 #include <tklib/string.h>
 
