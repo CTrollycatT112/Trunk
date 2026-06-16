@@ -16,7 +16,7 @@
  *                                                                               *
  *********************************************************************************
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Memory management system                                           *
+ *  MODULE  : Memory block                                                       *
  *  DATE    : 2026                                                               *
  *  PURPOSE : Memory allocator for early boot stage.                             *
  ********************************************************************************/
@@ -310,6 +310,29 @@ namespace trunk::mem
     [[nodiscard]] u64 memblock_total_reserved() noexcept
     {
         return s_total_reserved;
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : memblock_get_region_count                                          *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Get the current region count.                                      *
+     ********************************************************************************/
+    [[nodiscard]] usize memblock_get_region_count() noexcept
+    {
+        return s_memory_count;
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : memblock_get_region                                                *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Get a region at the passed in index.                               *
+     ********************************************************************************/
+    [[nodiscard]] MemoryRegion memblock_get_region(usize index) noexcept
+    {
+        ASSERT(index < s_memory_count, "INDEX IN MEMBLOCK_GET_REGION EXCEEDS MEMORY COUNT.");
+        return s_memory_regions[index];
     }
 
 } // namespace trunk::mem

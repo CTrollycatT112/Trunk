@@ -17,7 +17,7 @@
  *********************************************************************************
  *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Memory management system                                           *
+ *  MODULE  : Memory block                                                       *
  *  DATE    : 2026                                                               *
  *  PURPOSE : Memory allocator for early boot stage.                             *
  ********************************************************************************/
@@ -86,5 +86,21 @@ namespace trunk::mem
      *  PURPOSE : Returns total reserved bytes across all reserved regions.          *
      ********************************************************************************/
     [[nodiscard]] u64 memblock_total_reserved() noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : memblock_get_region_count                                          *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Get the current region count.                                      *
+     ********************************************************************************/
+    [[nodiscard]] usize memblock_get_region_count() noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : memblock_get_region                                                *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Get a region at the passed in index.                               *
+     ********************************************************************************/
+    [[nodiscard]] MemoryRegion memblock_get_region(usize index) noexcept;
 
 } // namespace trunk::mem
