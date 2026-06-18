@@ -40,7 +40,7 @@ namespace trunk::kernel
      ********************************************************************************/
     void CbkSetupSubsystems() noexcept
     {
-        gdt::gdt_init();
+        gdt::GdtInit();
         interrupts::idt_init();
         drivers::pic::pic_init();
     }

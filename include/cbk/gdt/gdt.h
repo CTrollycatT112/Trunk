@@ -20,7 +20,6 @@
  *  DATE    : 2026                                                               *
  *  PURPOSE : Defines and initalizes the Global Descriptor Table.                *
  ********************************************************************************/
-
 #pragma once
 
 #include <cbk/desc/descriptor.h>
@@ -44,22 +43,22 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the global descriptor table                            *
      ********************************************************************************/
-    void gdt_init() noexcept;
+    void GdtInit() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : gdt_flush                                                          *
+     *  FUNC    : GdtFlush                                                           *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Flushes/Reloads the global descriptor table (external assembly)    *
      ********************************************************************************/
-    extern "C" void gdt_flush(uptr gdt_ptr_addr) noexcept;
+    extern "C" void GdtFlush(uptr gdt_ptr_addr) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : gdt_install_tss                                                    *
+     *  FUNC    : GdtInstallTss                                                      *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD u16 gdt_install_tss(const Tss *tss_ptr) noexcept;
+    NO_DISCARD u16 GdtInstallTss(const Tss *tss_ptr) noexcept;
 
 } // namespace trunk::gdt

@@ -74,11 +74,11 @@ namespace trunk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : gdt_install_tss                                                    *
+     *  FUNC    : GdtInstallTss                                                      *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Installs the TSS                                                   *
      ********************************************************************************/
-    NO_DISCARD u16 gdt_install_tss(const Tss *tss_ptr) noexcept
+    NO_DISCARD u16 GdtInstallTss(const Tss *tss_ptr) noexcept
     {
         u64 base  = reinterpret_cast<u64>(tss_ptr);
         u16 limit = sizeof(Tss) - 1;
@@ -113,17 +113,17 @@ namespace trunk::gdt
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the global descriptor table subsystem                  *
      ********************************************************************************/
-    void gdt_init() noexcept
+    void GdtInit() noexcept
     {
         gdt_create_entries();
-        tss_init();
+        TssInit();
 
-        u16 tss_selector = gdt_install_tss(&tss_get());
+        u16 tss_selector = GdtInstallTss(&TssGet());
 
         gdt_pointer.limit = sizeof(GdtLayout) - 1;
         gdt_pointer.base  = reinterpret_cast<uptr>(&gdt);
 
-        gdt_flush(reinterpret_cast<uptr>(&gdt_pointer));
+        GdtFlush(reinterpret_cast<uptr>(&gdt_pointer));
 
         asm volatile("ltr %0" ::"r"(tss_selector));
     }

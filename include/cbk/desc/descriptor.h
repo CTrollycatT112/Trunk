@@ -71,20 +71,18 @@ struct GNU_PACKED GdtEntry
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : create                                                             *
+     *  FUNC    : Create                                                             *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Creates a new GdtEntry with passed in paramaters                   *
      ********************************************************************************/
-
-    static constexpr GdtEntry create(u8 access, u8 flags) noexcept
+    static constexpr GdtEntry Create(u8 access, u8 flags) noexcept
     {
-        return GdtEntry{
-            .limit_low = 0,
-            .base_low = 0,
-            .base_middle = 0,
-            .access = access,
-            .flags_limit_high = static_cast<u8>((flags & 0xF0)),
-            .base_high = 0};
+        return GdtEntry{.limit_low        = 0,
+                        .base_low         = 0,
+                        .base_middle      = 0,
+                        .access           = access,
+                        .flags_limit_high = static_cast<u8>((flags & 0xF0)),
+                        .base_high        = 0};
     }
 };
 

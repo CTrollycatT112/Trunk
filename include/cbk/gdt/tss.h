@@ -33,25 +33,25 @@ namespace trunk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : tss_init                                                           *
+     *  FUNC    : TssInit                                                            *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the Task State Segment                                 *
      ********************************************************************************/
-    void tss_init() noexcept;
+    void TssInit() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : tss_set_rsp0                                                       *
+     *  FUNC    : TssSetRsp0                                                         *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Set the RSP0 field for ring mode                                   *
      ********************************************************************************/
-    void tss_set_rsp0(u64 rsp) noexcept;
+    void TssSetRsp0(u64 rsp) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : tss_get                                                            *
+     *  FUNC    : TssGet                                                             *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
-    NO_DISCARD const Tss &tss_get() noexcept;
+    NO_DISCARD const Tss &TssGet() noexcept;
 } // namespace trunk::gdt

@@ -41,11 +41,11 @@ namespace trunk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : tss_init                                                           *
+     *  FUNC    : TssInit                                                            *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initializes the Task State Segment                                 *
      ********************************************************************************/
-    void tss_init() noexcept
+    void TssInit() noexcept
     {
         s_tss.iopb_offset = sizeof(Tss);
         s_tss.ist[0]      = reinterpret_cast<u64>(s_ist1_stack + IST_STACK_SIZE);
@@ -59,11 +59,11 @@ namespace trunk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : tss_set_rsp0                                                       *
+     *  FUNC    : TssSetRsp0                                                         *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Set the RSP0 field for ring mode                                   *
      ********************************************************************************/
-    void tss_set_rsp0(u64 rsp) noexcept
+    void TssSetRsp0(u64 rsp) noexcept
     {
         ASSERT(rsp == reinterpret_cast<u64>(__stack_top), "RSP0 DOES NOT MATCH KERNEL STACK TOP");
         ASSERT(tklib::math::is_aligned(rsp, 16), "RSP0 IS NOT 16-BYTE ALIGNED");
@@ -72,11 +72,11 @@ namespace trunk::gdt
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : tss_get                                                            *
+     *  FUNC    : TssGet                                                             *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
-    NO_DISCARD const Tss &tss_get() noexcept
+    NO_DISCARD const Tss &TssGet() noexcept
     {
         return s_tss;
     }

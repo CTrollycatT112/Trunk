@@ -27,12 +27,12 @@ section .text
 
 ; *********************************************************************************
 ; *  AUTHOR  : Trollycat                                                          *
-; *  FUNC    : gdt_flush                                                          *
+; *  FUNC    : GdtFlush                                                           *
 ; *  DATE    : 2026                                                               *
 ; *  PURPOSE : Assembly function that flushes the global descriptor table         *
 ; ********************************************************************************/
-global gdt_flush
-gdt_flush:
+global GdtFlush
+GdtFlush:
     lgdt [rdi]
 
     mov ax, 0x10
