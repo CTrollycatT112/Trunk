@@ -34,16 +34,17 @@ namespace trunk::interrupts
     struct RegisteredHandler
     {
         InterruptHandler handler = nullptr;
-        void *context = nullptr;
+        void *context            = nullptr;
     };
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : register_interrupt_handler                                         *
+     *  FUNC    : RegisterInterruptHandler                                           *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Assigns a custom C++ driver function to an IDT slot                *
      ********************************************************************************/
-    void register_interrupt_handler(u8 vector, InterruptHandler handler, void *context = nullptr) noexcept;
+    void RegisterInterruptHandler(u8 vector, InterruptHandler handler,
+                                  void *context = nullptr) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

@@ -79,7 +79,7 @@ namespace trunk::drivers::serial
 
         hal::outb(SERIAL_REG_INT_ENABLE, 0x01);
 
-        interrupts::register_interrupt_handler(36, serial_interrupt_handler, nullptr);
+        interrupts::RegisterInterruptHandler(36, serial_interrupt_handler, nullptr);
         drivers::pic::pic_unmask(4);
     }
 
