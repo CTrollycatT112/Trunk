@@ -63,7 +63,7 @@ section .text
     pop rax
 %endmacro
 
-common_interrupt_handler:
+CommonInterruptHandler:
     pushaq
 
     mov rdi, rsp
@@ -76,18 +76,18 @@ common_interrupt_handler:
     iretq
 
 %macro ISR_NOERRCODE 1
-global vector_handler_%1
-vector_handler_%1:
+global VectorHandler_%1
+VectorHandler_%1:
     push qword 0
     push qword %1
-    jmp common_interrupt_handler
+    jmp CommonInterruptHandler
 %endmacro
 
 %macro ISR_ERRCODE 1
-global vector_handler_%1
-vector_handler_%1:
+global VectorHandler_%1
+VectorHandler_%1:
     push qword %1
-    jmp common_interrupt_handler
+    jmp CommonInterruptHandler
 %endmacro
 
 ISR_NOERRCODE 0
@@ -128,6 +128,6 @@ global g_InterruptVectorTable
 g_InterruptVectorTable:
 %assign i 0
 %rep 256
-    dq vector_handler_%+i
+    dq VectorHandler_%+i
     %assign i i+1
 %endrep

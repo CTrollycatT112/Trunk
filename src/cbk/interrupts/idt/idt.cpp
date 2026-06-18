@@ -30,11 +30,11 @@ namespace trunk::interrupts
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : set_gate                                                           *
+     *  FUNC    : SetGate                                                            *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Sets a new IDT gate with parameters                                *
      ********************************************************************************/
-    void set_gate(u8 vector, u64 handler_address, u16 selector, u8 privilege, u8 ist) noexcept
+    void SetGate(u8 vector, u64 handler_address, u16 selector, u8 privilege, u8 ist) noexcept
     {
         g_IdtEntries[vector].offset_low  = static_cast<u16>(handler_address & 0xFFFF);
         g_IdtEntries[vector].offset_mid  = static_cast<u16>((handler_address >> 16) & 0xFFFF);
@@ -61,12 +61,12 @@ namespace trunk::interrupts
         const u16 kernel_code_selector = 0x08;
 
         for (int i = 0; i < 256; ++i)
-            set_gate(static_cast<u8>(i), g_InterruptVectorTable[i], kernel_code_selector, 0, 0);
+            SetGate(static_cast<u8>(i), g_InterruptVectorTable[i], kernel_code_selector, 0, 0);
 
-        set_gate(8, g_InterruptVectorTable[8], kernel_code_selector, 0, 1);
-        set_gate(2, g_InterruptVectorTable[2], kernel_code_selector, 0, 2);
-        set_gate(1, g_InterruptVectorTable[1], kernel_code_selector, 0, 3);
-        set_gate(18, g_InterruptVectorTable[18], kernel_code_selector, 0, 4);
+        SetGate(8, g_InterruptVectorTable[8], kernel_code_selector, 0, 1);
+        SetGate(2, g_InterruptVectorTable[2], kernel_code_selector, 0, 2);
+        SetGate(1, g_InterruptVectorTable[1], kernel_code_selector, 0, 3);
+        SetGate(18, g_InterruptVectorTable[18], kernel_code_selector, 0, 4);
 
         IdtrPointer idtr;
         idtr.limit        = (sizeof(IdtDescriptor) * 256) - 1;
