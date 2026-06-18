@@ -149,7 +149,7 @@ namespace trunk::mem
         for (usize i = 0; i < boot_info.mmap_count; ++i) {
             const auto &entry = boot_info.mmap[i];
 
-            if (entry.available()) {
+            if (entry.Available()) {
                 ASSERT(s_memory_count < MAX_MEMBLOCK_REGIONS,
                        "S_MEMORY_COUNT EXCEEDED MAX_MEMBLOCK_REGIONS");
 

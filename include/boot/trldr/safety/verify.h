@@ -33,22 +33,21 @@ namespace trunk::boot
     inline constexpr u32 MB2_PTR_ALIGN = 8;
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
-     *  FUNC    : verify_mb2_magic                                                  *
+     *  FUNC    : VerifyMb2Magic                                                    *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Confirm the MB2 magic value left in EAX by GRUB is correct.       *
      * *****************************************************************************/
-    NO_DISCARD bool verify_mb2_magic(u32 magic) noexcept;
+    NO_DISCARD bool VerifyMb2Magic(u32 magic) noexcept;
 
     /* ******************************************************************************
      *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
-     *  FUNC    : verify_mb2_ptr                                                    *
+     *  FUNC    : VerifyMb2Pointer                                                  *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Confirm the MB2 info pointer is non-null, above the first page,   *
-     *            and 8-byte aligned as required by the MB2 specification.          *
+     *            and 8-byte aligned                                                *
      * *****************************************************************************/
-    NO_DISCARD bool verify_mb2_ptr(u32 phys) noexcept;
+    NO_DISCARD bool VerifyMb2Pointer(u32 phys) noexcept;
 
 } // namespace trunk::boot

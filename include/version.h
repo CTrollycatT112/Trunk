@@ -54,7 +54,7 @@ constexpr KernelVersion g_KernelVersion{.major        = TRUNK_VERSION_MAJOR,
                                         .patch        = TRUNK_VERSION_PATCH,
                                         .build_string = TRUNK_VERSION_STRING};
 
-NO_DISCARD inline const KernelVersion &get_version() noexcept
+NO_DISCARD inline const KernelVersion &TrGetVersion() noexcept
 {
     return g_KernelVersion;
 }

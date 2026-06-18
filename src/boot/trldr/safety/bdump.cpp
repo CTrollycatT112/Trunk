@@ -35,11 +35,11 @@ namespace trunk::boot
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : bdump                                                              *
+     *  FUNC    : BDump                                                              *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Dump BootInfo contents to serial output.                           *
      ********************************************************************************/
-    void bdump(const BootInfo &info) noexcept
+    void BDump(const BootInfo &info) noexcept
     {
         serial::serial_puts("Bootloader: ");
         serial::serial_puts(info.bootloader_name[0] ? info.bootloader_name : "(unknown)");
@@ -57,15 +57,15 @@ namespace trunk::boot
             tklib::fmt_hex(s_buf, sizeof(s_buf), region.base);
             serial::serial_puts(s_buf);
             serial::serial_puts(" - ");
-            tklib::fmt_hex(s_buf, sizeof(s_buf), region.end());
+            tklib::fmt_hex(s_buf, sizeof(s_buf), region.End());
             serial::serial_puts(s_buf);
             serial::serial_puts("  ");
-            serial::serial_puts(memory_type_str(region.type));
+            serial::serial_puts(MemoryTypeString(region.type));
             serial::serial_puts("\n");
         }
 
         serial::serial_puts("Total available: ");
-        tklib::fmt_size(s_buf, sizeof(s_buf), info.total_available_bytes());
+        tklib::fmt_size(s_buf, sizeof(s_buf), info.TotalAvailableBytes());
         serial::serial_puts(s_buf);
         serial::serial_puts("\n");
     }

@@ -30,10 +30,10 @@ namespace trunk::boot
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : bdump                                                              *
+     *  FUNC    : BDump                                                              *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Dump BootInfo contents to serial output.                           *
      ********************************************************************************/
-    void bdump(const BootInfo &info) noexcept;
+    void BDump(const BootInfo &info) noexcept;
 
 } // namespace trunk::boot

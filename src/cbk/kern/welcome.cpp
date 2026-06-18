@@ -43,6 +43,6 @@ namespace trunk::kernel
         serial::serial_puts("You are likely a developer, as you have built Trunk In DEBUG mode!\n");
 
         serial::serial_puts("VERSION: ");
-        serial::serial_puts(get_version().build_string);
+        serial::serial_puts(TrGetVersion().build_string);
     }
 } // namespace trunk::kernel

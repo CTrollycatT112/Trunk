@@ -38,7 +38,7 @@ namespace trunk::boot
 
     static BootInfo g_boot_info{};
 
-    NO_DISCARD const char *memory_type_str(MemoryType type) noexcept
+    NO_DISCARD const char *MemoryTypeString(MemoryType type) noexcept
     {
         switch (type) {
         case MemoryType::Available:
@@ -66,7 +66,7 @@ namespace trunk::boot
      * *****************************************************************************/
     NO_DISCARD bool VerifyMB2(u32 mb2_m, u32 mb2_ph) noexcept
     {
-        if (!verify_mb2_magic(mb2_m) || !verify_mb2_ptr(mb2_ph))
+        if (!VerifyMb2Magic(mb2_m) || !VerifyMb2Pointer(mb2_ph))
             return false;
         return true;
     }
@@ -75,7 +75,7 @@ namespace trunk::boot
      *  AUTHOR  : Trollycat                                                         *
      *  FUNC    : CbkLoad                                                           *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Called from CbkSystemStartup. Builds BootInfo struct               *
+     *  PURPOSE : Called from CbkSystemStartup. Builds BootInfo struct              *
      * *****************************************************************************/
     extern "C" void CbkLoad(u32 mb2_magic, u32 mb2_phys) noexcept
     {
@@ -88,8 +88,8 @@ namespace trunk::boot
             kernel::kabort(
                 "Fatal: Multiboot2 verification failed. Magic number or alignment mismatch.");
 
-        parse_mb2(static_cast<uptr>(mb2_phys), g_boot_info);
-        bdump(g_boot_info);
+        ParseMb2(static_cast<uptr>(mb2_phys), g_boot_info);
+        BDump(g_boot_info);
 
         CbkStartup(g_boot_info);
 

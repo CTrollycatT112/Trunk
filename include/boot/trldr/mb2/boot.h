@@ -43,11 +43,11 @@ namespace trunk::boot
         u64 length;
         MemoryType type;
 
-        NO_DISCARD constexpr u64 end() const noexcept
+        NO_DISCARD constexpr u64 End() const noexcept
         {
             return base + length;
         }
-        NO_DISCARD constexpr bool available() const noexcept
+        NO_DISCARD constexpr bool Available() const noexcept
         {
             return type == MemoryType::Available;
         }
@@ -64,16 +64,16 @@ namespace trunk::boot
 
         /* ***************************************************************************
          *  AUTHOR  : Trollycat                                                      *
-         *  FUNC    : total_available_bytes                                          *
+         *  FUNC    : TotalAvailableBytes                                            *
          *  DATE    : 2026                                                           *
          *  PURPOSE : Sum of all Available region lengths. Used by the PMM.          *
          ****************************************************************************/
         NO_DISCARD
-        u64 total_available_bytes() const noexcept
+        u64 TotalAvailableBytes() const noexcept
         {
             u64 total = 0;
             for (usize i = 0; i < mmap_count; ++i)
-                if (mmap[i].available())
+                if (mmap[i].Available())
                     total += mmap[i].length;
             return total;
         }
@@ -81,10 +81,10 @@ namespace trunk::boot
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : memory_type_str                                                    *
+     *  FUNC    : MemoryTypeString                                                   *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Return a short string describing a MemoryType value.               *
      ********************************************************************************/
-    NO_DISCARD const char *memory_type_str(MemoryType type) noexcept;
+    NO_DISCARD const char *MemoryTypeString(MemoryType type) noexcept;
 
 } // namespace trunk::boot

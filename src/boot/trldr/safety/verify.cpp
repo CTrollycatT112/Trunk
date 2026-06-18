@@ -26,22 +26,22 @@ namespace trunk::boot
 {
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
-     *  FUNC    : verify_mb2_magic                                                  *
+     *  FUNC    : VerifyMb2Magic                                                    *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Check the MB2 handoff magic value matches the spec                *
      * *****************************************************************************/
-    bool verify_mb2_magic(u32 magic) noexcept
+    bool VerifyMb2Magic(u32 magic) noexcept
     {
         return magic == MB2_MAGIC;
     }
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
-     *  FUNC    : verify_mb2_ptr                                                    *
+     *  FUNC    : VerifyMb2Pointer                                                  *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Check the MB2 info struct pointer before walking it               *
      * *****************************************************************************/
-    bool verify_mb2_ptr(u32 phys) noexcept
+    bool VerifyMb2Pointer(u32 phys) noexcept
     {
         if (phys < MB2_PTR_MIN)
             return false;

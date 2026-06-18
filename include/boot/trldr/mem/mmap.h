@@ -38,13 +38,11 @@ namespace trunk::boot
     inline constexpr u32 MMAP_BADRAM    = 5;
 
     /* ******************************************************************************
-     *                                                                              *
      *  AUTHOR  : Trollycat                                                         *
-     *  FUNC    : parse_mb2                                                         *
+     *  FUNC    : ParseMb2                                                          *
      *  DATE    : 2026                                                              *
-     *  PURPOSE : Walk all MB2 tags from mb2_phys and populate info with the        *
-     *            memory map and bootloader name.                                   *
+     *  PURPOSE : Walk all MB2 tags from mb2_phys                                   *
      * *****************************************************************************/
-    void parse_mb2(uptr mb2_phys, BootInfo &info) noexcept;
+    void ParseMb2(uptr mb2_phys, BootInfo &info) noexcept;
 
 } // namespace trunk::boot

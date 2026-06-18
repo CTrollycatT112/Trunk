@@ -107,11 +107,11 @@ namespace trunk::boot
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
-     *  FUNC    : parse_mb2                                                         *
+     *  FUNC    : ParseMb2                                                          *
      *  DATE    : 2026                                                              *
      *  PURPOSE : Walk all MB2 tags and populate BootInfo with the memory map       *
      * *****************************************************************************/
-    void parse_mb2(uptr mb2_phys, BootInfo &info) noexcept
+    void ParseMb2(uptr mb2_phys, BootInfo &info) noexcept
     {
         const uptr end  = mb2_phys + *reinterpret_cast<const u32 *>(mb2_phys);
         const auto *tag = reinterpret_cast<const MB2Tag *>(mb2_phys + 8);
