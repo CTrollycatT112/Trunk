@@ -82,7 +82,7 @@ namespace trunk::mem
             if (s_early_mmu) {
                 phys = MemblockAlloc(PAGE_SIZE, PAGE_SIZE);
             } else {
-                Page *page = pfn_alloc_pages(0);
+                Page *page = PfnAllocPages(0);
                 if (!page)
                     return 0;
                 phys = static_cast<u64>(page - g_PfnAllocator.mm_pfn_database) * PAGE_SIZE;
@@ -93,7 +93,7 @@ namespace trunk::mem
 
             ASSERT(is_valid_paddr(phys), "alloc_page_table: allocated address exceeds paddr_width");
 
-            auto *virt = reinterpret_cast<u64 *>(paddr_to_kvaddr(phys));
+            auto *virt = reinterpret_cast<u64 *>(PaddrToKvaddr(phys));
             for (usize i = 0; i < NO_OF_PT_ENTRIES; ++i)
                 virt[i] = 0;
             return phys;
@@ -118,7 +118,7 @@ namespace trunk::mem
                 *entry = new_phys | PAGE_PRESENT | PAGE_WRITABLE;
             }
 
-            return reinterpret_cast<u64 *>(paddr_to_kvaddr(PTE_ADDR(*entry)));
+            return reinterpret_cast<u64 *>(PaddrToKvaddr(PTE_ADDR(*entry)));
         }
 
         /* *******************************************************************************
@@ -254,8 +254,8 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD bool MmuMapPage(ArchAspace *space, u64 va, u64 pa, u64 flags) noexcept
     {
-        ASSERT(is_page_aligned(va), "MmuMapPage: va must be 4KB aligned");
-        ASSERT(is_page_aligned(pa), "MmuMapPage: pa must be 4KB aligned");
+        ASSERT(IsPageAligned(va), "MmuMapPage: va must be 4KB aligned");
+        ASSERT(IsPageAligned(pa), "MmuMapPage: pa must be 4KB aligned");
         ASSERT(is_canonical(va), "MmuMapPage: non-canonical virtual address");
         ASSERT(is_valid_paddr(pa), "MmuMapPage: pa exceeds physical address width");
 
@@ -269,7 +269,7 @@ namespace trunk::mem
         ASSERT(!(*pte & PAGE_PRESENT), "MmuMapPage: remapping already-present page");
 
         *pte = PTE_ADDR(pa) | flags | PAGE_PRESENT;
-        tlb_flush_page(va);
+        TlbFlushPage(va);
         return true;
     }
 
@@ -297,7 +297,7 @@ namespace trunk::mem
         ASSERT(!(*pde & PAGE_PRESENT), "MmuMapPageHuge: remapping already-present PDE");
 
         *pde = PTE_ADDR(pa) | flags | PAGE_PRESENT | PAGE_HUGE;
-        tlb_flush_page(va);
+        TlbFlushPage(va);
         return true;
     }
 
@@ -309,9 +309,9 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD bool MmuMapMmio(ArchAspace *space, u64 va, u64 pa, usize size) noexcept
     {
-        ASSERT(is_page_aligned(va), "MmuMapMmio: va must be 4KB aligned");
-        ASSERT(is_page_aligned(pa), "MmuMapMmio: pa must be 4KB aligned");
-        ASSERT(is_page_aligned(size), "MmuMapMmio: size must be a multiple of 4KB");
+        ASSERT(IsPageAligned(va), "MmuMapMmio: va must be 4KB aligned");
+        ASSERT(IsPageAligned(pa), "MmuMapMmio: pa must be 4KB aligned");
+        ASSERT(IsPageAligned(size), "MmuMapMmio: size must be a multiple of 4KB");
 
         const u64 flags = PAGE_WRITABLE | PAGE_PCD | PAGE_PWT | PAGE_NX;
         const MapRange range{va, pa, size};
@@ -326,9 +326,9 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD bool MmuMapRange(ArchAspace *space, MapRange range, u64 flags) noexcept
     {
-        ASSERT(is_page_aligned(range.start_vaddr), "MmuMapRange: vaddr must be 4KB aligned");
-        ASSERT(is_page_aligned(range.start_paddr), "MmuMapRange: paddr must be 4KB aligned");
-        ASSERT(is_page_aligned(range.size), "MmuMapRange: size must be multiple of 4KB");
+        ASSERT(IsPageAligned(range.start_vaddr), "MmuMapRange: vaddr must be 4KB aligned");
+        ASSERT(IsPageAligned(range.start_paddr), "MmuMapRange: paddr must be 4KB aligned");
+        ASSERT(IsPageAligned(range.size), "MmuMapRange: size must be multiple of 4KB");
         ASSERT(range.size > 0, "MmuMapRange: size must be non-zero");
 
         u64 curr_va = range.start_vaddr;
@@ -360,7 +360,7 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD bool MmuUnmapPage(ArchAspace *space, u64 va) noexcept
     {
-        ASSERT(is_page_aligned(va), "MmuUnmapPage: va must be 4KB aligned");
+        ASSERT(IsPageAligned(va), "MmuUnmapPage: va must be 4KB aligned");
         ASSERT(is_canonical(va), "MmuUnmapPage: non-canonical virtual address");
 
         u64 *pte = mmu_get_pte(space, va, false);
@@ -368,7 +368,7 @@ namespace trunk::mem
             return false;
 
         *pte = 0;
-        tlb_flush_page(va);
+        TlbFlushPage(va);
         return true;
     }
 
@@ -412,7 +412,7 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD bool MmuProtect(ArchAspace *space, u64 va, u64 new_flags) noexcept
     {
-        ASSERT(is_page_aligned(va), "MmuProtect: va must be 4KB aligned");
+        ASSERT(IsPageAligned(va), "MmuProtect: va must be 4KB aligned");
         ASSERT(is_canonical(va), "MmuProtect: non-canonical virtual address");
 
         u64 *pte = mmu_get_pte(space, va, false);
@@ -423,7 +423,7 @@ namespace trunk::mem
             new_flags &= ~PAGE_NX;
 
         *pte = PTE_ADDR(*pte) | new_flags | PAGE_PRESENT;
-        tlb_flush_page(va);
+        TlbFlushPage(va);
         return true;
     }
 
@@ -460,7 +460,7 @@ namespace trunk::mem
             return false;
 
         *pte &= ~PAGE_ACCESSED;
-        tlb_flush_page(va);
+        TlbFlushPage(va);
         return true;
     }
 
@@ -474,7 +474,7 @@ namespace trunk::mem
     {
         ASSERT(space != nullptr, "MmuLoadCr3: space is null");
         ASSERT(space->pml4_phys != 0, "MmuLoadCr3: pml4_phys is zero");
-        ASSERT(is_page_aligned(space->pml4_phys), "MmuLoadCr3: pml4_phys not page aligned");
+        ASSERT(IsPageAligned(space->pml4_phys), "MmuLoadCr3: pml4_phys not page aligned");
 
         hal::WriteCr3(space->pml4_phys);
     }

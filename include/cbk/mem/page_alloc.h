@@ -41,25 +41,25 @@ namespace trunk::mem
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : pfn_allocator_init                                                 *
+     *  FUNC    : PfnAllocatorInit                                                   *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PFN allocator(buddy)                                *
      ********************************************************************************/
-    void pfn_allocator_init(Page *dbMemory, usize max) noexcept;
+    void PfnAllocatorInit(Page *dbMemory, usize max) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : pfn_alloc_pages                                                    *
+     *  FUNC    : PfnAllocPages                                                      *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Allocate pages                                                     *
      ********************************************************************************/
-    NO_DISCARD Page *pfn_alloc_pages(u8 order) noexcept;
+    NO_DISCARD Page *PfnAllocPages(u8 order) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : pfn_free_pages                                                     *
+     *  FUNC    : PfnFreePages                                                       *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Free pages                                                         *
      ********************************************************************************/
-    void pfn_free_pages(Page *page, u8 order) noexcept;
+    void PfnFreePages(Page *page, u8 order) noexcept;
 } // namespace trunk::mem

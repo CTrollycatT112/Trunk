@@ -45,22 +45,22 @@ namespace trunk::mem
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : addr_to_pfn                                                        *
+     *  FUNC    : AddrToPfn                                                          *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Shift address to Page frame number                                 *
      ********************************************************************************/
-    NO_DISCARD inline constexpr u64 addr_to_pfn(u64 addr) noexcept
+    NO_DISCARD inline constexpr u64 AddrToPfn(u64 addr) noexcept
     {
         return addr >> PAGE_SHIFT;
     }
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : pfn_to_addr                                                        *
+     *  FUNC    : PfnToAddr                                                          *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Shift Page frame number to address                                 *
      ********************************************************************************/
-    NO_DISCARD inline constexpr u64 pfn_to_addr(u64 pfn) noexcept
+    NO_DISCARD inline constexpr u64 PfnToAddr(u64 pfn) noexcept
     {
         return pfn << PAGE_SHIFT;
     }
