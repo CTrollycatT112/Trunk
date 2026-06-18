@@ -29,7 +29,7 @@
 
 #include <cbk/mem/page.h>
 
-#include <cbk/aspace.h>
+#include <cbk/mem/aspace.h>
 
 namespace trunk::mem
 {

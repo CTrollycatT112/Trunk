@@ -26,8 +26,8 @@
 #include <cbk/mem/page_alloc.h>
 #include <cbk/mem/pfn.h>
 
-#include <cbk/aspace.h>
 #include <cbk/hal/io.h>
+#include <cbk/mem/aspace.h>
 
 #include <macros.h>
 
