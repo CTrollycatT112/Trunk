@@ -46,11 +46,11 @@ namespace trunk::mem
     {
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : is_valid_paddr                                                     *
+         *  FUNC    : IsValidPaddr                                                       *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Returns true if pa is within the physical address width            *
          ********************************************************************************/
-        NO_DISCARD bool is_valid_paddr(u64 pa) noexcept
+        NO_DISCARD bool IsValidPaddr(u64 pa) noexcept
         {
             const u64 max_paddr = (u64{1} << s_paddr_width) - 1;
             return pa <= max_paddr;
@@ -58,11 +58,11 @@ namespace trunk::mem
 
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : is_canonical                                                       *
+         *  FUNC    : IsCanonical                                                        *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Check if va is an x86_64 virtual address                           *
          ********************************************************************************/
-        NO_DISCARD bool is_canonical(u64 va) noexcept
+        NO_DISCARD bool IsCanonical(u64 va) noexcept
         {
             const u8 shift      = s_vaddr_width - 1;
             const i64 signed_va = static_cast<i64>(va);
@@ -71,11 +71,11 @@ namespace trunk::mem
 
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : alloc_page_table                                                   *
+         *  FUNC    : AllocPageTable                                                     *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Allocate and zero a single 4KB page table                          *
          ********************************************************************************/
-        NO_DISCARD u64 alloc_page_table() noexcept
+        NO_DISCARD u64 AllocPageTable() noexcept
         {
             u64 phys = 0;
 
@@ -91,7 +91,7 @@ namespace trunk::mem
             if (!phys)
                 return 0;
 
-            ASSERT(is_valid_paddr(phys), "alloc_page_table: allocated address exceeds paddr_width");
+            ASSERT(IsValidPaddr(phys), "AllocPageTable: allocated address exceeds paddr_width");
 
             auto *virt = reinterpret_cast<u64 *>(PaddrToKvaddr(phys));
             for (usize i = 0; i < NO_OF_PT_ENTRIES; ++i)
@@ -101,17 +101,17 @@ namespace trunk::mem
 
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : get_or_alloc_table                                                 *
+         *  FUNC    : GetOrAllocTable                                                    *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Walk one level of the page table                                   *
          ********************************************************************************/
-        NO_DISCARD u64 *get_or_alloc_table(u64 *entry, bool alloc) noexcept
+        NO_DISCARD u64 *GetOrAllocTable(u64 *entry, bool alloc) noexcept
         {
             if (!(*entry & PAGE_PRESENT)) {
                 if (!alloc)
                     return nullptr;
 
-                u64 new_phys = alloc_page_table();
+                u64 new_phys = AllocPageTable();
                 if (!new_phys)
                     return nullptr;
 
@@ -123,28 +123,28 @@ namespace trunk::mem
 
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : mmu_get_pte                                                        *
+         *  FUNC    : MmuGetPte                                                          *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Walk the page table for va                                         *
          ********************************************************************************/
-        NO_DISCARD u64 *mmu_get_pte(ArchAspace *space, u64 va, bool alloc) noexcept
+        NO_DISCARD u64 *MmuGetPte(ArchAspace *space, u64 va, bool alloc) noexcept
         {
-            ASSERT(space != nullptr, "mmu_get_pte: space is null");
-            ASSERT(space->pml4_virt != nullptr, "mmu_get_pte: pml4_virt is null");
-            ASSERT(is_canonical(va), "mmu_get_pte: non virtual address");
+            ASSERT(space != nullptr, "MmuGetPte: space is null");
+            ASSERT(space->pml4_virt != nullptr, "MmuGetPte: pml4_virt is null");
+            ASSERT(IsCanonical(va), "MmuGetPte: non virtual address");
 
-            u64 *pdpt = get_or_alloc_table(&space->pml4_virt[PML4X(va)], alloc);
+            u64 *pdpt = GetOrAllocTable(&space->pml4_virt[PML4X(va)], alloc);
             if (!pdpt)
                 return nullptr;
 
-            u64 *pd = get_or_alloc_table(&pdpt[PDPTX(va)], alloc);
+            u64 *pd = GetOrAllocTable(&pdpt[PDPTX(va)], alloc);
             if (!pd)
                 return nullptr;
 
             if (pd[PDX(va)] & PAGE_PRESENT && pd[PDX(va)] & (u64{1} << 7))
                 return nullptr;
 
-            u64 *pt = get_or_alloc_table(&pd[PDX(va)], alloc);
+            u64 *pt = GetOrAllocTable(&pd[PDX(va)], alloc);
             if (!pt)
                 return nullptr;
 
@@ -153,21 +153,21 @@ namespace trunk::mem
 
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : mmu_get_pde                                                        *
+         *  FUNC    : MmuGetPde                                                          *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Walk to the PDE level for va                                       *
          ********************************************************************************/
-        NO_DISCARD u64 *mmu_get_pde(ArchAspace *space, u64 va, bool alloc) noexcept
+        NO_DISCARD u64 *MmuGetPde(ArchAspace *space, u64 va, bool alloc) noexcept
         {
-            ASSERT(space != nullptr, "mmu_get_pde: space is null");
-            ASSERT(space->pml4_virt != nullptr, "mmu_get_pde: pml4_virt is null");
-            ASSERT(is_canonical(va), "mmu_get_pde: non-canonical virtual address");
+            ASSERT(space != nullptr, "MmuGetPde: space is null");
+            ASSERT(space->pml4_virt != nullptr, "MmuGetPde: pml4_virt is null");
+            ASSERT(IsCanonical(va), "MmuGetPde: non-canonical virtual address");
 
-            u64 *pdpt = get_or_alloc_table(&space->pml4_virt[PML4X(va)], alloc);
+            u64 *pdpt = GetOrAllocTable(&space->pml4_virt[PML4X(va)], alloc);
             if (!pdpt)
                 return nullptr;
 
-            u64 *pd = get_or_alloc_table(&pdpt[PDPTX(va)], alloc);
+            u64 *pd = GetOrAllocTable(&pdpt[PDPTX(va)], alloc);
             if (!pd)
                 return nullptr;
 
@@ -176,11 +176,11 @@ namespace trunk::mem
 
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : query_cpu_features                                                 *
+         *  FUNC    : QueryCpuFeatures                                                   *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Query Cpuid for paging CPU features and address widths             *
          ********************************************************************************/
-        void query_cpu_features() noexcept
+        void QueryCpuFeatures() noexcept
         {
             u32 eax, ebx, ecx, edx;
 
@@ -207,7 +207,7 @@ namespace trunk::mem
     void MmuEarlyInit() noexcept
     {
         s_early_mmu = true;
-        query_cpu_features();
+        QueryCpuFeatures();
         MmuEarlyInitPerCpu();
     }
 
@@ -256,13 +256,13 @@ namespace trunk::mem
     {
         ASSERT(IsPageAligned(va), "MmuMapPage: va must be 4KB aligned");
         ASSERT(IsPageAligned(pa), "MmuMapPage: pa must be 4KB aligned");
-        ASSERT(is_canonical(va), "MmuMapPage: non-canonical virtual address");
-        ASSERT(is_valid_paddr(pa), "MmuMapPage: pa exceeds physical address width");
+        ASSERT(IsCanonical(va), "MmuMapPage: non-canonical virtual address");
+        ASSERT(IsValidPaddr(pa), "MmuMapPage: pa exceeds physical address width");
 
         if (!s_nx_supported)
             flags &= ~PAGE_NX;
 
-        u64 *pte = mmu_get_pte(space, va, true);
+        u64 *pte = MmuGetPte(space, va, true);
         if (!pte)
             return false;
 
@@ -284,13 +284,13 @@ namespace trunk::mem
         ASSERT(s_huge_supported, "MmuMapPageHuge: CPU does not support PSE");
         ASSERT((va & HUGE_MASK) == 0, "MmuMapPageHuge: va must be 2MB aligned");
         ASSERT((pa & HUGE_MASK) == 0, "MmuMapPageHuge: pa must be 2MB aligned");
-        ASSERT(is_canonical(va), "MmuMapPageHuge: non-canonical virtual address");
-        ASSERT(is_valid_paddr(pa), "MmuMapPageHuge: pa exceeds physical address width");
+        ASSERT(IsCanonical(va), "MmuMapPageHuge: non-canonical virtual address");
+        ASSERT(IsValidPaddr(pa), "MmuMapPageHuge: pa exceeds physical address width");
 
         if (!s_nx_supported)
             flags &= ~PAGE_NX;
 
-        u64 *pde = mmu_get_pde(space, va, true);
+        u64 *pde = MmuGetPde(space, va, true);
         if (!pde)
             return false;
 
@@ -361,9 +361,9 @@ namespace trunk::mem
     NO_DISCARD bool MmuUnmapPage(ArchAspace *space, u64 va) noexcept
     {
         ASSERT(IsPageAligned(va), "MmuUnmapPage: va must be 4KB aligned");
-        ASSERT(is_canonical(va), "MmuUnmapPage: non-canonical virtual address");
+        ASSERT(IsCanonical(va), "MmuUnmapPage: non-canonical virtual address");
 
-        u64 *pte = mmu_get_pte(space, va, false);
+        u64 *pte = MmuGetPte(space, va, false);
         if (!pte || !(*pte & PAGE_PRESENT))
             return false;
 
@@ -380,9 +380,9 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD u64 MmuTranslate(ArchAspace *space, u64 va) noexcept
     {
-        ASSERT(is_canonical(va), "MmuTranslate: non-canonical virtual address");
+        ASSERT(IsCanonical(va), "MmuTranslate: non-canonical virtual address");
 
-        u64 *pte = mmu_get_pte(space, va, false);
+        u64 *pte = MmuGetPte(space, va, false);
         if (!pte || !(*pte & PAGE_PRESENT))
             return 0;
 
@@ -397,10 +397,10 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD bool MmuIsMapped(ArchAspace *space, u64 va) noexcept
     {
-        if (!is_canonical(va))
+        if (!IsCanonical(va))
             return false;
 
-        u64 *pte = mmu_get_pte(space, va, false);
+        u64 *pte = MmuGetPte(space, va, false);
         return pte != nullptr && (*pte & PAGE_PRESENT);
     }
 
@@ -413,9 +413,9 @@ namespace trunk::mem
     NO_DISCARD bool MmuProtect(ArchAspace *space, u64 va, u64 new_flags) noexcept
     {
         ASSERT(IsPageAligned(va), "MmuProtect: va must be 4KB aligned");
-        ASSERT(is_canonical(va), "MmuProtect: non-canonical virtual address");
+        ASSERT(IsCanonical(va), "MmuProtect: non-canonical virtual address");
 
-        u64 *pte = mmu_get_pte(space, va, false);
+        u64 *pte = MmuGetPte(space, va, false);
         if (!pte || !(*pte & PAGE_PRESENT))
             return false;
 
@@ -435,10 +435,10 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD u64 MmuQuery(ArchAspace *space, u64 va) noexcept
     {
-        if (!is_canonical(va))
+        if (!IsCanonical(va))
             return 0;
 
-        u64 *pte = mmu_get_pte(space, va, false);
+        u64 *pte = MmuGetPte(space, va, false);
         if (!pte)
             return 0;
 
@@ -453,9 +453,9 @@ namespace trunk::mem
      ********************************************************************************/
     bool MmuClearAccessed(ArchAspace *space, u64 va) noexcept
     {
-        ASSERT(is_canonical(va), "MmuClearAccessed: non-canonical virtual address");
+        ASSERT(IsCanonical(va), "MmuClearAccessed: non-canonical virtual address");
 
-        u64 *pte = mmu_get_pte(space, va, false);
+        u64 *pte = MmuGetPte(space, va, false);
         if (!pte || !(*pte & PAGE_PRESENT))
             return false;
 

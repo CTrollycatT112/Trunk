@@ -28,7 +28,7 @@ namespace trunk::drivers::pic
 {
     namespace
     {
-        static void get_pic_line_properties(u8 &irq, u16 &out_port) noexcept
+        static void GetPicLineProperties(u8 &irq, u16 &out_port) noexcept
         {
             if (irq < 8)
                 out_port = PIC1_DATA;
@@ -85,7 +85,7 @@ namespace trunk::drivers::pic
     void PicMask(u8 irq) noexcept
     {
         u16 port = 0;
-        get_pic_line_properties(irq, port);
+        GetPicLineProperties(irq, port);
         u8 value = hal::InB(port) | (1 << irq);
         hal::OutB(port, value);
     }
@@ -99,7 +99,7 @@ namespace trunk::drivers::pic
     void PicUnmask(u8 irq) noexcept
     {
         u16 port = 0;
-        get_pic_line_properties(irq, port);
+        GetPicLineProperties(irq, port);
         u8 value = hal::InB(port) & ~(1 << irq);
         hal::OutB(port, value);
     }

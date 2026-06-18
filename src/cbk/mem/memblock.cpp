@@ -42,11 +42,11 @@ namespace trunk::mem
     {
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : insertion_sort_regions                                             *
+         *  FUNC    : InsertionSortRegions                                               *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Sort regions by base address                                       *
          ********************************************************************************/
-        void insertion_sort_regions(MemoryRegion *regions, usize count) noexcept
+        void InsertionSortRegions(MemoryRegion *regions, usize count) noexcept
         {
             for (usize i = 1; i < count; ++i) {
                 MemoryRegion key = regions[i];
@@ -64,11 +64,11 @@ namespace trunk::mem
 
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : merge_reserved_regions                                             *
+         *  FUNC    : MergeReservedRegions                                               *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Merge overlapping reserved regions into one entry                  *
          ********************************************************************************/
-        void merge_reserved_regions() noexcept
+        void MergeReservedRegions() noexcept
         {
             if (s_reserved_count < 2)
                 return;
@@ -92,11 +92,11 @@ namespace trunk::mem
 
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : carve_free_region                                                  *
+         *  FUNC    : CarveFreeRegion                                                    *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Remove [base, base + size) from the free list.                     *
          ********************************************************************************/
-        bool carve_free_region(u64 base, u64 size) noexcept
+        bool CarveFreeRegion(u64 base, u64 size) noexcept
         {
             const u64 end = base + size;
 
@@ -164,10 +164,10 @@ namespace trunk::mem
         u64 k_end   = reinterpret_cast<u64>(__kernel_phys_end);
         MemblockReserve(k_start, k_end - k_start);
 
-        insertion_sort_regions(s_memory_regions, s_memory_count);
-        insertion_sort_regions(s_reserved_regions, s_reserved_count);
+        InsertionSortRegions(s_memory_regions, s_memory_count);
+        InsertionSortRegions(s_reserved_regions, s_reserved_count);
 
-        merge_reserved_regions();
+        MergeReservedRegions();
     }
 
     /* *******************************************************************************
@@ -209,7 +209,7 @@ namespace trunk::mem
                 }
 
                 if (!overlapped) {
-                    carve_free_region(candidate, size);
+                    CarveFreeRegion(candidate, size);
                     MemblockReserve(candidate, size);
                     return candidate;
                 }
@@ -238,8 +238,8 @@ namespace trunk::mem
         s_reserved_regions[s_reserved_count++]  = {base, size};
         s_total_reserved                       += size;
 
-        insertion_sort_regions(s_reserved_regions, s_reserved_count);
-        merge_reserved_regions();
+        InsertionSortRegions(s_reserved_regions, s_reserved_count);
+        MergeReservedRegions();
     }
 
     /* *******************************************************************************
