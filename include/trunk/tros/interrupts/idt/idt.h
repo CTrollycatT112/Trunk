@@ -23,11 +23,11 @@
  ********************************************************************************/
 #pragma once
 
-#include <types.h>
-#include <macros.h>
 #include <assert.h>
+#include <macros.h>
+#include <types.h>
 
-#include <trunk/ead/eadescriptor_table.h>
+#include <trunk/desc/descriptor.h>
 
 namespace trunk::interrupts
 {

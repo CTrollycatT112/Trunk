@@ -21,6 +21,7 @@
  *  PURPOSE : Defines and initalizes the Global Descriptor Table.                *
  ********************************************************************************/
 #include <trunk/tros/gdt/gdt.h>
+#include <trunk/tros/gdt/tss.h>
 
 #include <tklib/string.h>
 

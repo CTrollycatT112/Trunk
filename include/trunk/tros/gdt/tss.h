@@ -23,9 +23,8 @@
  ********************************************************************************/
 #pragma once
 
-#include <trunk/ead/eadescriptor_table.h>
-
 #include <macros.h>
+#include <trunk/desc/descriptor.h>
 #include <types.h>
 
 namespace trunk::gdt

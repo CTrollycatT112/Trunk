@@ -23,8 +23,7 @@
 
 #pragma once
 
-#include <trunk/ead/eadescriptor_table.h>
-#include <trunk/tros/gdt/tss.h>
+#include <trunk/desc/descriptor.h>
 
 #include <macros.h>
 #include <types.h>

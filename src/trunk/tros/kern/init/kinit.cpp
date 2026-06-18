@@ -24,8 +24,8 @@
 #include <trunk/tros/kern/init/kinit.h>
 #include <trunk/tros/kern/welcome.h>
 
-#include <trunk/asi/io.h>
 #include <trunk/drivers/hal/pic.h>
+#include <trunk/hal/io.h>
 #include <trunk/tros/gdt/gdt.h>
 #include <trunk/tros/interrupts/idt/idt.h>
 
@@ -55,7 +55,7 @@ namespace trunk::kernel
     STARTUP_FUNC_FLAGS void TrkStartup(const boot::BootInfo &info) noexcept
     {
         TrkSetupSubsystems();
-        asi::sti();
+        hal::sti();
 
         welcome_user();
 

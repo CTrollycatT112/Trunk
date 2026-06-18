@@ -25,7 +25,7 @@
 #include <macros.h>
 #include <types.h>
 
-#include <trunk/asi/io.h>
+#include <trunk/hal/io.h>
 
 namespace trunk::mem
 {
@@ -233,7 +233,7 @@ namespace trunk::mem
      ********************************************************************************/
     static inline void tlb_flush_all() noexcept
     {
-        u64 cr3 = asi::read_cr3();
-        asi::write_cr3(cr3);
+        u64 cr3 = hal::read_cr3();
+        hal::write_cr3(cr3);
     }
 } // namespace trunk::mem

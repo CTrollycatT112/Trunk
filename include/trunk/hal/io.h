@@ -26,7 +26,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::asi
+namespace trunk::hal
 {
 
     /* *******************************************************************************
@@ -311,4 +311,4 @@ namespace trunk::asi
         return (static_cast<u64>(high) << 32) | low;
     }
 
-} // namespace trunk::asi
+} // namespace trunk::hal

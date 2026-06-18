@@ -22,32 +22,32 @@
  * *****************************************************************************/
 #pragma once
 
+#include <trunk/hal/io.h>
 #include <types.h>
-#include <trunk/asi/io.h>
 
 namespace trunk::drivers::serial
 {
-    inline constexpr u16 SERIAL_COM1_BASE = 0x3F8;
-    inline constexpr u16 SERIAL_REG_DATA = SERIAL_COM1_BASE + 0;
-    inline constexpr u16 SERIAL_REG_INT_ENABLE = SERIAL_COM1_BASE + 1;
-    inline constexpr u16 SERIAL_REG_FIFO = SERIAL_COM1_BASE + 2;
-    inline constexpr u16 SERIAL_REG_LINE_CTRL = SERIAL_COM1_BASE + 3;
-    inline constexpr u16 SERIAL_REG_MODEM_CTRL = SERIAL_COM1_BASE + 4;
-    inline constexpr u16 SERIAL_REG_LINE_STATUS = SERIAL_COM1_BASE + 5;
+    inline constexpr u16 SERIAL_COM1_BASE        = 0x3F8;
+    inline constexpr u16 SERIAL_REG_DATA         = SERIAL_COM1_BASE + 0;
+    inline constexpr u16 SERIAL_REG_INT_ENABLE   = SERIAL_COM1_BASE + 1;
+    inline constexpr u16 SERIAL_REG_FIFO         = SERIAL_COM1_BASE + 2;
+    inline constexpr u16 SERIAL_REG_LINE_CTRL    = SERIAL_COM1_BASE + 3;
+    inline constexpr u16 SERIAL_REG_MODEM_CTRL   = SERIAL_COM1_BASE + 4;
+    inline constexpr u16 SERIAL_REG_LINE_STATUS  = SERIAL_COM1_BASE + 5;
     inline constexpr u16 SERIAL_REG_MODEM_STATUS = SERIAL_COM1_BASE + 6;
 
     inline constexpr u16 SERIAL_BAUD_115200_LO = 0x01;
     inline constexpr u16 SERIAL_BAUD_115200_HI = 0x00;
 
-    inline constexpr u8 SERIAL_LCR_8N1 = 0x03;
+    inline constexpr u8 SERIAL_LCR_8N1  = 0x03;
     inline constexpr u8 SERIAL_LCR_DLAB = 0x80;
 
-    inline constexpr u8 SERIAL_FCR_ENABLE = 0x01;
-    inline constexpr u8 SERIAL_FCR_CLEAR_RX = 0x02;
-    inline constexpr u8 SERIAL_FCR_CLEAR_TX = 0x04;
+    inline constexpr u8 SERIAL_FCR_ENABLE     = 0x01;
+    inline constexpr u8 SERIAL_FCR_CLEAR_RX   = 0x02;
+    inline constexpr u8 SERIAL_FCR_CLEAR_TX   = 0x04;
     inline constexpr u8 SERIAL_FCR_TRIGGER_14 = 0xC0;
 
-    inline constexpr u8 SERIAL_LSR_TX_EMPTY = 0x20;
+    inline constexpr u8 SERIAL_LSR_TX_EMPTY   = 0x20;
     inline constexpr u8 SERIAL_LSR_DATA_READY = 0x01;
 
     /* ******************************************************************************

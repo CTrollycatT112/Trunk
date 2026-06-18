@@ -15,7 +15,6 @@
  *  limitations under the License.                                               *
  *                                                                               *
  *********************************************************************************
- *                                                                               *
  *  AUTHOR  : Trollycat                                                          *
  *  MODULE  : Page alloc                                                         *
  *  DATE    : 2026                                                               *

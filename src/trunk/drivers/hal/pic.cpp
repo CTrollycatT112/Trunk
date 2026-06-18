@@ -22,7 +22,7 @@
  *  PURPOSE : Driver for the 8259 PIC chips                                      *
  ********************************************************************************/
 #include <trunk/drivers/hal/pic.h>
-#include <trunk/asi/io.h>
+#include <trunk/hal/io.h>
 
 namespace trunk::drivers::pic
 {
@@ -32,10 +32,9 @@ namespace trunk::drivers::pic
         {
             if (irq < 8)
                 out_port = PIC1_DATA;
-            else
-            {
-                out_port = PIC2_DATA;
-                irq -= 8;
+            else {
+                out_port  = PIC2_DATA;
+                irq      -= 8;
             }
         }
     } // namespace
@@ -48,20 +47,20 @@ namespace trunk::drivers::pic
      ********************************************************************************/
     void pic_init() noexcept
     {
-        asi::outb(PIC1_COMMAND, ICW1_INIT);
-        asi::outb(PIC2_COMMAND, ICW1_INIT);
+        hal::outb(PIC1_COMMAND, ICW1_INIT);
+        hal::outb(PIC2_COMMAND, ICW1_INIT);
 
-        asi::outb(PIC1_DATA, PIC1_OFFSET);
-        asi::outb(PIC2_DATA, PIC2_OFFSET);
+        hal::outb(PIC1_DATA, PIC1_OFFSET);
+        hal::outb(PIC2_DATA, PIC2_OFFSET);
 
-        asi::outb(PIC1_DATA, 0x04);
-        asi::outb(PIC2_DATA, 0x02);
+        hal::outb(PIC1_DATA, 0x04);
+        hal::outb(PIC2_DATA, 0x02);
 
-        asi::outb(PIC1_DATA, ICW4_8086);
-        asi::outb(PIC2_DATA, ICW4_8086);
+        hal::outb(PIC1_DATA, ICW4_8086);
+        hal::outb(PIC2_DATA, ICW4_8086);
 
-        asi::outb(PIC1_DATA, 0x00);
-        asi::outb(PIC2_DATA, 0x00);
+        hal::outb(PIC1_DATA, 0x00);
+        hal::outb(PIC2_DATA, 0x00);
     }
 
     /* *******************************************************************************
@@ -73,8 +72,8 @@ namespace trunk::drivers::pic
     void irq_ack(u8 irq) noexcept
     {
         if (irq >= 8)
-            asi::outb(PIC2_COMMAND, PIC_EOI);
-        asi::outb(PIC1_COMMAND, PIC_EOI);
+            hal::outb(PIC2_COMMAND, PIC_EOI);
+        hal::outb(PIC1_COMMAND, PIC_EOI);
     }
 
     /* *******************************************************************************
@@ -87,8 +86,8 @@ namespace trunk::drivers::pic
     {
         u16 port = 0;
         get_pic_line_properties(irq, port);
-        u8 value = asi::inb(port) | (1 << irq);
-        asi::outb(port, value);
+        u8 value = hal::inb(port) | (1 << irq);
+        hal::outb(port, value);
     }
 
     /* *******************************************************************************
@@ -101,8 +100,8 @@ namespace trunk::drivers::pic
     {
         u16 port = 0;
         get_pic_line_properties(irq, port);
-        u8 value = asi::inb(port) & ~(1 << irq);
-        asi::outb(port, value);
+        u8 value = hal::inb(port) & ~(1 << irq);
+        hal::outb(port, value);
     }
 
     /* *******************************************************************************
@@ -113,8 +112,8 @@ namespace trunk::drivers::pic
      ********************************************************************************/
     void pic_disable() noexcept
     {
-        asi::outb(PIC1_DATA, 0xFF);
-        asi::outb(PIC2_DATA, 0xFF);
+        hal::outb(PIC1_DATA, 0xFF);
+        hal::outb(PIC2_DATA, 0xFF);
     }
 
 }; // namespace trunk::drivers::pic

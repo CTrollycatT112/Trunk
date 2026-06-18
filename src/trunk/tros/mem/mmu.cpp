@@ -26,7 +26,7 @@
 #include <trunk/tros/mem/page_alloc.h>
 #include <trunk/tros/mem/pfn.h>
 
-#include <trunk/asi/io.h>
+#include <trunk/hal/io.h>
 #include <trunk/tros/aspace.h>
 
 #include <macros.h>
@@ -184,15 +184,15 @@ namespace trunk::mem
         {
             u32 eax, ebx, ecx, edx;
 
-            asi::cpuid(0x1, eax, ebx, ecx, edx);
+            hal::cpuid(0x1, eax, ebx, ecx, edx);
             s_huge_supported    = (edx >> 3) & 1;
             s_pcid_supported    = (ecx >> 17) & 1;
             s_invpcid_supported = (ebx >> 10) & 1;
 
-            asi::cpuid(0x80000001, eax, ebx, ecx, edx);
+            hal::cpuid(0x80000001, eax, ebx, ecx, edx);
             s_nx_supported = (edx >> 20) & 1;
 
-            asi::cpuid(0x80000008, eax, ebx, ecx, edx);
+            hal::cpuid(0x80000008, eax, ebx, ecx, edx);
             s_paddr_width = static_cast<u8>(eax & 0xFF);
             s_vaddr_width = static_cast<u8>((eax >> 8) & 0xFF);
         }
@@ -230,13 +230,13 @@ namespace trunk::mem
      ********************************************************************************/
     void mmu_early_init_percpu() noexcept
     {
-        u64 cr0  = asi::read_cr0();
+        u64 cr0  = hal::read_cr0();
         cr0     |= trunk::cpu::CR0_WP;
-        asi::write_cr0(cr0);
+        hal::write_cr0(cr0);
 
-        u64 cr4  = asi::read_cr4();
+        u64 cr4  = hal::read_cr4();
         cr4     |= cpu::CR4_PGE;
-        asi::write_cr4(cr4);
+        hal::write_cr4(cr4);
 
         if (s_nx_supported) {
             u32 efer_lo, efer_hi;
@@ -476,7 +476,7 @@ namespace trunk::mem
         ASSERT(space->pml4_phys != 0, "mmu_load_cr3: pml4_phys is zero");
         ASSERT(is_page_aligned(space->pml4_phys), "mmu_load_cr3: pml4_phys not page aligned");
 
-        asi::write_cr3(space->pml4_phys);
+        hal::write_cr3(space->pml4_phys);
     }
 
 } // namespace trunk::mem
