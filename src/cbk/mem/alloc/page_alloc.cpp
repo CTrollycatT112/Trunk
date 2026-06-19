@@ -47,9 +47,9 @@ namespace trunk::mem
             g_PfnAllocator.free_lists[i] = nullptr;
 
         for (SIZE_T i = 0; i < max; ++i) {
-            g_PfnAllocator.mm_pfn_database[i].order        = 0;
-            g_PfnAllocator.mm_pfn_database[i].PageLocation = MM_PFN_STATE::FREE_PAGE_LIST;
-            g_PfnAllocator.mm_pfn_database[i].node.next    = nullptr;
+            g_PfnAllocator.mm_pfn_database[i].order         = 0;
+            g_PfnAllocator.mm_pfn_database[i].page_location = MM_PFN_STATE::FREE_PAGE_LIST;
+            g_PfnAllocator.mm_pfn_database[i].node.next     = nullptr;
         }
     }
 
@@ -84,16 +84,16 @@ namespace trunk::mem
 
                     MMPFN *buddy_page = &g_PfnAllocator.mm_pfn_database[buddy_pfn];
 
-                    buddy_page->order        = current_order;
-                    buddy_page->PageLocation = MM_PFN_STATE::FREE_PAGE_LIST;
+                    buddy_page->order         = current_order;
+                    buddy_page->page_location = MM_PFN_STATE::FREE_PAGE_LIST;
 
                     buddy_page->node.next = g_PfnAllocator.free_lists[current_order];
                     g_PfnAllocator.free_lists[current_order] = &buddy_page->node;
                 }
 
-                page->order        = order;
-                page->PageLocation = MM_PFN_STATE::ACTIVE_AND_VALID;
-                page->node.next    = nullptr;
+                page->order         = order;
+                page->page_location = MM_PFN_STATE::ACTIVE_AND_VALID;
+                page->node.next     = nullptr;
 
                 return page;
             }
@@ -115,7 +115,7 @@ namespace trunk::mem
         SIZE_T pfn = page - g_PfnAllocator.mm_pfn_database;
 
         ASSERT(pfn < g_PfnAllocator.max_frames, "PfnFreePages: PFN OUT OF BOUNDS");
-        ASSERT(page->PageLocation == MM_PFN_STATE::ACTIVE_AND_VALID,
+        ASSERT(page->page_location == MM_PFN_STATE::ACTIVE_AND_VALID,
                "PfnFreePages: DOUBLE FREE DETECTED");
 
         while (order < BUDDY_MAX_ORDER - 1) {
@@ -126,7 +126,7 @@ namespace trunk::mem
 
             MMPFN *buddy_page = &g_PfnAllocator.mm_pfn_database[buddy_pfn];
 
-            if (buddy_page->PageLocation != MM_PFN_STATE::FREE_PAGE_LIST ||
+            if (buddy_page->page_location != MM_PFN_STATE::FREE_PAGE_LIST ||
                 buddy_page->order != order)
                 break;
 
@@ -145,8 +145,8 @@ namespace trunk::mem
             order++;
         }
 
-        page->order        = order;
-        page->PageLocation = MM_PFN_STATE::FREE_PAGE_LIST;
+        page->order         = order;
+        page->page_location = MM_PFN_STATE::FREE_PAGE_LIST;
 
         page->node.next                  = g_PfnAllocator.free_lists[order];
         g_PfnAllocator.free_lists[order] = &page->node;

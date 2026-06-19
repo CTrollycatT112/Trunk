@@ -26,6 +26,19 @@
 
 namespace trunk::mem
 {
+    // TODO: THIS IS A FORWARD DECL, NOT DEFINED YET.
+    // TO BE DEFINED DURING PS.
+    struct EProcess;
+    using PEPROCESS = EProcess *;
+
+    struct MmRmapEntry
+    {
+        MmRmapEntry *next;
+        PEPROCESS process;
+        PVOID virtual_address;
+    };
+    using PMM_RMAP_ENTRY = MmRmapEntry *;
+
     enum class MM_PFN_STATE : BYTE
     {
         ZEROED_PAGE_LIST = 0,
@@ -41,14 +54,16 @@ namespace trunk::mem
     struct MmPfn
     {
         BYTE order;
-        MM_PFN_STATE PageLocation;
+        MM_PFN_STATE page_location;
         FreeAreaNode node;
+        PMM_RMAP_ENTRY rmap_list_head;
+        ULONG reference_count;
     };
 
     using MMPFN   = MmPfn;
     using PMMPFN  = MmPfn *;
     using PPMMPFN = MmPfn **;
 
-    using PFN_NUM = DWORD;
+    using PFN_NUM = QWORD;
 
 } // namespace trunk::mem
