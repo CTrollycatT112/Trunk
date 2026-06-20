@@ -85,4 +85,4 @@ namespace trunk::drivers::pic
      *  PURPOSE : Disable the PIC driver                                             *
      ********************************************************************************/
     VOID PicDisable() noexcept;
-}; // namespace trunk::drivers::pic
+} // namespace trunk::drivers::pic

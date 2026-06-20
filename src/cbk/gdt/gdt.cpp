@@ -34,12 +34,12 @@ namespace trunk::gdt
     {
         /* *******************************************************************************
          *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : write_segment                                                      *
+         *  FUNC    : WriteGdtSegment                                                    *
          *  DATE    : 2026                                                               *
          *  PURPOSE : Utility to write a GDT segment                                     *
          ********************************************************************************/
-        static VOID write_segment(GdtEntry *entry, WORD limit, DWORD base, BYTE access,
-                                  BYTE flags) noexcept
+        static VOID WriteGdtSegment(GdtEntry *entry, WORD limit, DWORD base, BYTE access,
+                                    BYTE flags) noexcept
         {
             entry->limit_low        = limit & 0xFFFF;
             entry->base_low         = base & 0xFFFF;
@@ -60,16 +60,16 @@ namespace trunk::gdt
     {
         tklib::memset(&gdt, 0, sizeof(GdtLayout));
 
-        write_segment(&gdt.kernel_code, 0, 0,
-                      GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_EXECUTABLE | GDT_READ_WRITE,
-                      GDT_LONG_MODE);
-        write_segment(&gdt.kernel_data, 0, 0, GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_READ_WRITE,
-                      0);
-        write_segment(&gdt.user_code, 0, 0,
-                      GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_EXECUTABLE | GDT_READ_WRITE,
-                      GDT_LONG_MODE);
-        write_segment(&gdt.user_data, 0, 0, GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_READ_WRITE,
-                      0);
+        WriteGdtSegment(&gdt.kernel_code, 0, 0,
+                        GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_EXECUTABLE | GDT_READ_WRITE,
+                        GDT_LONG_MODE);
+        WriteGdtSegment(&gdt.kernel_data, 0, 0,
+                        GDT_PRESENT | GDT_RING0 | GDT_SYSTEM | GDT_READ_WRITE, 0);
+        WriteGdtSegment(&gdt.user_code, 0, 0,
+                        GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_EXECUTABLE | GDT_READ_WRITE,
+                        GDT_LONG_MODE);
+        WriteGdtSegment(&gdt.user_data, 0, 0, GDT_PRESENT | GDT_RING3 | GDT_SYSTEM | GDT_READ_WRITE,
+                        0);
     }
 
     /* *******************************************************************************

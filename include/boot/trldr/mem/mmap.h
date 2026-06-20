@@ -15,7 +15,6 @@
  *  limitations under the License.                                              *
  *                                                                              *
  ********************************************************************************
- *                                                                              *
  *  AUTHOR  : Trollycat                                                         *
  *  MODULE  : Bootstrapping                                                     *
  *  DATE    : 2026                                                              *
@@ -29,13 +28,14 @@
 
 namespace trunk::boot
 {
-    inline constexpr DWORD TAG_END        = 0;
-    inline constexpr DWORD TAG_BOOTLOADER = 2;
-    inline constexpr DWORD TAG_MMAP       = 6;
-    inline constexpr DWORD MMAP_AVAILABLE = 1;
-    inline constexpr DWORD MMAP_ACPI      = 3;
-    inline constexpr DWORD MMAP_NVS       = 4;
-    inline constexpr DWORD MMAP_BADRAM    = 5;
+    constexpr DWORD TAG_END        = 0;
+    constexpr DWORD TAG_BOOTLOADER = 2;
+    constexpr DWORD TAG_MMAP       = 6;
+
+    constexpr DWORD MMAP_AVAILABLE = 1;
+    constexpr DWORD MMAP_ACPI      = 3;
+    constexpr DWORD MMAP_NVS       = 4;
+    constexpr DWORD MMAP_BADRAM    = 5;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
