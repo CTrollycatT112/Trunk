@@ -26,7 +26,7 @@
 
 #include <macros.h>
 
-namespace trunk::boot
+namespace cbk::boot
 {
     struct GNU_PACKED MB2Tag
     {
@@ -139,4 +139,4 @@ namespace trunk::boot
         }
     }
 
-} // namespace trunk::boot
+} // namespace cbk::boot

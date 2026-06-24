@@ -27,7 +27,7 @@
 
 #include <tklib/math.h>
 
-namespace trunk::gdt
+namespace cbk::gdt
 {
     static Tss s_tss{};
 
@@ -80,4 +80,4 @@ namespace trunk::gdt
     {
         return s_tss;
     }
-} // namespace trunk::gdt
+} // namespace cbk::gdt

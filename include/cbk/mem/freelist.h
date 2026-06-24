@@ -27,7 +27,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::mem
+namespace cbk::mem
 {
     extern PMMPFN mm_pfn_database;
 
@@ -156,4 +156,4 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD PFN_NUM MmAllocPage(ULONG type) noexcept;
 
-} // namespace trunk::mem
+} // namespace cbk::mem

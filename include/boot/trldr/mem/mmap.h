@@ -26,7 +26,7 @@
 #include <boot/trldr/mb2/boot.h>
 #include <types.h>
 
-namespace trunk::boot
+namespace cbk::boot
 {
     CONSTEXPR DWORD TAG_END        = 0;
     CONSTEXPR DWORD TAG_BOOTLOADER = 2;
@@ -45,4 +45,4 @@ namespace trunk::boot
      * *****************************************************************************/
     VOID ParseMb2(ULONG_PTR mb2_phys, BootInfo &info) noexcept;
 
-} // namespace trunk::boot
+} // namespace cbk::boot

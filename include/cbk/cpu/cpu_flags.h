@@ -24,7 +24,7 @@
 
 #include <types.h>
 
-namespace trunk::cpu
+namespace cbk::cpu
 {
     CONSTEXPR QWORD CR0_PE = 0x00000001;
     CONSTEXPR QWORD CR0_MP = 0x00000002;
@@ -74,4 +74,4 @@ namespace trunk::cpu
     CONSTEXPR QWORD FEC_U  = 0x4;
 
     CONSTEXPR QWORD EFER_NXE = 11;
-} // namespace trunk::cpu
+} // namespace cbk::cpu

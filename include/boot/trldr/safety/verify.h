@@ -26,7 +26,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::boot
+namespace cbk::boot
 {
     INLINE_CONST DWORD MB2_MAGIC     = 0x36d76289;
     INLINE_CONST DWORD MB2_PTR_MIN   = 0x1000;
@@ -50,4 +50,4 @@ namespace trunk::boot
      * *****************************************************************************/
     NO_DISCARD BOOL VerifyMb2Pointer(DWORD phys) noexcept;
 
-} // namespace trunk::boot
+} // namespace cbk::boot

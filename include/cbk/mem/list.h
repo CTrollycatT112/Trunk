@@ -30,7 +30,7 @@
     ((type *)((PCHAR)(address) - (SIZE_T)(&((type *)0)->field)))
 #endif
 
-namespace trunk::mem
+namespace cbk::mem
 {
     struct ListEntry
     {
@@ -105,4 +105,4 @@ namespace trunk::mem
         flink->blink      = blink;
     }
 
-} // namespace trunk::mem
+} // namespace cbk::mem

@@ -24,7 +24,7 @@
 
 #include <version.h>
 
-namespace trunk::kernel
+namespace cbk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -33,4 +33,4 @@ namespace trunk::kernel
      *  PURPOSE : Welcomes the user to Trunk                                         *
      ********************************************************************************/
     VOID MUWelcome() noexcept;
-} // namespace trunk::kernel
+} // namespace cbk::kernel

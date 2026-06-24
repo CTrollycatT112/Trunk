@@ -29,7 +29,7 @@
 
 #include <macros.h>
 
-namespace trunk::kernel
+namespace cbk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -39,4 +39,4 @@ namespace trunk::kernel
      ********************************************************************************/
     extern "C" NO_RETURN VOID CbkStartup(CONST boot::BootInfo &info) noexcept;
 
-} // namespace trunk::kernel
+} // namespace cbk::kernel

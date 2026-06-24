@@ -24,7 +24,7 @@
 #include <cbk/hal/io.h>
 #include <drivers/hal/pic.h>
 
-namespace trunk::drivers::pic
+namespace cbk::drivers::pic
 {
     namespace
     {
@@ -116,4 +116,4 @@ namespace trunk::drivers::pic
         hal::OutB(PIC2_DATA, 0xFF);
     }
 
-}; // namespace trunk::drivers::pic
+}; // namespace cbk::drivers::pic

@@ -18,9 +18,9 @@ Make sure when writing code, use modern C++ 23 style.
 
 # 4.
 
-Make sure that all of your .cpp or .h files follow our namespace structure, for tklib it's just tklib:: for all of them, however for trunk. it's trunk::subsystem, ex: trunk::gdt
+Make sure that all of your .cpp or .h files follow our namespace structure, for tklib it's just tklib:: for all of them, however for trunk. it's cbk::subsystem, ex: cbk::gdt
 
-The only exception is Drivers, which are 3 layers. trunk::drivers::NAME, ex: trunk::drivers::serial
+The only exception is Drivers, which are 3 layers. cbk::drivers::NAME, ex: cbk::drivers::serial
 
 # 5.
 

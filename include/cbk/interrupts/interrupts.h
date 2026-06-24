@@ -27,7 +27,7 @@
 
 #include <cbk/interrupts/dispatcher.h>
 
-namespace trunk::interrupts
+namespace cbk::interrupts
 {
     using InterruptHandler = VOID (*)(InterruptFrame *frame, PVOID ctx);
 
@@ -54,4 +54,4 @@ namespace trunk::interrupts
      ********************************************************************************/
     VOID ExecuteInterruptHandler(BYTE vector, InterruptFrame *frame) noexcept;
 
-} // namespace trunk::interrupts
+} // namespace cbk::interrupts

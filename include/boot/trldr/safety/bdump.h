@@ -25,7 +25,7 @@
 
 #include <boot/trldr/mb2/boot.h>
 
-namespace trunk::boot
+namespace cbk::boot
 {
 
     /* *******************************************************************************
@@ -36,4 +36,4 @@ namespace trunk::boot
      ********************************************************************************/
     VOID BDump(CONST BootInfo &info) noexcept;
 
-} // namespace trunk::boot
+} // namespace cbk::boot

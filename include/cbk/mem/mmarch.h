@@ -27,7 +27,9 @@
 
 #include <cbk/hal/io.h>
 
-namespace trunk::mem
+#include <kmlayout.h>
+
+namespace cbk::mem
 {
     CONSTEXPR QWORD KERNEL_VMA   = 0xFFFFFFFF80000000ULL;
     CONSTEXPR QWORD PHYSMAP_BASE = 0xFFFF800000000000ULL;
@@ -83,12 +85,11 @@ namespace trunk::mem
         QWORD pml4_phys;
         QWORD base;
         SIZE_T size;
-        LIST_ENTRY vad_list_head;
     };
 
     struct MmRmapEntry
     {
-        MmRmapEntry *next;
+        LIST_ENTRY list_entry;
         ArchAspace *space;
         PVOID virtual_address;
     };
@@ -244,8 +245,10 @@ namespace trunk::mem
      ********************************************************************************/
     NO_DISCARD static INLINE QWORD KvaddrToPaddr(QWORD kvaddr) noexcept
     {
-        if (kvaddr >= KERNEL_VMA)
-            return kvaddr - KERNEL_VMA;
+        if (kvaddr >= KERNEL_VMA) {
+            QWORD k_phys_start = reinterpret_cast<QWORD>(__kernel_phys_start);
+            return (kvaddr - KERNEL_VMA) + k_phys_start;
+        }
         return kvaddr - PHYSMAP_BASE;
     }
 
@@ -271,4 +274,4 @@ namespace trunk::mem
         QWORD cr3 = hal::ReadCr3();
         hal::WriteCr3(cr3);
     }
-} // namespace trunk::mem
+} // namespace cbk::mem

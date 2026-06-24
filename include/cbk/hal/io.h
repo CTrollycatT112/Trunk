@@ -25,7 +25,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::hal
+namespace cbk::hal
 {
 
     /* *******************************************************************************
@@ -310,4 +310,4 @@ namespace trunk::hal
         return (static_cast<QWORD>(high) << 32) | low;
     }
 
-} // namespace trunk::hal
+} // namespace cbk::hal

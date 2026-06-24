@@ -32,7 +32,7 @@
 #include <assert.h>
 #include <version.h>
 
-namespace trunk::boot
+namespace cbk::boot
 {
     extern "C" NO_RETURN VOID CbkStartup(CONST BootInfo &info) noexcept;
 
@@ -96,4 +96,4 @@ namespace trunk::boot
         ASSERT(FALSE, "CbkStartup() suddenly dropped: CbkLoad()");
     }
 
-} // namespace trunk::boot
+} // namespace cbk::boot

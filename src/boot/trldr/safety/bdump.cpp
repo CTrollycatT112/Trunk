@@ -27,9 +27,9 @@
 
 #include <tklib/formatter.h>
 
-namespace serial = trunk::drivers::serial;
+namespace serial = cbk::drivers::serial;
 
-namespace trunk::boot
+namespace cbk::boot
 {
     static CHAR s_buf[67];
 
@@ -70,4 +70,4 @@ namespace trunk::boot
         serial::SerialPuts("\n");
     }
 
-} // namespace trunk::boot
+} // namespace cbk::boot

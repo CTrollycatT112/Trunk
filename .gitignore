@@ -20,3 +20,6 @@ disk.img
 *.swp
 *.swo
 *~
+
+# Tracking
+FILSTACK

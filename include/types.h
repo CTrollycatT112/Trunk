@@ -127,7 +127,7 @@ namespace limits
     INLINE_CONST LONG_PTR LONG_PTR_max   = INTPTR_MAX;
 } // namespace limits
 
-namespace trunk::mem
+namespace cbk::mem
 {
     struct ListEntry;
     using LIST_ENTRY  = ListEntry;
@@ -148,7 +148,7 @@ namespace trunk::mem
     struct MmPte;
     using MMPTE  = MmPte;
     using PMMPTE = MmPte *;
-} // namespace trunk::mem
+} // namespace cbk::mem
 
 INLINE_CONST BOOL TRUE  = true;
 INLINE_CONST BOOL FALSE = false;

@@ -26,7 +26,7 @@
 
 #include <types.h>
 
-namespace trunk::interrupts
+namespace cbk::interrupts
 {
     // clang-format off
     #pragma pack(push, 1)
@@ -62,4 +62,4 @@ namespace trunk::interrupts
     #pragma pack(pop)
 
     // clang-format on
-} // namespace trunk::interrupts
+} // namespace cbk::interrupts

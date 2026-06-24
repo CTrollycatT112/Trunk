@@ -25,7 +25,11 @@
 #include <cbk/hal/io.h>
 #include <cbk/kern/kabort.h>
 
-namespace trunk::mem
+// NOTE: CURRENTLY, THIS WILL FAIL 100% OF THE TIME DURING A PAGE FAULT
+// LATER, IT WILL BE IMPROVED TO TRY AND STOP THE PAGE FAULT
+// BUT IF A PAGE FAULT OCCURS NOW, IT WILL CRASH INSTANTLY
+
+namespace cbk::mem
 {
 
     /* *******************************************************************************
@@ -39,8 +43,7 @@ namespace trunk::mem
         ULONG_PTR faulting_address = hal::ReadCr2();
 
         LONG status = MmAccessFault(faulting_address, frame);
-
-        if (status == STATUS_SUCCESS)
+        if (status == STATUS_SUCCESS) UNLIKELY
             return;
 
         kernel::KAbort("FATAL_PAGE_FAULT");
@@ -65,4 +68,4 @@ namespace trunk::mem
         return STATUS_ACCESS_VIOLATION;
     }
 
-} // namespace trunk::mem
+} // namespace cbk::mem

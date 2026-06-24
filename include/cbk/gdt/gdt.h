@@ -27,7 +27,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::gdt
+namespace cbk::gdt
 {
     INLINE_CONST BYTE GDT_PRESENT    = 0x80;
     INLINE_CONST BYTE GDT_RING0      = 0x00;
@@ -61,4 +61,4 @@ namespace trunk::gdt
      ********************************************************************************/
     NO_DISCARD WORD GdtInstallTss(CONST Tss *tss_ptr) noexcept;
 
-} // namespace trunk::gdt
+} // namespace cbk::gdt

@@ -26,7 +26,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::kernel
+namespace cbk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -35,4 +35,4 @@ namespace trunk::kernel
      *  PURPOSE : Halts the kernel forever and prints the message                    *
      ********************************************************************************/
     NO_RETURN VOID KAbort(PCSTR message) noexcept;
-} // namespace trunk::kernel
+} // namespace cbk::kernel

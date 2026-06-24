@@ -16,42 +16,23 @@
  *                                                                               *
  *********************************************************************************
  *  AUTHOR  : Trollycat                                                          *
- *  MODULE  : Memory types                                                       *
+ *  MODULE  : Memblock                                                           *
  *  DATE    : 2026                                                               *
- *  PURPOSE : Stores common memory types and handlers                            *
+ *  PURPOSE : Early boot-stage allocator, PFN is not available at this time      *
  ********************************************************************************/
 #pragma once
 
-#include <macros.h>
-#include <types.h>
+// Memblock is used when we're in early boot-stage, and need to allocate some space to startup the
+// advanced memory management system.
+// For example, the PFN database needs an allocated spot in memory for it's structures
+// After the system is allocated and setup, memblock is discarded and never used again
+// Think of it like the 'initramfs' of memory management
+
+// Usually in production operating systems, they manipulate addresses and stuff to actually fully
+// get rid of the memblock For Trunk, we're just gonna stop using it Doing that only saves a few
+// bits of memory, which isn't important for Trunk
 
 namespace cbk::mem
 {
-    INLINE_CONST ULONG MEM_COMMIT              = 0x00001000;
-    INLINE_CONST ULONG MEM_RESERVE             = 0x00002000;
-    INLINE_CONST ULONG MEM_REPLACE_PLACEHOLDER = 0x00004000;
-    INLINE_CONST ULONG MEM_RELEASE             = 0x00008000;
-    INLINE_CONST ULONG MEM_FREE                = 0x00010000;
-    INLINE_CONST ULONG MEM_RESET               = 0x00080000;
-    INLINE_CONST ULONG MEM_TOP_DOWN            = 0x00100000;
-    INLINE_CONST ULONG MEM_LARGE_PAGES         = 0x20000000;
 
-    INLINE_CONST SIZE_T MM_PFN_STATE_COUNT = 7;
-
-    enum class MM_PFN_STATE : BYTE
-    {
-        ZEROED_PAGE_LIST = 0,
-        FREE_PAGE_LIST   = 1,
-        ACTIVE_AND_VALID = 6
-    };
-
-    enum class MC_TYPE : ULONG
-    {
-        SYSTEM     = 1,
-        USER       = 2,
-        NPPOOL     = 3,
-        PPOOL      = 4,
-        CACHE      = 5,
-        CONTIGUOUS = 6
-    };
 } // namespace cbk::mem

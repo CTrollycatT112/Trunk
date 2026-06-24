@@ -25,7 +25,7 @@
 #include <cbk/hal/io.h>
 #include <types.h>
 
-namespace trunk::drivers::serial
+namespace cbk::drivers::serial
 {
     INLINE_CONST WORD SERIAL_COM1_BASE        = 0x3F8;
     INLINE_CONST WORD SERIAL_REG_DATA         = SERIAL_COM1_BASE + 0;
@@ -74,4 +74,4 @@ namespace trunk::drivers::serial
      * *****************************************************************************/
     VOID SerialPuts(PCSTR s) noexcept;
 
-} // namespace trunk::drivers::serial
+} // namespace cbk::drivers::serial

@@ -26,7 +26,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::interrupts
+namespace cbk::interrupts
 {
     struct GNU_PACKED InterruptFrame
     {
@@ -54,4 +54,4 @@ namespace trunk::interrupts
      ********************************************************************************/
     extern "C" VOID KInterruptDispatcher(InterruptFrame *frame) noexcept;
 
-} // namespace trunk::interrupts
+} // namespace cbk::interrupts

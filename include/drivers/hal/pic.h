@@ -24,7 +24,7 @@
 
 #include <types.h>
 
-namespace trunk::drivers::pic
+namespace cbk::drivers::pic
 {
 
     // clang-format off
@@ -85,4 +85,4 @@ namespace trunk::drivers::pic
      *  PURPOSE : Disable the PIC driver                                             *
      ********************************************************************************/
     VOID PicDisable() noexcept;
-} // namespace trunk::drivers::pic
+} // namespace cbk::drivers::pic

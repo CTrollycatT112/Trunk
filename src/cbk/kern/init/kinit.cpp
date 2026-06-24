@@ -32,7 +32,7 @@
 
 #define STARTUP_FUNC_FLAGS extern "C" NO_RETURN __attribute__((section(".text")))
 
-namespace trunk::kernel
+namespace cbk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -65,4 +65,4 @@ namespace trunk::kernel
             asm volatile("sti; hlt");
         }
     }
-} // namespace trunk::kernel
+} // namespace cbk::kernel

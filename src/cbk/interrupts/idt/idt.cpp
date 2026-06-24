@@ -24,7 +24,7 @@
 
 extern "C" CONST QWORD g_InterruptVectorTable[256];
 
-namespace trunk::interrupts
+namespace cbk::interrupts
 {
     static IdtDescriptor g_IdtEntries[256] ALIGNED(16);
 
@@ -76,4 +76,4 @@ namespace trunk::interrupts
         asm volatile("lidt %0" : : "m"(idtr));
     }
 
-} // namespace trunk::interrupts
+} // namespace cbk::interrupts

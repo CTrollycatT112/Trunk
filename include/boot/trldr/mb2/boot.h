@@ -26,7 +26,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::boot
+namespace cbk::boot
 {
     enum class MemoryType : DWORD
     {
@@ -87,4 +87,4 @@ namespace trunk::boot
      ********************************************************************************/
     NO_DISCARD PCSTR MemoryTypeString(MemoryType type) noexcept;
 
-} // namespace trunk::boot
+} // namespace cbk::boot

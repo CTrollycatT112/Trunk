@@ -35,15 +35,12 @@
 #define ASSERT_IS_CBK_PFN(pfn_num)                                                                 \
     ASSERT((pfn_num) != 0 && (pfn_num) <= mm_highest_physical_page, "Invalid PFN provided")
 
-namespace trunk::mem
+namespace cbk::mem
 {
-    INLINE_CONST SIZE_T BUDDY_MAX_ORDER = 11;
-
     extern PMMPFN g_MmPfnDatabase;
 
     struct MmPfn
     {
-        BYTE order;
         MM_PFN_STATE page_location;
         ListEntry list_entry;
         PMM_RMAP_ENTRY rmap_list_head;
@@ -94,4 +91,4 @@ namespace trunk::mem
         return (PFN_NUM)(pfn_entry - g_MmPfnDatabase);
     }
 
-} // namespace trunk::mem
+} // namespace cbk::mem

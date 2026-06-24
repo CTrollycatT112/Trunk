@@ -26,7 +26,7 @@
 #include <drivers/hal/pic.h>
 #include <drivers/serial/serial.h>
 
-namespace trunk::interrupts
+namespace cbk::interrupts
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -45,4 +45,4 @@ namespace trunk::interrupts
 
         ExecuteInterruptHandler(vector, frame);
     }
-} // namespace trunk::interrupts
+} // namespace cbk::interrupts

@@ -25,9 +25,9 @@
 
 #include <version.h>
 
-namespace serial = trunk::drivers::serial;
+namespace serial = cbk::drivers::serial;
 
-namespace trunk::kernel
+namespace cbk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -45,4 +45,4 @@ namespace trunk::kernel
         serial::SerialPuts("VERSION: ");
         serial::SerialPuts(TrGetVersion().build_string);
     }
-} // namespace trunk::kernel
+} // namespace cbk::kernel

@@ -43,7 +43,7 @@ asm(".data\n"
     "__stack_top:\n"
     "    .space 8\n");
 
-namespace trunk::kernel
+namespace cbk::kernel
 {
 
     NO_RETURN VOID KAbort(PCSTR message) noexcept
@@ -53,4 +53,4 @@ namespace trunk::kernel
         std::abort();
     }
 
-} // namespace trunk::kernel
+} // namespace cbk::kernel

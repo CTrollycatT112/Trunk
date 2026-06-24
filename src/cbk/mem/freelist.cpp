@@ -26,7 +26,7 @@
 
 #include <assert.h>
 
-namespace trunk::mem
+namespace cbk::mem
 {
     MMPFN *g_MmPfnDatabase = nullptr;
 
@@ -306,4 +306,4 @@ namespace trunk::mem
         return pfn_offset;
     }
 
-} // namespace trunk::mem
+} // namespace cbk::mem

@@ -25,7 +25,7 @@
 
 #include <macros.h>
 
-namespace trunk::kernel
+namespace cbk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -47,4 +47,4 @@ namespace trunk::kernel
                      "jmp .lockdown_loop");
         __builtin_unreachable();
     }
-} // namespace trunk::kernel
+} // namespace cbk::kernel

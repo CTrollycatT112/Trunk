@@ -29,7 +29,7 @@
 
 #include <cbk/desc/descriptor.h>
 
-namespace trunk::interrupts
+namespace cbk::interrupts
 {
     STATIC_ASSERT(sizeof(IdtDescriptor) == 16, "IdtDescriptor must be exactly 16 bytes!");
     STATIC_ASSERT(sizeof(IdtrPointer) == 10, "IdtrPointer must be exactly 10 bytes!");
@@ -42,4 +42,4 @@ namespace trunk::interrupts
      ********************************************************************************/
     VOID IdtInit() noexcept;
 
-} // namespace trunk::interrupts
+} // namespace cbk::interrupts

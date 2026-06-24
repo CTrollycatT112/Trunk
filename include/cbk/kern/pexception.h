@@ -26,7 +26,7 @@
 
 #include <cbk/interrupts/trap_frame.h>
 
-namespace trunk::kernel
+namespace cbk::kernel
 {
     struct ExceptionRecord
     {
@@ -43,4 +43,4 @@ namespace trunk::kernel
         ExceptionRecord *exception_record;
         interrupts::TrapFrame *context_record;
     };
-} // namespace trunk::kernel
+} // namespace cbk::kernel

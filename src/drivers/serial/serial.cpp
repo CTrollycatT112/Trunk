@@ -27,7 +27,7 @@
 
 #include <macros.h>
 
-namespace trunk::drivers::serial
+namespace cbk::drivers::serial
 {
     namespace
     {
@@ -118,4 +118,4 @@ namespace trunk::drivers::serial
             SerialPutChar(*s++);
     }
 
-} // namespace trunk::drivers::serial
+} // namespace cbk::drivers::serial

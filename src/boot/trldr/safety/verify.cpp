@@ -22,7 +22,7 @@
  * *****************************************************************************/
 #include <boot/trldr/safety/verify.h>
 
-namespace trunk::boot
+namespace cbk::boot
 {
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *
@@ -50,4 +50,4 @@ namespace trunk::boot
         return TRUE;
     }
 
-} // namespace trunk::boot
+} // namespace cbk::boot

@@ -27,7 +27,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::gdt
+namespace cbk::gdt
 {
     INLINE_CONST DWORD IST_STACK_SIZE = 4096;
 
@@ -54,4 +54,4 @@ namespace trunk::gdt
      *  PURPOSE : Get the current tss by reference                                   *
      ********************************************************************************/
     NO_DISCARD CONST Tss &TssGet() noexcept;
-} // namespace trunk::gdt
+} // namespace cbk::gdt

@@ -25,7 +25,7 @@
 
 #include <tklib/string.h>
 
-namespace trunk::gdt
+namespace cbk::gdt
 {
     static GdtLayout gdt;
     static GdtPointer gdt_pointer;
@@ -128,4 +128,4 @@ namespace trunk::gdt
         asm volatile("ltr %0" ::"r"(tss_selector));
     }
 
-} // namespace trunk::gdt
+} // namespace cbk::gdt

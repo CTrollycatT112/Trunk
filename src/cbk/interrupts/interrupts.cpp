@@ -27,7 +27,7 @@
 
 #include <cbk/kern/kabort.h>
 
-namespace trunk::interrupts
+namespace cbk::interrupts
 {
     static RegisteredHandler g_InterruptHandlers[256] = {};
 
@@ -66,4 +66,4 @@ namespace trunk::interrupts
         }
     }
 
-} // namespace trunk::interrupts
+} // namespace cbk::interrupts

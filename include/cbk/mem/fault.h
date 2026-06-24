@@ -28,7 +28,7 @@
 #include <macros.h>
 #include <types.h>
 
-namespace trunk::mem
+namespace cbk::mem
 {
     CONSTEXPR LONG STATUS_SUCCESS          = 0x00000000L;
     CONSTEXPR LONG STATUS_ACCESS_VIOLATION = static_cast<LONG>(0xC0000005UL);
@@ -50,4 +50,4 @@ namespace trunk::mem
     NO_DISCARD LONG MmAccessFault(ULONG_PTR faulting_address,
                                   interrupts::InterruptFrame *frame) noexcept;
 
-} // namespace trunk::mem
+} // namespace cbk::mem
