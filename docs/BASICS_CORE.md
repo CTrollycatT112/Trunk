@@ -4,8 +4,8 @@ This document covers the absolute basics for Trunk.
 
 ## Table of contents
 
-- [Bootloader](#chapter-1---Bootloader-Choice)
-- [Hardware Support](#chapter-2---Architecture-Support)
+- [Bootloader](#chapter-1---bootloader)
+- [Hardware Support](#chapter-2---hardware-support)
 
 # Chapter 1 - Bootloader
 
