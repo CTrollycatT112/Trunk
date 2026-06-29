@@ -46,7 +46,7 @@ struct KernelVersion
     WORD major;
     WORD minor;
     WORD patch;
-    CONST PCHAR build_string;
+    PCSTR build_string;
 };
 
 CONSTEXPR KernelVersion g_KernelVersion{.major        = TRUNK_VERSION_MAJOR,

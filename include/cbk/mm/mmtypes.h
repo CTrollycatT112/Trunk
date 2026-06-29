@@ -40,9 +40,12 @@ namespace cbk::mem
 
     enum class MM_PFN_STATE : BYTE
     {
-        ZEROED_PAGE_LIST = 0,
-        FREE_PAGE_LIST   = 1,
-        ACTIVE_AND_VALID = 6
+        ZEROED_PAGE_LIST   = 0,
+        FREE_PAGE_LIST     = 1,
+        RESERVED_PAGE_LIST = 2,
+        BAD_PAGE_LIST      = 3,
+        FIRMWARE_PAGE_LIST = 4,
+        ACTIVE_AND_VALID   = 6
     };
 
     enum class MC_TYPE : ULONG

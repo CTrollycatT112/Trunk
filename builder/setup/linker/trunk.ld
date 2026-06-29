@@ -78,7 +78,7 @@ SECTIONS
     }
 
     __kernel_phys_start = KERNEL_LMA;
-    __kernel_phys_end   = LOADADDR(.bss) + SIZEOF(.bss);
+    __kernel_phys_end   = LOADADDR(.stack) + SIZEOF(.stack);
 
     /DISCARD/ : {
         *(.comment)

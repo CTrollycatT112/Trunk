@@ -116,6 +116,7 @@ namespace cbk::boot
      * *****************************************************************************/
     VOID ParseMb2(ULONG_PTR mb2_phys, BootInfo &info) noexcept
     {
+        info.mmap_count     = 0;
         CONST ULONG_PTR end = mb2_phys + *reinterpret_cast<CONST DWORD *>(mb2_phys);
         CONST auto *tag     = reinterpret_cast<CONST MB2Tag *>(mb2_phys + 8);
 

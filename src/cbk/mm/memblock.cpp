@@ -242,9 +242,11 @@ namespace cbk::mem
             if (region.length == 0)
                 continue;
             if (region.Available())
-                MemblockAdd(region.base, region.length);
+                ASSERT(MemblockAdd(region.base, region.length),
+                       "MemblockInitialize: region.base, region.length, add failed");
             else
-                MemblockReserve(region.base, region.length);
+                ASSERT(MemblockReserve(region.base, region.length),
+                       "MemblockInitialize: region.base, region.length, reserve failed");
         }
     }
 
@@ -557,7 +559,7 @@ namespace cbk::mem
     NO_DISCARD QWORD MemblockAllocOrPanic(QWORD size, QWORD align) noexcept
     {
         QWORD addr = MemblockAlloc(size, align);
-        ASSERT(!addr, "MemblockAllocOrPanic: Failed to allocate addr");
+        ASSERT(addr, "MemblockAllocOrPanic: Failed to allocate addr");
         return addr;
     }
 
@@ -570,7 +572,8 @@ namespace cbk::mem
     VOID MemblockFree(PVOID ptr, SIZE_T size) noexcept
     {
         if (ptr)
-            MemblockPhysFree(KvaddrToPaddr(reinterpret_cast<QWORD>(ptr)), size);
+            ASSERT(MemblockPhysFree(KvaddrToPaddr(reinterpret_cast<QWORD>(ptr)), size),
+                   "MemblockFree: MemblockPhysFree failed");
     }
 
     /* *******************************************************************************
@@ -735,9 +738,12 @@ namespace cbk::mem
 
                         if (current_addr >= res_start && current_addr < res_end) {
                             PFN_NUM start_pfn = res_start / PAGE_SIZE;
-                            PFN_NUM page_cnt  = (res_end - res_start) / PAGE_SIZE;
+                            PFN_NUM end_pfn   = (res_end + PAGE_SIZE - 1) / PAGE_SIZE;
 
-                            for (PFN_NUM pfn = start_pfn; pfn < start_pfn + page_cnt; pfn++) {
+                            for (PFN_NUM pfn = start_pfn; pfn < end_pfn; pfn++) {
+                                if (pfn >= mm_highest_physical_page)
+                                    break;
+
                                 mm_pfn_database[pfn].page_location = MM_PFN_STATE::ACTIVE_AND_VALID;
                                 mm_pfn_database[pfn].reference_count = 1;
                             }
@@ -760,9 +766,12 @@ namespace cbk::mem
                 }
 
                 PFN_NUM start_pfn = free_start / PAGE_SIZE;
-                PFN_NUM page_cnt  = (free_end - free_start) / PAGE_SIZE;
+                PFN_NUM end_pfn   = free_end / PAGE_SIZE;
 
-                for (PFN_NUM pfn = start_pfn; pfn < start_pfn + page_cnt; pfn++) {
+                for (PFN_NUM pfn = start_pfn; pfn < end_pfn; pfn++) {
+                    if (pfn >= mm_highest_physical_page)
+                        break;
+
                     mm_pfn_database[pfn].page_location   = MM_PFN_STATE::FREE_PAGE_LIST;
                     mm_pfn_database[pfn].reference_count = 0;
 

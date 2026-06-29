@@ -29,6 +29,8 @@
 
 #include <drivers/hal/pic.h>
 
+#include <cbk/mm/fault.h>
+
 #define STARTUP_FUNC_FLAGS extern "C" NO_RETURN __attribute__((section(".text")))
 
 namespace cbk::kernel
@@ -55,7 +57,9 @@ namespace cbk::kernel
     STARTUP_FUNC_FLAGS VOID CbkStartup(CONST boot::BootInfo &info) noexcept
     {
         CbkSetupSubsystems(info);
+
         hal::Sti();
+        interrupts::RegisterInterruptHandler(14, mem::HandlePageFault);
 
         (VOID) info;
         for (;;) {

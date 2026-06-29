@@ -166,9 +166,8 @@ namespace cbk::mem
     extern PBOOT_ALLOCATION boot_blocks;
     extern SIZE_T boot_blocks_count;
 
-    NO_DISCARD BOOL MemblockType::Grow() noexcept
+    NO_DISCARD INLINE BOOL MemblockType::Grow() noexcept
     {
-
         if (!g_Memblock.allow_resize)
             return FALSE;
 
@@ -185,7 +184,6 @@ namespace cbk::mem
                 g_Memblock.memory.regions[i].phys_addr += new_size_bytes;
                 g_Memblock.memory.regions[i].size      -= new_size_bytes;
                 g_Memblock.memory.total_size           -= new_size_bytes;
-
                 break;
             }
         }
@@ -198,12 +196,13 @@ namespace cbk::mem
 
         if (new_regions == nullptr)
             return FALSE;
-
         for (SIZE_T i = 0; i < cnt; i++)
             new_regions[i] = regions[i];
 
-        if (g_Memblock.reserved.cnt < g_Memblock.reserved.max) {
+        regions = new_regions;
+        max     = new_max;
 
+        if (g_Memblock.reserved.cnt < g_Memblock.reserved.max) {
             SIZE_T r_cnt = g_Memblock.reserved.cnt;
 
             g_Memblock.reserved.regions[r_cnt].phys_addr  = new_array_phys;
@@ -211,13 +210,10 @@ namespace cbk::mem
             g_Memblock.reserved.regions[r_cnt].is_free    = FALSE;
             g_Memblock.reserved.total_size               += new_size_bytes;
             g_Memblock.reserved.cnt++;
+            return TRUE;
+        }
 
-        } else
-            return FALSE;
-
-        regions = new_regions;
-        max     = new_max;
-        return TRUE;
+        return FALSE;
     }
 
     /* *******************************************************************************
