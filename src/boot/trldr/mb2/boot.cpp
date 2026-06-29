@@ -82,7 +82,8 @@ namespace cbk::boot
         // TODO: IM PLANNING ON WRITING A BASIC NO BUFFER UART DRIVER FOR BOOT STAGE
         // THIS IS THE ACTUAL DRIVER, THIS CALL WILL BE REMOVED AND REPLACED WITH THE NEW BOOT CODE
         // DRIVER.
-        drivers::serial::SerialInit();
+        CBKSTATUS status = drivers::serial::SerialInit();
+        ASSERT(status == STATUS_SUCCESS, "CbkLoad: failed to initialize serial (uart) driver");
 
         if (!VerifyMB2(mb2_magic, mb2_phys))
             kernel::KAbort(

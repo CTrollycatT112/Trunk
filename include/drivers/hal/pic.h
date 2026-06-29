@@ -22,29 +22,26 @@
  ********************************************************************************/
 #pragma once
 
+#include <status.h>
 #include <types.h>
 
 namespace cbk::drivers::pic
 {
+    INLINE_CONST BYTE PIC1 = 0x20;
+    INLINE_CONST BYTE PIC2 = 0xA0;
 
-    // clang-format off
-    INLINE_CONST static BYTE PIC1         = 0x20;
-    INLINE_CONST static BYTE PIC2         = 0xA0;
+    INLINE_CONST BYTE PIC1_COMMAND = PIC1;
+    INLINE_CONST BYTE PIC1_DATA    = PIC1 + 1;
+    INLINE_CONST BYTE PIC2_COMMAND = PIC2;
+    INLINE_CONST BYTE PIC2_DATA    = PIC2 + 1;
 
-    INLINE_CONST static BYTE PIC1_COMMAND = PIC1;
-    INLINE_CONST static BYTE PIC1_DATA    = PIC1 + 1;
-    INLINE_CONST static BYTE PIC2_COMMAND = PIC2;
-    INLINE_CONST static BYTE PIC2_DATA    = PIC2 + 1;
-    
-    INLINE_CONST static BYTE PIC_EOI      = 0x20;
+    INLINE_CONST BYTE PIC_EOI = 0x20;
 
-    INLINE_CONST static BYTE PIC1_OFFSET  = 0x20;
-    INLINE_CONST static BYTE PIC2_OFFSET  = 0x28;
+    INLINE_CONST BYTE PIC1_OFFSET = 0x20;
+    INLINE_CONST BYTE PIC2_OFFSET = 0x28;
 
-    INLINE_CONST static BYTE ICW1_INIT    = 0x11;
-    INLINE_CONST static BYTE ICW4_8086    = 0x01;
-
-    // clang-format on
+    INLINE_CONST BYTE ICW1_INIT = 0x11;
+    INLINE_CONST BYTE ICW4_8086 = 0x01;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -52,7 +49,7 @@ namespace cbk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PIC driver                                          *
      ********************************************************************************/
-    VOID PicInit() noexcept;
+    NO_DISCARD CBKSTATUS PicInit() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

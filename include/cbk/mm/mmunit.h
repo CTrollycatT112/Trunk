@@ -27,6 +27,7 @@
 
 #include <assert.h>
 #include <attributes.h>
+#include <status.h>
 
 #include <cbk/hal/io.h>
 
@@ -92,7 +93,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Walks down the 4 levels, allocates missing sub-tables              *
      ********************************************************************************/
-    NO_DISCARD BOOL MmuMapPage4K(QWORD virt, QWORD phys, QWORD flags) noexcept;
+    NO_DISCARD CBKSTATUS MmuMapPage4K(QWORD virt, QWORD phys, QWORD flags) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -100,7 +101,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Walks down the final PTE, clears the entry, executes TLB flush     *
      ********************************************************************************/
-    NO_DISCARD BOOL MmuUnmapPage4K(QWORD virt) noexcept;
+    NO_DISCARD CBKSTATUS MmuUnmapPage4K(QWORD virt) noexcept;
 
     /* *******************************************************************************
      * AUTHOR  : Trollycat                                                           *
@@ -108,7 +109,8 @@ namespace cbk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Maps a continuous virtual range to a continuous physical range      *
      ********************************************************************************/
-    NO_DISCARD BOOL MmuMapRange4K(QWORD vstart, QWORD pstart, SIZE_T size, QWORD flags) noexcept;
+    NO_DISCARD CBKSTATUS MmuMapRange4K(QWORD vstart, QWORD pstart, SIZE_T size,
+                                       QWORD flags) noexcept;
 
     /* *******************************************************************************
      * AUTHOR  : Trollycat                                                           *
@@ -116,7 +118,7 @@ namespace cbk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Unmaps a continuous block of 4KB pages in one call                  *
      ********************************************************************************/
-    NO_DISCARD BOOL MmuUnmapRange4K(QWORD start, SIZE_T size) noexcept;
+    NO_DISCARD CBKSTATUS MmuUnmapRange4K(QWORD start, SIZE_T size) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -124,7 +126,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Modify an existing PTE's attribute bits                            *
      ********************************************************************************/
-    NO_DISCARD BOOL MMuProtectPage4K(QWORD virt, QWORD flags) noexcept;
+    NO_DISCARD CBKSTATUS MMuProtectPage4K(QWORD virt, QWORD flags) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -132,7 +134,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Checks if a range of virtual addresses has any existing mappings   *
      ********************************************************************************/
-    NO_DISCARD BOOL MmuIsRangeFree(QWORD start, SIZE_T size) noexcept;
+    NO_DISCARD CBKSTATUS MmuIsRangeFree(QWORD start, SIZE_T size) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -140,7 +142,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Checks if a page is present                                        *
      ********************************************************************************/
-    NO_DISCARD BOOL MmuIsPagePresent(QWORD virt) noexcept;
+    NO_DISCARD CBKSTATUS MmuIsPagePresent(QWORD virt) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *

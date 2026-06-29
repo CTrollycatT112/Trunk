@@ -43,7 +43,9 @@ namespace cbk::kernel
     {
         gdt::GdtInit();
         interrupts::IdtInit();
-        drivers::pic::PicInit();
+
+        CBKSTATUS status = drivers::pic::PicInit();
+        ASSERT(status == STATUS_SUCCESS, "CbkSetupSubsystems: Failed to init PIC");
     }
 
     /* *******************************************************************************

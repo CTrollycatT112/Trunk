@@ -22,8 +22,10 @@
  * *****************************************************************************/
 #pragma once
 
-#include <cbk/hal/io.h>
+#include <status.h>
 #include <types.h>
+
+#include <cbk/hal/io.h>
 
 namespace cbk::drivers::serial
 {
@@ -56,7 +58,7 @@ namespace cbk::drivers::serial
      *  DATE    : 2026                                                              *
      *  PURPOSE : Initialise COM1 at 115200 baud, 8N1, FIFO enabled                 *
      * *****************************************************************************/
-    VOID SerialInit() noexcept;
+    NO_DISCARD CBKSTATUS SerialInit() noexcept;
 
     /* ******************************************************************************
      *  AUTHOR  : Trollycat                                                         *

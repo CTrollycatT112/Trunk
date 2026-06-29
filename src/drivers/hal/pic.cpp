@@ -45,22 +45,20 @@ namespace cbk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PIC driver                                          *
      ********************************************************************************/
-    VOID PicInit() noexcept
+    NO_DISCARD CBKSTATUS PicInit() noexcept
     {
         hal::OutB(PIC1_COMMAND, ICW1_INIT);
         hal::OutB(PIC2_COMMAND, ICW1_INIT);
-
         hal::OutB(PIC1_DATA, PIC1_OFFSET);
         hal::OutB(PIC2_DATA, PIC2_OFFSET);
-
         hal::OutB(PIC1_DATA, 0x04);
         hal::OutB(PIC2_DATA, 0x02);
-
         hal::OutB(PIC1_DATA, ICW4_8086);
         hal::OutB(PIC2_DATA, ICW4_8086);
-
         hal::OutB(PIC1_DATA, 0x00);
         hal::OutB(PIC2_DATA, 0x00);
+
+        return STATUS_SUCCESS;
     }
 
     /* *******************************************************************************
