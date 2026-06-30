@@ -110,6 +110,8 @@ namespace cbk::mem
 
     constexpr QWORD NO_OF_PT_ENTRIES = 512;
 
+    constexpr QWORD ARR_BOOT_NODE_SIZE = 1024;
+
     union PAGE_TABLE_ENTRY {
         QWORD val;
 

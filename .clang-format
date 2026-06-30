@@ -32,5 +32,15 @@ TabWidth: 4
 UseTab: Never
 ColumnLimit: 100
 
-AttributeMacros: [UNLIKELY]
+# Parameter Alignment Layout
+BinPackParameters: false
+BinPackArguments: false
+AlignAfterOpenBracket: Align
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowAllArgumentsOnNextLine: false
+
+# Return Type Layout
+AlwaysBreakAfterReturnType: All
+
+AttributeMacros: [UNLIKELY, NO_DISCARD]
 ...
