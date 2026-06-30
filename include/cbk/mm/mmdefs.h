@@ -97,12 +97,39 @@ namespace cbk::mem
     constexpr ULONG PAGE_NOCACHE           = 0x00000200;
     constexpr ULONG PAGE_WRITECOMBINE      = 0x00000400;
 
+    constexpr ULONG IDX_BITSHIFT        = 0x1FF;
     constexpr ULONG VAD_STATE_COMMITTED = 0x02;
 
-    constexpr QWORD PTE_AVAIL = 0xE00;
-    constexpr QWORD PTE_USER  = PTE_AVAIL | PAGE_PRESENT | PAGE_WRITABLE | PAGE_USER;
+    constexpr QWORD TEXT_SECTION_HW_FLAGS   = PAGE_PRESENT | PAGE_GLOBAL;
+    constexpr QWORD RODATA_SECTION_HW_FLAGS = PAGE_PRESENT | PAGE_GLOBAL | PAGE_NX;
+    constexpr QWORD BSS_SECTION_HW_FLAGS    = PAGE_PRESENT | PAGE_WRITABLE | PAGE_GLOBAL | PAGE_NX;
+
+    constexpr QWORD PTE_AVAIL      = 0xE00;
+    constexpr QWORD PTE_USER       = PTE_AVAIL | PAGE_PRESENT | PAGE_WRITABLE | PAGE_USER;
+    constexpr QWORD PTE_FRAME_MASK = 0x000FFFFFFFFFF000ULL;
 
     constexpr QWORD NO_OF_PT_ENTRIES = 512;
+
+    union PAGE_TABLE_ENTRY {
+        QWORD val;
+
+        struct
+        {
+            QWORD present : 1;     // Bit 0
+            QWORD writable : 1;    // Bit 1
+            QWORD user : 1;        // Bit 2
+            QWORD pwt : 1;         // Bit 3
+            QWORD pcd : 1;         // Bit 4
+            QWORD accessed : 1;    // Bit 5
+            QWORD dirty : 1;       // Bit 6
+            QWORD large_page : 1;  // Bit 7
+            QWORD global : 1;      // Bit 8
+            QWORD available : 3;   // Bits 9-11
+            QWORD page_frame : 40; // Bits 12-51
+            QWORD reserved : 11;   // Bits 52-62
+            QWORD no_execute : 1;  // Bit 63
+        } Bits;
+    };
 
     struct ArchAspace
     {
@@ -125,6 +152,17 @@ namespace cbk::mem
         PVOID virtual_address;
     };
 
+    struct PageTable
+    {
+        PAGE_TABLE_ENTRY entries[NO_OF_PT_ENTRIES];
+    };
+
+    struct PteContext
+    {
+        QWORD payload;
+        QWORD extra;
+    };
+
     enum class MM_PFN_STATE : BYTE
     {
         ZEROED_PAGE_LIST   = 0,
@@ -143,6 +181,14 @@ namespace cbk::mem
         PPOOL      = 4,
         CACHE      = 5,
         CONTIGUOUS = 6
+    };
+
+    enum class PAGING_LEVEL : ULONG
+    {
+        PML4 = 39,
+        PDPT = 30,
+        PD   = 21,
+        PT   = 12
     };
 
     /* *******************************************************************************

@@ -26,13 +26,11 @@
 #include <cbk/intr/trap_frame.h>
 
 #include <attributes.h>
+#include <status.h>
 #include <types.h>
 
 namespace cbk::mem
 {
-    constexpr LONG STATUS_SUCCESS          = 0x00000000L;
-    constexpr LONG STATUS_ACCESS_VIOLATION = static_cast<LONG>(0xC0000005UL);
-
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : HandlePageFault                                                    *
@@ -47,7 +45,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Evaluates why the CPU faulted                                      *
      ********************************************************************************/
-    NO_DISCARD LONG MmAccessFault(ULONG_PTR faulting_address,
-                                  interrupts::InterruptFrame *frame) noexcept;
+    NO_DISCARD CBKSTATUS MmAccessFault(ULONG_PTR faulting_address,
+                                       interrupts::InterruptFrame *frame) noexcept;
 
 } // namespace cbk::mem

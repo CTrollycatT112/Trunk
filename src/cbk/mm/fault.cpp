@@ -51,12 +51,8 @@ namespace cbk::mem
     VOID HandlePageFault(interrupts::InterruptFrame *frame, MAYBE_UNUSED PVOID context) noexcept
     {
         ULONG_PTR faulting_address = hal::ReadCr2();
-
-        LONG status = MmAccessFault(faulting_address, frame);
-        if (status == STATUS_SUCCESS) UNLIKELY
-            return;
-
-        kernel::KAbort("FATAL_PAGE_FAULT");
+        CBKSTATUS status           = MmAccessFault(faulting_address, frame);
+        ASSERT(status == STATUS_SUCCESS, "FATAL_PAGE_FAULT");
     }
 
     /* *******************************************************************************
@@ -65,8 +61,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Evaluates why the CPU faulted                                      *
      ********************************************************************************/
-    NO_DISCARD LONG MmAccessFault(ULONG_PTR faulting_address,
-                                  interrupts::InterruptFrame *frame) noexcept
+    NO_DISCARD CBKSTATUS MmAccessFault(ULONG_PTR faulting_address,
+                                       interrupts::InterruptFrame *frame) noexcept
     {
         MAYBE_UNUSED BOOL is_present = (frame->error_code & 1) != 0;
         MAYBE_UNUSED BOOL is_write   = (frame->error_code & 2) != 0;

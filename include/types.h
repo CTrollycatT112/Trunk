@@ -125,6 +125,29 @@ namespace cbk::mem
     struct MmPte;
     using MMPTE  = MmPte;
     using PMMPTE = MmPte *;
+
+    struct PageTable;
+    using PAGE_TABLE  = PageTable;
+    using PPAGE_TABLE = PageTable *;
+
+    using PML4_TABLE  = PAGE_TABLE;
+    using PPML4_TABLE = PPAGE_TABLE;
+
+    using PDPT_TABLE  = PAGE_TABLE;
+    using PPDPT_TABLE = PPAGE_TABLE;
+
+    using PD_TABLE  = PAGE_TABLE;
+    using PPD_TABLE = PPAGE_TABLE;
+
+    using PT_TABLE  = PAGE_TABLE;
+    using PPT_TABLE = PPAGE_TABLE;
+
+    union PAGE_TABLE_ENTRY;
+    using PPAGE_TABLE_ENTRY = PAGE_TABLE_ENTRY *;
+
+    struct PteContext;
+    using PTE_CONTEXT  = PteContext;
+    using PPTE_CONTEXT = PteContext *;
 } // namespace cbk::mem
 
 INLINE_CONST BOOL TRUE  = true;

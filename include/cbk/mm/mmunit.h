@@ -34,6 +34,8 @@
 #include <cbk/mm/mmdefs.h>
 #include <cbk/mm/physical.h>
 
+#include <tklib/string.h>
+
 // Memory management unit...
 // This file is apart of the virtual memory system...
 
@@ -126,7 +128,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Modify an existing PTE's attribute bits                            *
      ********************************************************************************/
-    NO_DISCARD CBKSTATUS MMuProtectPage4K(QWORD virt, QWORD flags) noexcept;
+    NO_DISCARD CBKSTATUS MmuProtectPage4K(QWORD virt, QWORD flags) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
