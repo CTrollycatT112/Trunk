@@ -45,41 +45,46 @@ namespace cbk::drivers::pic
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PicInit                                                            *
+     *  FUNC    : HalInitializePic                                                   *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PIC driver                                          *
      ********************************************************************************/
-    NO_DISCARD CBKSTATUS PicInit() noexcept;
+    NO_DISCARD CBKSTATUS
+    HalInitializePic() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : IrqAck                                                             *
+     *  FUNC    : HalPicProcessInterruptRequest                                      *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Signals that an interrupt is being processed                       *
      ********************************************************************************/
-    VOID IrqAck(BYTE irq) noexcept;
+    VOID
+    HalPicProcessInterruptRequest(BYTE irq) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PicMask                                                            *
+     *  FUNC    : HalPicMaskInterruptRequest                                         *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Mask an IRQ (interrupt request)                                    *
      ********************************************************************************/
-    VOID PicMask(BYTE irq) noexcept;
+    VOID
+    HalPicMaskInterruptRequest(BYTE irq) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PicUnmask                                                          *
+     *  FUNC    : HalPicUnmaskInterruptRequest                                       *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Unmask an IRQ (interrupt request)                                  *
      ********************************************************************************/
-    VOID PicUnmask(BYTE irq) noexcept;
+    VOID
+    HalPicUnmaskInterruptRequest(BYTE irq) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PicDisable                                                         *
+     *  FUNC    : HalPicDisableDriver                                                *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Disable the PIC driver                                             *
      ********************************************************************************/
-    VOID PicDisable() noexcept;
+    VOID
+    HalPicDisableDriver() noexcept;
 } // namespace cbk::drivers::pic

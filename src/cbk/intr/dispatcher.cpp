@@ -41,7 +41,7 @@ namespace cbk::interrupts
 
         if (vector >= drivers::pic::PIC1_OFFSET && vector < (drivers::pic::PIC1_OFFSET + 16)) {
             const BYTE irq = vector - drivers::pic::PIC1_OFFSET;
-            drivers::pic::IrqAck(irq);
+            drivers::pic::HalPicProcessInterruptRequest(irq);
         }
 
         KeExecuteInterruptHandler(vector, frame);

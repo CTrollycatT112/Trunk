@@ -81,7 +81,7 @@ namespace cbk::drivers::serial
         hal::HalOutB(SERIAL_REG_INT_ENABLE, 0x01);
 
         interrupts::KeRegisterInterruptHandler(36, SerialInterruptHandler, nullptr);
-        drivers::pic::PicMask(4);
+        drivers::pic::HalPicMaskInterruptRequest(4);
 
         return STATUS_SUCCESS;
     }

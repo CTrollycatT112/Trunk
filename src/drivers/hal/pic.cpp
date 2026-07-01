@@ -28,8 +28,14 @@ namespace cbk::drivers::pic
 {
     namespace
     {
-        static VOID
-        GetPicLineProperties(BYTE &irq, WORD &out_port) noexcept
+        /* *******************************************************************************
+         *  AUTHOR  : Trollycat                                                          *
+         *  FUNC    : KiPicGetLineProperties                                             *
+         *  DATE    : 2026                                                               *
+         *  PURPOSE : Get traits of an IRQ line before modifying it                      *
+         ********************************************************************************/
+        VOID
+        KiPicGetLineProperties(BYTE &irq, WORD &out_port) noexcept
         {
             if (irq < 8)
                 out_port = PIC1_DATA;
@@ -42,12 +48,12 @@ namespace cbk::drivers::pic
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PicInit                                                            *
+     *  FUNC    : HalInitializePic                                                   *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PIC driver                                          *
      ********************************************************************************/
     NO_DISCARD CBKSTATUS
-    PicInit() noexcept
+    HalInitializePic() noexcept
     {
         hal::HalOutB(PIC1_COMMAND, ICW1_INIT);
         hal::HalOutB(PIC2_COMMAND, ICW1_INIT);
@@ -65,12 +71,12 @@ namespace cbk::drivers::pic
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : IrqAck                                                             *
+     *  FUNC    : HalProcessInterruptRequest                                         *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Signals that an interrupt is being processed                       *
      ********************************************************************************/
     VOID
-    IrqAck(BYTE irq) noexcept
+    HalPicProcessInterruptRequest(BYTE irq) noexcept
     {
         if (irq >= 8)
             hal::HalOutB(PIC2_COMMAND, PIC_EOI);
@@ -79,42 +85,42 @@ namespace cbk::drivers::pic
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PicMask                                                            *
+     *  FUNC    : HalPicMaskInterruptRequest                                         *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Mask an IRQ (interrupt request)                                    *
      ********************************************************************************/
     VOID
-    PicMask(BYTE irq) noexcept
+    HalPicMaskInterruptRequest(BYTE irq) noexcept
     {
         WORD port = 0;
-        GetPicLineProperties(irq, port);
+        KiPicGetLineProperties(irq, port);
         BYTE value = hal::HalInB(port) | (1 << irq);
         hal::HalOutB(port, value);
     }
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PicUnmask                                                          *
+     *  FUNC    : HalPicUnmaskInterruptRequest                                       *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Unmask an IRQ (interrupt request)                                  *
      ********************************************************************************/
     VOID
-    PicUnmask(BYTE irq) noexcept
+    HalPicUnmaskInterruptRequest(BYTE irq) noexcept
     {
         WORD port = 0;
-        GetPicLineProperties(irq, port);
+        KiPicGetLineProperties(irq, port);
         BYTE value = hal::HalInB(port) & ~(1 << irq);
         hal::HalOutB(port, value);
     }
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : PicDisable                                                         *
+     *  FUNC    : HalPicDisableDriver                                                *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Disable the PIC driver                                             *
      ********************************************************************************/
     VOID
-    PicDisable() noexcept
+    HalPicDisableDriver() noexcept
     {
         hal::HalOutB(PIC1_DATA, 0xFF);
         hal::HalOutB(PIC2_DATA, 0xFF);
