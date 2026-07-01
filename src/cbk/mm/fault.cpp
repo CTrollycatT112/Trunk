@@ -51,7 +51,7 @@ namespace cbk::mem
     VOID
     KiPageFault(interrupts::InterruptFrame *frame, MAYBE_UNUSED PVOID context) noexcept
     {
-        ULONG_PTR faulting_address = hal::ReadCr2();
+        ULONG_PTR faulting_address = hal::HalReadCr2();
         CBKSTATUS status           = MmAccessFault(faulting_address, frame);
         ASSERT(status == STATUS_SUCCESS, "FATAL_PAGE_FAULT");
     }

@@ -91,13 +91,13 @@ KeInterruptDispatchHandler() -> collects Interrupt -> Fires It off to KeExecuteI
 KeExecuteInterruptHandler() -> checks 2 things.
 
 1. If the interrupt Is mapped to a function, If so, calls that function
-2. If It is not mapped, It checks If the interrupt is an error, If so, -> KAbort()()
+2. If It is not mapped, It checks If the interrupt is an error, If so, -> KePerformBugCheck()()
 
 So our Interrupt system allows you to map a function to a specific interrupt(), even If It's an error.
 So for example, let's say you want to map Interrupt 3 (BREAKPOINT) to a Kernel debugger
 
 You can do so! Make the function, make sure It matches the correct structure, then register It via the register_handler() function.
-Then, If the Interrupt Is fired, It will call that function Instead of KAbort()().
+Then, If the Interrupt Is fired, It will call that function Instead of KePerformBugCheck()().
 
 You can test this!
 Perform:
@@ -106,16 +106,16 @@ asm volatile("int $3");
 
 This tells assembly to fire off interrupt 3 (which is BREAKPOINT).
 
-What Is 'KAbort()()'?
+What Is 'KePerformBugCheck()()'?
 
-KAbort()() Is basically the panic() of Trunk.
+KePerformBugCheck()() Is basically the panic() of Trunk.
 
-I wanted to be original, so I named It KAbort()()
+I wanted to be original, so I named It KePerformBugCheck()()
 
 Ever seen a windows blue screen? Well.. That's a panic() call.
 If an error occurs, It Is called
 
-KAbort()() prints an error message, and completely shuts down the kernel.
+KePerformBugCheck()() prints an error message, and completely shuts down the kernel.
 
 ENDING VERSION FOR TRUNK AS OF WEEK 1:
 0.9.9

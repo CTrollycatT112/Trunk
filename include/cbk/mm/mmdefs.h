@@ -496,7 +496,7 @@ namespace cbk::mem
     INLINE VOID
     TlbFlushPage(QWORD va) noexcept
     {
-        hal::InvLpg(va);
+        hal::HalInvLpg(va);
     }
 
     /* *******************************************************************************
@@ -508,8 +508,8 @@ namespace cbk::mem
     INLINE VOID
     TlbFlushAll() noexcept
     {
-        QWORD cr3 = hal::ReadCr3();
-        hal::WriteCr3(cr3);
+        QWORD cr3 = hal::HalReadCr3();
+        hal::HalWriteCr3(cr3);
     }
 
     /* *******************************************************************************
@@ -521,7 +521,7 @@ namespace cbk::mem
     INLINE VOID
     MemoryFence() noexcept
     {
-        hal::MFence();
+        hal::HalMFence();
     }
 
 } // namespace cbk::mem

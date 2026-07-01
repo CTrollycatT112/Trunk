@@ -46,7 +46,8 @@ asm(".data\n"
 namespace cbk::kernel
 {
 
-    NO_RETURN VOID KAbort(PCSTR message) noexcept
+    NO_RETURN VOID
+    KePerformBugCheck(PCSTR message) noexcept
     {
         std::printf("\n[ KERNEL PANIC ]: %s\n\n", message ? message : "No message provided");
         ADD_FAILURE() << "Kernel panicked: " << (message ? message : "");

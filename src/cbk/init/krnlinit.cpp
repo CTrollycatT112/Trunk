@@ -67,7 +67,7 @@ namespace cbk::kernel
     {
         CbkSetupSubsystems(info);
 
-        hal::Sti();
+        hal::HalSti();
         interrupts::KeRegisterInterruptHandler(14, mem::KiPageFault);
 
         (VOID) info;

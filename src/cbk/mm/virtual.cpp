@@ -218,7 +218,7 @@ namespace cbk::mem
                     template_pte.Bits.large_page = (traits.bytes_spanned > PAGE_SIZE) ? 1 : 0;
 
                     *info.entry = template_pte;
-                    hal::InvLpg(info.va);
+                    hal::HalInvLpg(info.va);
                     pages_mapped += pages_needed;
                 }
                 accum += traits.bytes_spanned;
@@ -540,7 +540,7 @@ namespace cbk::mem
         QWORD end_address     = MiVirtualPageNumberToAddress(found_vad->ending_vpn) + PAGE_SIZE;
 
         while (current_address < end_address) {
-            hal::InvLpg(current_address);
+            hal::HalInvLpg(current_address);
 
             PPAGE_TABLE_ENTRY entry   = nullptr;
             PAGING_LEVEL resolved_lvl = PAGING_LEVEL::PML4;
@@ -682,7 +682,7 @@ namespace cbk::mem
             BYTE *phys_ptr   = reinterpret_cast<BYTE *>(PaddrToKvaddr(exact_phys));
             if (write_to_target) {
                 tklib::memcpy(phys_ptr, curr_buf, info.chunk_size);
-                hal::InvLpg(info.va);
+                hal::HalInvLpg(info.va);
             } else
                 tklib::memcpy(curr_buf, phys_ptr, info.chunk_size);
             curr_buf += info.chunk_size;

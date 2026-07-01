@@ -28,7 +28,8 @@ namespace cbk::drivers::pic
 {
     namespace
     {
-        static VOID GetPicLineProperties(BYTE &irq, WORD &out_port) noexcept
+        static VOID
+        GetPicLineProperties(BYTE &irq, WORD &out_port) noexcept
         {
             if (irq < 8)
                 out_port = PIC1_DATA;
@@ -45,18 +46,19 @@ namespace cbk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the PIC driver                                          *
      ********************************************************************************/
-    NO_DISCARD CBKSTATUS PicInit() noexcept
+    NO_DISCARD CBKSTATUS
+    PicInit() noexcept
     {
-        hal::OutB(PIC1_COMMAND, ICW1_INIT);
-        hal::OutB(PIC2_COMMAND, ICW1_INIT);
-        hal::OutB(PIC1_DATA, PIC1_OFFSET);
-        hal::OutB(PIC2_DATA, PIC2_OFFSET);
-        hal::OutB(PIC1_DATA, 0x04);
-        hal::OutB(PIC2_DATA, 0x02);
-        hal::OutB(PIC1_DATA, ICW4_8086);
-        hal::OutB(PIC2_DATA, ICW4_8086);
-        hal::OutB(PIC1_DATA, 0x00);
-        hal::OutB(PIC2_DATA, 0x00);
+        hal::HalOutB(PIC1_COMMAND, ICW1_INIT);
+        hal::HalOutB(PIC2_COMMAND, ICW1_INIT);
+        hal::HalOutB(PIC1_DATA, PIC1_OFFSET);
+        hal::HalOutB(PIC2_DATA, PIC2_OFFSET);
+        hal::HalOutB(PIC1_DATA, 0x04);
+        hal::HalOutB(PIC2_DATA, 0x02);
+        hal::HalOutB(PIC1_DATA, ICW4_8086);
+        hal::HalOutB(PIC2_DATA, ICW4_8086);
+        hal::HalOutB(PIC1_DATA, 0x00);
+        hal::HalOutB(PIC2_DATA, 0x00);
 
         return STATUS_SUCCESS;
     }
@@ -67,11 +69,12 @@ namespace cbk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Signals that an interrupt is being processed                       *
      ********************************************************************************/
-    VOID IrqAck(BYTE irq) noexcept
+    VOID
+    IrqAck(BYTE irq) noexcept
     {
         if (irq >= 8)
-            hal::OutB(PIC2_COMMAND, PIC_EOI);
-        hal::OutB(PIC1_COMMAND, PIC_EOI);
+            hal::HalOutB(PIC2_COMMAND, PIC_EOI);
+        hal::HalOutB(PIC1_COMMAND, PIC_EOI);
     }
 
     /* *******************************************************************************
@@ -80,12 +83,13 @@ namespace cbk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Mask an IRQ (interrupt request)                                    *
      ********************************************************************************/
-    VOID PicMask(BYTE irq) noexcept
+    VOID
+    PicMask(BYTE irq) noexcept
     {
         WORD port = 0;
         GetPicLineProperties(irq, port);
-        BYTE value = hal::InB(port) | (1 << irq);
-        hal::OutB(port, value);
+        BYTE value = hal::HalInB(port) | (1 << irq);
+        hal::HalOutB(port, value);
     }
 
     /* *******************************************************************************
@@ -94,12 +98,13 @@ namespace cbk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Unmask an IRQ (interrupt request)                                  *
      ********************************************************************************/
-    VOID PicUnmask(BYTE irq) noexcept
+    VOID
+    PicUnmask(BYTE irq) noexcept
     {
         WORD port = 0;
         GetPicLineProperties(irq, port);
-        BYTE value = hal::InB(port) & ~(1 << irq);
-        hal::OutB(port, value);
+        BYTE value = hal::HalInB(port) & ~(1 << irq);
+        hal::HalOutB(port, value);
     }
 
     /* *******************************************************************************
@@ -108,10 +113,11 @@ namespace cbk::drivers::pic
      *  DATE    : 2026                                                               *
      *  PURPOSE : Disable the PIC driver                                             *
      ********************************************************************************/
-    VOID PicDisable() noexcept
+    VOID
+    PicDisable() noexcept
     {
-        hal::OutB(PIC1_DATA, 0xFF);
-        hal::OutB(PIC2_DATA, 0xFF);
+        hal::HalOutB(PIC1_DATA, 0xFF);
+        hal::HalOutB(PIC2_DATA, 0xFF);
     }
 
 }; // namespace cbk::drivers::pic

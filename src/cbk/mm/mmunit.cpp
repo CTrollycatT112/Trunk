@@ -171,7 +171,7 @@ namespace cbk::mem
         action(target_entry, ctx);
 
         if (target_entry->val != old_val)
-            hal::InvLpg(virt);
+            hal::HalInvLpg(virt);
 
         return STATUS_SUCCESS;
     }
@@ -274,7 +274,7 @@ namespace cbk::mem
     MmWriteCr3(QWORD pml4_phys) noexcept
     {
         ASSERT((pml4_phys & 0xFFF) == 0, "PML4 physical address must be page-aligned!");
-        hal::WriteCr3(pml4_phys);
+        hal::HalWriteCr3(pml4_phys);
     }
 
     /* *******************************************************************************

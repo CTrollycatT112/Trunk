@@ -30,9 +30,10 @@ namespace cbk::kernel
 {
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
-     *  FUNC    : KAbort()                                                           *
+     *  FUNC    : KePerformBugCheck()                                                *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Halts the kernel forever and prints the message                    *
      ********************************************************************************/
-    NO_RETURN VOID KAbort(PCSTR message) noexcept;
+    NO_RETURN VOID
+    KePerformBugCheck(PCSTR message) noexcept;
 } // namespace cbk::kernel

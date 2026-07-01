@@ -40,7 +40,7 @@ namespace cbk::drivers::serial
         NO_DISCARD BOOL
         SerialIsTransmitReady() noexcept
         {
-            return (hal::InB(SERIAL_REG_LINE_STATUS) & SERIAL_LSR_TX_EMPTY) != 0;
+            return (hal::HalInB(SERIAL_REG_LINE_STATUS) & SERIAL_LSR_TX_EMPTY) != 0;
         }
 
         /* ******************************************************************************
@@ -53,8 +53,8 @@ namespace cbk::drivers::serial
         SerialInterruptHandler(MAYBE_UNUSED interrupts::InterruptFrame *frame,
                                MAYBE_UNUSED PVOID context) noexcept
         {
-            while (hal::InB(SERIAL_REG_LINE_STATUS) & 0x01) {
-                BYTE incoming_byte = hal::InB(SERIAL_REG_DATA);
+            while (hal::HalInB(SERIAL_REG_LINE_STATUS) & 0x01) {
+                BYTE incoming_byte = hal::HalInB(SERIAL_REG_DATA);
                 SerialPutChar(static_cast<CHAR>(incoming_byte));
             }
         }
@@ -69,16 +69,16 @@ namespace cbk::drivers::serial
     NO_DISCARD CBKSTATUS
     SerialInit() noexcept
     {
-        hal::OutB(SERIAL_REG_INT_ENABLE, 0x00);
-        hal::OutB(SERIAL_REG_LINE_CTRL, SERIAL_LCR_DLAB);
-        hal::OutB(SERIAL_REG_DATA, SERIAL_BAUD_115200_LO);
-        hal::OutB(SERIAL_REG_INT_ENABLE, SERIAL_BAUD_115200_HI);
-        hal::OutB(SERIAL_REG_LINE_CTRL, SERIAL_LCR_8N1);
-        hal::OutB(SERIAL_REG_FIFO,
-                  SERIAL_FCR_ENABLE | SERIAL_FCR_CLEAR_RX | SERIAL_FCR_CLEAR_TX |
-                      SERIAL_FCR_TRIGGER_14);
-        hal::OutB(SERIAL_REG_MODEM_CTRL, 0x0B);
-        hal::OutB(SERIAL_REG_INT_ENABLE, 0x01);
+        hal::HalOutB(SERIAL_REG_INT_ENABLE, 0x00);
+        hal::HalOutB(SERIAL_REG_LINE_CTRL, SERIAL_LCR_DLAB);
+        hal::HalOutB(SERIAL_REG_DATA, SERIAL_BAUD_115200_LO);
+        hal::HalOutB(SERIAL_REG_INT_ENABLE, SERIAL_BAUD_115200_HI);
+        hal::HalOutB(SERIAL_REG_LINE_CTRL, SERIAL_LCR_8N1);
+        hal::HalOutB(SERIAL_REG_FIFO,
+                     SERIAL_FCR_ENABLE | SERIAL_FCR_CLEAR_RX | SERIAL_FCR_CLEAR_TX |
+                         SERIAL_FCR_TRIGGER_14);
+        hal::HalOutB(SERIAL_REG_MODEM_CTRL, 0x0B);
+        hal::HalOutB(SERIAL_REG_INT_ENABLE, 0x01);
 
         interrupts::KeRegisterInterruptHandler(36, SerialInterruptHandler, nullptr);
         drivers::pic::PicMask(4);
@@ -103,7 +103,7 @@ namespace cbk::drivers::serial
 
         // clang-format off
         #ifdef TRUNK_DEBUG
-                hal::OutB(SERIAL_REG_DATA, static_cast<BYTE>(c));
+                hal::HalOutB(SERIAL_REG_DATA, static_cast<BYTE>(c));
         #else
                 (VOID )c;
         #endif

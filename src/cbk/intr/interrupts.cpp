@@ -64,7 +64,7 @@ namespace cbk::interrupts
             target.handler(frame, target.context);
         else {
             if (vector < 32)
-                kernel::KAbort("KERNEL PANIC!!! UNHANDLED EXCEPTION.");
+                kernel::KePerformBugCheck("KERNEL PANIC!!! UNHANDLED EXCEPTION.");
         }
     }
 
