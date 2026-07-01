@@ -71,7 +71,8 @@ namespace cbk::mem
      * PURPOSE : Range loop helper                                                   *
      ********************************************************************************/
     template <SIZE_T STRIDE = PAGE_SIZE, typename F>
-    NO_DISCARD CBKSTATUS MmuIterateRange(QWORD start, SIZE_T size, F action) noexcept
+    NO_DISCARD CBKSTATUS
+    MmuIterateRange(QWORD start, SIZE_T size, F action) noexcept
     {
         if ((start & (STRIDE - 1)) != 0)
             return STATUS_DATATYPE_MISALIGNMENT;
@@ -88,14 +89,58 @@ namespace cbk::mem
     }
 
     /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MmuGetTableIndex                                                   *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Extract 9-bit table index for a given level                        *
+     ********************************************************************************/
+    NO_DISCARD ULONG
+    MmuGetTableIndex(QWORD virt, PAGING_LEVEL lvl) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MmuGetTablePointer                                                 *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Convert a physical frame back into a virtual page table pointer    *
+     ********************************************************************************/
+    NO_DISCARD PPAGE_TABLE
+    MmuGetTablePointer(PAGE_TABLE_ENTRY entry) noexcept;
+
+    /* *******************************************************************************
      * AUTHOR  : Trollycat                                                           *
      * FUNC    : MmuExecuteOnPte                                                     *
      * DATE    : 2026                                                                *
      * PURPOSE : Walks down any tiers to leaf                                        *
      ********************************************************************************/
-    NO_DISCARD CBKSTATUS MmuExecuteOnPte(QWORD virt, PAGING_LEVEL target_level,
-                                         BOOL alloc_if_missing, MmuPteAction action,
-                                         PTE_CONTEXT &ctx) noexcept;
+    NO_DISCARD CBKSTATUS
+    MmuExecuteOnPte(QWORD virt,
+                    PAGING_LEVEL target_level,
+                    BOOL alloc_if_missing,
+                    MmuPteAction action,
+                    PTE_CONTEXT &ctx) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MmuWalkToTable                                                     *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Walks down the page tables to a specific level                     *
+     ********************************************************************************/
+    NO_DISCARD CBKSTATUS
+    MmuWalkToTable(QWORD pml4_phys,
+                   QWORD virt,
+                   PAGING_LEVEL target_level,
+                   BOOL alloc_if_missing,
+                   PPAGE_TABLE_ENTRY &out_entry,
+                   PAGING_LEVEL &out_resolved_level) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MmuProtectRange                                                    *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Update protection flags across a range                             *
+     ********************************************************************************/
+    NO_DISCARD CBKSTATUS
+    MmuProtectRange(QWORD start_addr, SIZE_T size, ULONG new_protection) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -103,7 +148,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Load a new root page table address into the CPU                    *
      ********************************************************************************/
-    VOID MmuWriteCr3(QWORD pml4_phys) noexcept;
+    VOID
+    MmuWriteCr3(QWORD pml4_phys) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -111,7 +157,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the MMU driver on every CPU core                        *
      ********************************************************************************/
-    VOID MmuInitPerCpu() noexcept;
+    VOID
+    MmuInitPerCpu() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -119,6 +166,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Runs once on Core 0, wraps ArchAspace                              *
      ********************************************************************************/
-    VOID MmuInitialize(ArchAspace *krnl_space) noexcept;
+    VOID
+    MmuInitialize(ArchAspace *krnl_space) noexcept;
 
 } // namespace cbk::mem

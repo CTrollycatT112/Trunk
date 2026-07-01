@@ -34,7 +34,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write a byte to an I/O port.                                       *
      ********************************************************************************/
-    INLINE VOID OutB(WORD port, BYTE value) noexcept
+    INLINE VOID
+    OutB(WORD port, BYTE value) noexcept
     {
         asm volatile("outb %0, %1" : : "a"(value), "Nd"(port) : "memory");
     }
@@ -45,7 +46,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write a word (2 bytes) to an I/O port.                             *
      ********************************************************************************/
-    INLINE VOID OutW(WORD port, WORD value) noexcept
+    INLINE VOID
+    OutW(WORD port, WORD value) noexcept
     {
         asm volatile("outw %0, %1" : : "a"(value), "Nd"(port) : "memory");
     }
@@ -56,7 +58,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write a dword (4 bytes) to an I/O port.                            *
      ********************************************************************************/
-    INLINE VOID OutL(WORD port, DWORD value) noexcept
+    INLINE VOID
+    OutL(WORD port, DWORD value) noexcept
     {
         asm volatile("outl %0, %1" : : "a"(value), "Nd"(port) : "memory");
     }
@@ -67,8 +70,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read a byte from an I/O port.                                      *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE BYTE InB(WORD port) noexcept
+    NO_DISCARD INLINE BYTE
+    InB(WORD port) noexcept
     {
         BYTE value;
         asm volatile("inb %1, %0" : "=a"(value) : "Nd"(port) : "memory");
@@ -81,8 +84,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read a word (2 bytes) from an I/O port.                            *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE WORD InW(WORD port) noexcept
+    NO_DISCARD INLINE WORD
+    InW(WORD port) noexcept
     {
         WORD value;
         asm volatile("inw %1, %0" : "=a"(value) : "Nd"(port) : "memory");
@@ -95,8 +98,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read a dword (4 bytes) from an I/O port.                           *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE DWORD InL(WORD port) noexcept
+    NO_DISCARD INLINE DWORD
+    InL(WORD port) noexcept
     {
         DWORD value;
         asm volatile("inl %1, %0" : "=a"(value) : "Nd"(port) : "memory");
@@ -109,7 +112,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Brief I/O delay by writing to an unused port.                      *
      ********************************************************************************/
-    INLINE VOID IoWait() noexcept
+    INLINE VOID
+    IoWait() noexcept
     {
         OutB(0x80, 0x00);
     }
@@ -120,8 +124,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read a Model Specific Register.                                    *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE QWORD RdMsr(DWORD msr) noexcept
+    NO_DISCARD INLINE QWORD
+    RdMsr(DWORD msr) noexcept
     {
         DWORD low, high;
         asm volatile("rdmsr" : "=a"(low), "=d"(high) : "c"(msr));
@@ -134,7 +138,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write a Model Specific Register.                                   *
      ********************************************************************************/
-    INLINE VOID WrMsr(DWORD msr, QWORD value) noexcept
+    INLINE VOID
+    WrMsr(DWORD msr, QWORD value) noexcept
     {
         DWORD low  = static_cast<DWORD>(value);
         DWORD high = static_cast<DWORD>(value >> 32);
@@ -147,8 +152,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read control register CR0.                                         *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE QWORD ReadCr0() noexcept
+    NO_DISCARD INLINE QWORD
+    ReadCr0() noexcept
     {
         QWORD value;
         asm volatile("mov %%cr0, %0" : "=r"(value));
@@ -161,7 +166,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write control register CR0.                                        *
      ********************************************************************************/
-    INLINE VOID WriteCr0(QWORD value) noexcept
+    INLINE VOID
+    WriteCr0(QWORD value) noexcept
     {
         asm volatile("mov %0, %%cr0" : : "r"(value) : "memory");
     }
@@ -172,8 +178,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read control register CR2.                                         *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE QWORD ReadCr2() noexcept
+    NO_DISCARD INLINE QWORD
+    ReadCr2() noexcept
     {
         QWORD value;
         asm volatile("mov %%cr2, %0" : "=r"(value));
@@ -186,8 +192,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read control register CR3.                                         *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE QWORD ReadCr3() noexcept
+    NO_DISCARD INLINE QWORD
+    ReadCr3() noexcept
     {
         QWORD value;
         asm volatile("mov %%cr3, %0" : "=r"(value));
@@ -200,7 +206,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write control register CR3.                                        *
      ********************************************************************************/
-    INLINE VOID WriteCr3(QWORD value) noexcept
+    INLINE VOID
+    WriteCr3(QWORD value) noexcept
     {
         asm volatile("mov %0, %%cr3" : : "r"(value) : "memory");
     }
@@ -211,8 +218,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read control register CR4.                                         *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE QWORD ReadCr4() noexcept
+    NO_DISCARD INLINE QWORD
+    ReadCr4() noexcept
     {
         QWORD value;
         asm volatile("mov %%cr4, %0" : "=r"(value));
@@ -225,7 +232,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Write control register CR4.                                        *
      ********************************************************************************/
-    INLINE VOID WriteCr4(QWORD value) noexcept
+    INLINE VOID
+    WriteCr4(QWORD value) noexcept
     {
         asm volatile("mov %0, %%cr4" : : "r"(value) : "memory");
     }
@@ -236,7 +244,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Invalidate a single TLB entry for the given virtual address.       *
      ********************************************************************************/
-    INLINE VOID InvLpg(ULONG_PTR vaddr) noexcept
+    INLINE VOID
+    InvLpg(ULONG_PTR vaddr) noexcept
     {
         asm volatile("invlpg (%0)" : : "r"(vaddr) : "memory");
     }
@@ -247,7 +256,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Halt the CPU until the next interrupt.                             *
      ********************************************************************************/
-    INLINE VOID Hlt() noexcept
+    INLINE VOID
+    Hlt() noexcept
     {
         asm volatile("hlt");
     }
@@ -258,7 +268,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Disable hardware interrupts.                                       *
      ********************************************************************************/
-    INLINE VOID Cli() noexcept
+    INLINE VOID
+    Cli() noexcept
     {
         asm volatile("cli" : : : "memory");
     }
@@ -269,7 +280,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Enable hardware interrupts.                                        *
      ********************************************************************************/
-    INLINE VOID Sti() noexcept
+    INLINE VOID
+    Sti() noexcept
     {
         asm volatile("sti" : : : "memory");
     }
@@ -280,7 +292,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Hint to the CPU that this is a spin-wait loop.                     *
      ********************************************************************************/
-    INLINE VOID Pause() noexcept
+    INLINE VOID
+    Pause() noexcept
     {
         asm volatile("pause");
     }
@@ -291,7 +304,8 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Execute Cpuid instruction.                                         *
      ********************************************************************************/
-    INLINE VOID Cpuid(DWORD leaf, DWORD &eax, DWORD &ebx, DWORD &ecx, DWORD &edx) noexcept
+    INLINE VOID
+    Cpuid(DWORD leaf, DWORD &eax, DWORD &ebx, DWORD &ecx, DWORD &edx) noexcept
     {
         asm volatile("cpuid" : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx) : "a"(leaf), "c"(0));
     }
@@ -302,12 +316,24 @@ namespace cbk::hal
      *  DATE    : 2026                                                               *
      *  PURPOSE : Read the Time Stamp Counter.                                       *
      ********************************************************************************/
-    NO_DISCARD
-    INLINE QWORD RdtSc() noexcept
+    NO_DISCARD INLINE QWORD
+    RdtSc() noexcept
     {
         DWORD low, high;
         asm volatile("rdtsc" : "=a"(low), "=d"(high));
         return (static_cast<QWORD>(high) << 32) | low;
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MFence                                                             *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Execute the mfence assembly instruction                            *
+     ********************************************************************************/
+    INLINE VOID
+    MFence() noexcept
+    {
+        __asm__ __volatile__("mfence" ::: "memory");
     }
 
 } // namespace cbk::hal

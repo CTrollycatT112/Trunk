@@ -149,6 +149,14 @@ namespace cbk::mem
     using PTE_CONTEXT  = PteContext;
     using PPTE_CONTEXT = PteContext *;
 
+    struct PteInfo;
+    using PTE_INFO  = PteInfo;
+    using PPTE_INFO = PteInfo *;
+
+    struct MmLevelTraits;
+    using MM_LEVEL_TRAITS  = MmLevelTraits;
+    using PMM_LEVEL_TRAITS = MmLevelTraits *;
+
     struct NCacheDescriptor;
     using NCACHE_DESCRIPTOR  = NCacheDescriptor;
     using PNCACHE_DESCRIPTOR = NCacheDescriptor *;

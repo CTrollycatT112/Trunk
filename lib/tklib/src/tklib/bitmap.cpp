@@ -40,8 +40,11 @@ namespace tklib
          *  PURPOSE : Modify a bitmap range (kinda keeps API clean)                      *
          ********************************************************************************/
         template <typename OpFunc>
-        ALWAYS_INLINE VOID MiModifyBitmapRange(PRTL_BITMAP bitmap_header, ULONG starting_index,
-                                               ULONG number_to_modify, OpFunc bit_op) noexcept
+        INLINE VOID
+        MiModifyBitmapRange(PRTL_BITMAP bitmap_header,
+                            ULONG starting_index,
+                            ULONG number_to_modify,
+                            OpFunc bit_op) noexcept
         {
             for (ULONG i = 0; i < number_to_modify; ++i) {
                 ULONG bit_index   = starting_index + i;
@@ -60,8 +63,10 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the bitmap struct with an existin block of memory       *
      ********************************************************************************/
-    VOID RtlInitializeBitMap(PRTL_BITMAP bitmap_header, PULONG bitmap_buffer,
-                             ULONG size_of_bitmap) noexcept
+    VOID
+    RtlInitializeBitMap(PRTL_BITMAP bitmap_header,
+                        PULONG bitmap_buffer,
+                        ULONG size_of_bitmap) noexcept
     {
         bitmap_header->size_of_bitmap = size_of_bitmap;
         bitmap_header->buffer         = bitmap_buffer;
@@ -73,8 +78,10 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Scans the bitmap for clear bits and marks them as 1s               *
      ********************************************************************************/
-    NO_DISCARD ULONG RtlFindClearBitsAndSet(PRTL_BITMAP bitmap_header, ULONG number_to_find,
-                                            ULONG hint_index) noexcept
+    NO_DISCARD ULONG
+    RtlFindClearBitsAndSet(PRTL_BITMAP bitmap_header,
+                           ULONG number_to_find,
+                           ULONG hint_index) noexcept
     {
         if (number_to_find == 0 || number_to_find > bitmap_header->size_of_bitmap)
             return RTL_BITMAP_FAILED;
@@ -120,10 +127,12 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Changes a range of bits back to 0                                  *
      ********************************************************************************/
-    VOID RtlClearBits(PRTL_BITMAP bitmap_header, ULONG starting_index,
-                      ULONG number_to_clear) noexcept
+    VOID
+    RtlClearBits(PRTL_BITMAP bitmap_header, ULONG starting_index, ULONG number_to_clear) noexcept
     {
-        MiModifyBitmapRange(bitmap_header, starting_index, number_to_clear,
+        MiModifyBitmapRange(bitmap_header,
+                            starting_index,
+                            number_to_clear,
                             [](ULONG block, DWORD pos) {
                                 return tklib::clear_bit(block, pos);
                             });
@@ -135,9 +144,12 @@ namespace tklib
      *  DATE    : 2026                                                               *
      *  PURPOSE : Changes a range of bits to 1                                       *
      ********************************************************************************/
-    VOID RtlSetBits(PRTL_BITMAP bitmap_header, ULONG starting_index, ULONG number_to_set) noexcept
+    VOID
+    RtlSetBits(PRTL_BITMAP bitmap_header, ULONG starting_index, ULONG number_to_set) noexcept
     {
-        MiModifyBitmapRange(bitmap_header, starting_index, number_to_set,
+        MiModifyBitmapRange(bitmap_header,
+                            starting_index,
+                            number_to_set,
                             [](ULONG block, DWORD pos) {
                                 return tklib::set_bit(block, pos);
                             });

@@ -37,12 +37,15 @@ namespace cbk::mem
          *  DATE    : 2026                                                               *
          *  PURPOSE : Internal helper, map direct identity/physmap window                *
          ********************************************************************************/
-        VOID MmuMapIdentityPhysmap() noexcept
+        VOID
+        MmuMapIdentityPhysmap() noexcept
         {
             PFN_NUM pg_hi        = MmGetHighestPhysicalPage();
             SIZE_T phys_map_size = pg_hi * PAGE_SIZE;
 
-            CBKSTATUS status = MapRange4K(PHYSMAP_BASE, 0x0, phys_map_size,
+            CBKSTATUS status = MapRange4K(PHYSMAP_BASE,
+                                          0x0,
+                                          phys_map_size,
                                           PAGE_PRESENT | PAGE_WRITABLE | PAGE_GLOBAL);
             ASSERT(status == STATUS_SUCCESS,
                    "MmuMapIdentityPhysmap: Failed to map direct phys mem window");
@@ -54,7 +57,8 @@ namespace cbk::mem
          *  DATE    : 2026                                                               *
          *  PURPOSE : Map a section                                                      *
          ********************************************************************************/
-        VOID IMmuMapSection(PVOID section_start, PVOID section_end, QWORD hw_flags) noexcept
+        VOID
+        IMmuMapSection(PVOID section_start, PVOID section_end, QWORD hw_flags) noexcept
         {
             QWORD vstart = reinterpret_cast<QWORD>(section_start);
             QWORD pstart = vstart - KERNEL_VMA;
@@ -71,7 +75,8 @@ namespace cbk::mem
          *  DATE    : 2026                                                               *
          *  PURPOSE : Protect .text section (EXECUTABLE CODE)                            *
          ********************************************************************************/
-        VOID MmuMapTextSection() noexcept
+        VOID
+        MmuMapTextSection() noexcept
         {
             IMmuMapSection(__text_start, __text_end, TEXT_SECTION_HW_FLAGS);
         }
@@ -82,7 +87,8 @@ namespace cbk::mem
          *  DATE    : 2026                                                               *
          *  PURPOSE : Protect .rodata section (CONSTANT DATA)                            *
          ********************************************************************************/
-        VOID MmuMapRoDataSection() noexcept
+        VOID
+        MmuMapRoDataSection() noexcept
         {
             IMmuMapSection(__rodata_start, __rodata_end, RODATA_SECTION_HW_FLAGS);
         }
@@ -93,34 +99,37 @@ namespace cbk::mem
          *  DATE    : 2026                                                               *
          *  PURPOSE : Protect .bss section (UNINITIALIZED DATA)                          *
          ********************************************************************************/
-        VOID MmuMapDataBssSection() noexcept
+        VOID
+        MmuMapDataBssSection() noexcept
         {
             IMmuMapSection(__bss_start, __stack_top, BSS_SECTION_HW_FLAGS);
         }
-
-        /* *******************************************************************************
-         *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : MmuGetTableIndex                                                   *
-         *  DATE    : 2026                                                               *
-         *  PURPOSE : Extract 9-bit table index for a given level                        *
-         ********************************************************************************/
-        NO_DISCARD ULONG MmuGetTableIndex(QWORD virt, PAGING_LEVEL lvl) noexcept
-        {
-            return (virt >> static_cast<ULONG>(lvl)) & IDX_BITSHIFT;
-        }
-
-        /* *******************************************************************************
-         *  AUTHOR  : Trollycat                                                          *
-         *  FUNC    : MmuGetTablePointer                                                 *
-         *  DATE    : 2026                                                               *
-         *  PURPOSE : Convert a physical frame back into a virtual page table pointer    *
-         ********************************************************************************/
-        NO_DISCARD PPAGE_TABLE MmuGetTablePointer(PAGE_TABLE_ENTRY entry) noexcept
-        {
-            QWORD phys_addr = static_cast<QWORD>(entry.Bits.page_frame) << PAGE_SHIFT;
-            return reinterpret_cast<PPAGE_TABLE>(PaddrToKvaddr(phys_addr));
-        }
     } // namespace
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MmuGetTableIndex                                                   *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Extract 9-bit table index for a given level                        *
+     ********************************************************************************/
+    NO_DISCARD ULONG
+    MmuGetTableIndex(QWORD virt, PAGING_LEVEL lvl) noexcept
+    {
+        return static_cast<ULONG>((virt >> static_cast<ULONG>(lvl)) & IDX_BITSHIFT);
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MmuGetTablePointer                                                 *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Convert a physical frame back into a virtual page table pointer    *
+     ********************************************************************************/
+    NO_DISCARD PPAGE_TABLE
+    MmuGetTablePointer(PAGE_TABLE_ENTRY entry) noexcept
+    {
+        QWORD phys_addr = static_cast<QWORD>(entry.Bits.page_frame) << PAGE_SHIFT;
+        return reinterpret_cast<PPAGE_TABLE>(PaddrToKvaddr(phys_addr));
+    }
 
     /* *******************************************************************************
      * AUTHOR  : Trollycat                                                           *
@@ -128,38 +137,68 @@ namespace cbk::mem
      * DATE    : 2026                                                                *
      * PURPOSE : Walks down any tiers to leaf                                        *
      ********************************************************************************/
-    NO_DISCARD CBKSTATUS MmuExecuteOnPte(QWORD virt, PAGING_LEVEL target_level,
-                                         BOOL alloc_if_missing, MmuPteAction action,
-                                         PTE_CONTEXT &ctx) noexcept
+    NO_DISCARD CBKSTATUS
+    MmuExecuteOnPte(QWORD virt,
+                    PAGING_LEVEL target_level,
+                    BOOL alloc_if_missing,
+                    MmuPteAction action,
+                    PTE_CONTEXT &ctx) noexcept
     {
         QWORD alignment_mask =
             (target_level == PAGING_LEVEL::PD) ? (HUGE_PAGE_SIZE - 1) : (PAGE_SIZE - 1);
         if ((virt & alignment_mask) != 0)
             return STATUS_DATATYPE_MISALIGNMENT;
 
-        PPAGE_TABLE_ENTRY working_table =
-            reinterpret_cast<PPAGE_TABLE_ENTRY>(PaddrToKvaddr(krnl_space->pml4_phys));
+        PPAGE_TABLE_ENTRY target_entry = nullptr;
+        PAGING_LEVEL resolved_level    = PAGING_LEVEL::PML4;
 
+        CBKSTATUS status = MmuWalkToTable(krnl_space->pml4_phys,
+                                          virt,
+                                          target_level,
+                                          alloc_if_missing,
+                                          target_entry,
+                                          resolved_level);
+        if (status != STATUS_SUCCESS)
+            return status;
+
+        QWORD old_val = target_entry->val;
+        action(target_entry, ctx);
+
+        if (target_entry->val != old_val)
+            hal::InvLpg(virt);
+        if (target_entry->Bits.large_page && resolved_level != target_level)
+            return STATUS_LARGE_PAGE;
+
+        return STATUS_SUCCESS;
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MmuWalkToTable                                                     *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Walks down the page tables to a specific level                     *
+     ********************************************************************************/
+    NO_DISCARD CBKSTATUS
+    MmuWalkToTable(QWORD pml4_phys,
+                   QWORD virt,
+                   PAGING_LEVEL target_level,
+                   BOOL alloc_if_missing,
+                   PPAGE_TABLE_ENTRY &out_entry,
+                   PAGING_LEVEL &out_resolved_level) noexcept
+    {
+        PPAGE_TABLE working_table      = reinterpret_cast<PPAGE_TABLE>(PaddrToKvaddr(pml4_phys));
         constexpr PAGING_LEVEL steps[] = {PAGING_LEVEL::PML4, PAGING_LEVEL::PDPT, PAGING_LEVEL::PD};
 
         for (PAGING_LEVEL level : steps) {
-            ULONG idx = MmuGetTableIndex(virt, level);
 
-            if (level == target_level) {
-                PPAGE_TABLE_ENTRY target_pte = &working_table[idx];
-                QWORD old_val                = target_pte->val;
+            ULONG idx          = MmuGetTableIndex(virt, level);
+            out_resolved_level = level;
+            out_entry          = &working_table->entries[idx];
 
-                action(target_pte, ctx);
-
-                if (target_pte->val != old_val)
-                    hal::InvLpg(virt);
-
+            if (level == target_level || out_entry->Bits.large_page)
                 return STATUS_SUCCESS;
-            }
 
-            PAGE_TABLE_ENTRY entry = working_table[idx];
-
-            if (!entry.Bits.present) {
+            if (!out_entry->Bits.present) {
                 if (!alloc_if_missing)
                     return STATUS_NOT_FOUND;
 
@@ -167,36 +206,20 @@ namespace cbk::mem
                 if (new_pfn == 0)
                     return STATUS_NO_MEMORY;
 
-                QWORD new_paddr = PfnToAddr(new_pfn);
-
-                PPAGE_TABLE_ENTRY new_tbl_virt =
-                    reinterpret_cast<PPAGE_TABLE_ENTRY>(PaddrToKvaddr(new_paddr));
+                QWORD new_paddr          = PfnToAddr(new_pfn);
+                PPAGE_TABLE new_tbl_virt = reinterpret_cast<PPAGE_TABLE>(PaddrToKvaddr(new_paddr));
 
                 tklib::memset(new_tbl_virt, 0, PAGE_SIZE);
-
-                working_table[idx].val = new_paddr | PAGE_PRESENT | PAGE_WRITABLE | PAGE_USER;
-                entry                  = working_table[idx];
+                out_entry->val = new_paddr | PAGE_PRESENT | PAGE_WRITABLE | PAGE_USER;
             }
 
-            if (entry.Bits.large_page) {
-                if (!alloc_if_missing && ctx.extra == PHYS_ADDR_MAX)
-                    action(&working_table[idx], ctx);
-                return STATUS_LARGE_PAGE;
-            }
-
-            working_table = reinterpret_cast<PPAGE_TABLE_ENTRY>(MmuGetTablePointer(entry));
+            working_table = MmuGetTablePointer(*out_entry);
         }
 
         if (target_level == PAGING_LEVEL::PT) {
-            ULONG pt_idx                 = MmuGetTableIndex(virt, PAGING_LEVEL::PT);
-            PPAGE_TABLE_ENTRY target_pte = &working_table[pt_idx];
-            QWORD old_val                = target_pte->val;
-
-            action(target_pte, ctx);
-
-            if (target_pte->val != old_val)
-                hal::InvLpg(virt);
-
+            ULONG pt_idx       = MmuGetTableIndex(virt, PAGING_LEVEL::PT);
+            out_resolved_level = PAGING_LEVEL::PT;
+            out_entry          = &working_table->entries[pt_idx];
             return STATUS_SUCCESS;
         }
 
@@ -205,11 +228,46 @@ namespace cbk::mem
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : MmuProtectRange                                                    *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Update protection flags across a range                             *
+     ********************************************************************************/
+    NO_DISCARD CBKSTATUS
+    MmuProtectRange(QWORD start_addr, SIZE_T size, ULONG new_protection) noexcept
+    {
+        QWORD hw_bits_to_set   = 0;
+        QWORD hw_bits_to_clear = PAGE_WRITABLE | PAGE_NX;
+
+        if (new_protection & PAGE_READWRITE)
+            hw_bits_to_set |= PAGE_WRITABLE;
+        if (!(new_protection & PAGE_EXECUTE))
+            hw_bits_to_set |= PAGE_NX;
+
+        PTE_CONTEXT ctx{};
+        ctx.extra   = hw_bits_to_clear;
+        ctx.payload = hw_bits_to_set;
+
+        auto protect_action = [](PPAGE_TABLE_ENTRY pte, PTE_CONTEXT &context) noexcept -> VOID {
+            pte->val = (pte->val & ~context.extra) | context.payload;
+        };
+
+        for (QWORD addr = start_addr; addr < start_addr + size; addr += PAGE_SIZE) {
+            CBKSTATUS status = MmuExecuteOnPte(addr, PAGING_LEVEL::PT, FALSE, protect_action, ctx);
+            if (status != STATUS_SUCCESS)
+                return status;
+        }
+
+        return STATUS_SUCCESS;
+    }
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : MmuWriteCr3                                                        *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Load a new root page table address into the CPU                    *
      ********************************************************************************/
-    VOID MmuWriteCr3(QWORD pml4_phys) noexcept
+    VOID
+    MmuWriteCr3(QWORD pml4_phys) noexcept
     {
         ASSERT((pml4_phys & 0xFFF) == 0, "PML4 physical address must be page-aligned!");
         hal::WriteCr3(pml4_phys);
@@ -221,7 +279,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Initialize the MMU driver on every CPU core                        *
      ********************************************************************************/
-    VOID MmuInitPerCpu() noexcept
+    VOID
+    MmuInitPerCpu() noexcept
     {
         // MULTI-CORE NOT ADDED
         // TODO: INIT PER CPU
@@ -233,7 +292,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Runs once on Core 0, wraps ArchAspace                              *
      ********************************************************************************/
-    VOID MmuInitialize(ArchAspace *space) noexcept
+    VOID
+    MmuInitialize(ArchAspace *space) noexcept
     {
         ASSERT(space != nullptr, "MmuInitialize: Kernel address space cannot be nullptr");
         krnl_space = space;

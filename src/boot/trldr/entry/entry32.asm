@@ -52,16 +52,12 @@ SaveMb2ToMemory:
 _Start:
     cli
     mov esp, 0x7C00
-    
 
     call SaveMb2ToMemory
-
-    
     call SetupPageTables
     call EnableLongMode
 
     lgdt [Gdt64Ptr]
-
     jmp 0x08:Trampoline64
 
 ; *******************************************************************************
