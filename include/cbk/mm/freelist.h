@@ -65,7 +65,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Find the least recently used physical memory page                  *
      ********************************************************************************/
-    NO_DISCARD PFN_NUM MmGetLRUFirstUserPage() noexcept;
+    NO_DISCARD PFN_NUM
+    MmGetLRUFirstUserPage() noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -73,7 +74,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Place a physical memory page at the back of the LRU chain          *
      ********************************************************************************/
-    VOID MmInsertLRULastUserPage(PFN_NUM page) noexcept;
+    VOID
+    MmInsertLRULastUserPage(PFN_NUM page) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -81,7 +83,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Completely pull a page out of the LRU chain                        *
      ********************************************************************************/
-    VOID MmRemoveLRUUserPage(PFN_NUM page) noexcept;
+    VOID
+    MmRemoveLRUUserPage(PFN_NUM page) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -89,7 +92,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Iterate through pages in order starting at upfront page            *
      ********************************************************************************/
-    NO_DISCARD PFN_NUM MmGetLRUNextUserPage(PFN_NUM prev_page, BOOL move_to_last) noexcept;
+    NO_DISCARD PFN_NUM
+    MmGetLRUNextUserPage(PFN_NUM prev_page, BOOL move_to_last) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -97,7 +101,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Check to see if a specific physical page frame is ready            *
      ********************************************************************************/
-    NO_DISCARD BOOL IsPfnFree(PMMPFN pfn1) noexcept;
+    NO_DISCARD BOOL
+    IsPfnFree(PMMPFN pfn1) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -105,7 +110,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Check if a physical page frame is actively holding data            *
      ********************************************************************************/
-    NO_DISCARD BOOL IsPfnInUse(PMMPFN pfn1) noexcept;
+    NO_DISCARD BOOL
+    IsPfnInUse(PMMPFN pfn1) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -114,7 +120,8 @@ namespace cbk::mem
      *  PURPOSE : Attach or update the tracking list of va that point                *
      *                                                      to a physical page frame *
      ********************************************************************************/
-    VOID MmSetRmapListHeadPage(PFN_NUM pfn, PMM_RMAP_ENTRY list_head) noexcept;
+    VOID
+    MmSetRmapListHeadPage(PFN_NUM pfn, PMM_RMAP_ENTRY list_head) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -123,7 +130,8 @@ namespace cbk::mem
      *  PURPOSE : Retrieve the head of the linked-list for a specific                *
      *                                                          physical page frame  *
      ********************************************************************************/
-    NO_DISCARD PMM_RMAP_ENTRY MmGetRmapListHeadPage(PFN_NUM pfn) noexcept;
+    NO_DISCARD PMM_RMAP_ENTRY
+    MmGetRmapListHeadPage(PFN_NUM pfn) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -131,7 +139,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Increment reference counter of physical page frame(+1)             *
      ********************************************************************************/
-    VOID MmReferencePage(PFN_NUM pfn) noexcept;
+    VOID
+    MmReferencePage(PFN_NUM pfn) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -140,7 +149,8 @@ namespace cbk::mem
      *  PURPOSE : Read and return the current number of active owners or users a     *
      *                                                       physical page frame has *
      ********************************************************************************/
-    NO_DISCARD ULONG MmGetReferenceCountPage(PFN_NUM pfn) noexcept;
+    NO_DISCARD ULONG
+    MmGetReferenceCountPage(PFN_NUM pfn) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -149,7 +159,8 @@ namespace cbk::mem
      *  PURPOSE : Check if a specific physical page frame number is currently        *
      *                                                  allocated or holding data    *
      ********************************************************************************/
-    NO_DISCARD BOOL MmIsPageInUse(PFN_NUM pfn) noexcept;
+    NO_DISCARD BOOL
+    MmIsPageInUse(PFN_NUM pfn) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -157,7 +168,8 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Decrement the reference counter of a physical page frame(-1)       *
      ********************************************************************************/
-    VOID MmDereferencePage(PFN_NUM pfn) noexcept;
+    VOID
+    MmDereferencePage(PFN_NUM pfn) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -165,6 +177,16 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Allocate a single physical page frame from memory                  *
      ********************************************************************************/
-    NO_DISCARD PFN_NUM MmAllocPage(ULONG type) noexcept;
+    NO_DISCARD PFN_NUM
+    MmAllocPage(ULONG type) noexcept;
+
+    /* *******************************************************************************
+     * AUTHOR  : Trollycat                                                           *
+     * FUNC    : MmAllocContiguousPages                                              *
+     * DATE    : 2026                                                                *
+     * PURPOSE : Allocates physically contiguous, aligned memory blocks              *
+     ********************************************************************************/
+    NO_DISCARD PFN_NUM
+    MmAllocContiguousPages(SIZE_T page_count, ULONG alignment_bytes) noexcept;
 
 } // namespace cbk::mem

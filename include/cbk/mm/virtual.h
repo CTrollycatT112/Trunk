@@ -27,7 +27,10 @@
 #include <attributes.h>
 #include <status.h>
 
+#include <cbk/mm/freelist.h>
+#include <cbk/mm/mappag.h>
 #include <cbk/mm/mmdefs.h>
+#include <cbk/mm/mmunit.h>
 #include <cbk/mm/vad.h>
 
 #define MM_MAPPED_COPY_PAGES 14
@@ -59,7 +62,8 @@ namespace cbk::mem
      *  PURPOSE : Flushes TLB caches and captures hardware page state bits           *
      ********************************************************************************/
     VOID
-    MmFlushTbAndCapture(PMMVAD found_vad,
+    MmFlushTbAndCapture(PMM_ADDRESS_SPACE address_space,
+                        PMMVAD found_vad,
                         PMMPTE pointer_pte,
                         ULONG protection_mask,
                         PMMPFN pfn1,

@@ -144,8 +144,12 @@ namespace cbk::mem
                     MmuPteAction action,
                     PTE_CONTEXT &ctx) noexcept
     {
-        QWORD alignment_mask =
-            (target_level == PAGING_LEVEL::PD) ? (HUGE_PAGE_SIZE - 1) : (PAGE_SIZE - 1);
+        QWORD alignment_mask = PAGE_SIZE - 1;
+        if (target_level == PAGING_LEVEL::PD)
+            alignment_mask = (1ULL << static_cast<ULONG>(PAGING_LEVEL::PD)) - 1;
+        else if (target_level == PAGING_LEVEL::PDPT)
+            alignment_mask = (1ULL << static_cast<ULONG>(PAGING_LEVEL::PDPT)) - 1;
+
         if ((virt & alignment_mask) != 0)
             return STATUS_DATATYPE_MISALIGNMENT;
 
@@ -166,8 +170,6 @@ namespace cbk::mem
 
         if (target_entry->val != old_val)
             hal::InvLpg(virt);
-        if (target_entry->Bits.large_page && resolved_level != target_level)
-            return STATUS_LARGE_PAGE;
 
         return STATUS_SUCCESS;
     }

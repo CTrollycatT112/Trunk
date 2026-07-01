@@ -133,6 +133,16 @@ namespace cbk::mem
 
     constexpr QWORD ARR_BOOT_NODE_SIZE = 1024;
 
+    // User mode, kernel mode definitions
+    constexpr QWORD MM_USER_SPACE_START = 0x0000000000000000ULL;
+    constexpr QWORD MM_USER_SPACE_END   = 0x00007FFFFFFFFFFFULL;
+
+    constexpr QWORD MM_KERNEL_SPACE_START = PHYSMAP_BASE;
+    constexpr QWORD MM_KERNEL_SPACE_END   = PHYS_ADDR_MAX;
+
+#define MM_IS_USER_ADDRESS(addr) ((static_cast<QWORD>(addr)) <= MM_USER_SPACE_END)
+#define MM_IS_KERNEL_ADDRESS(addr) ((static_cast<QWORD>(addr)) >= MM_KERNEL_SPACE_START)
+
     union PAGE_TABLE_ENTRY {
         QWORD val;
 

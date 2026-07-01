@@ -55,6 +55,8 @@ namespace cbk::mem
         MmVad *right_child;
         MmVad *parent;
 
+        LONG height;
+
         union {
             ULONG long_flags;
             MM_VAD_FLAGS flags;
@@ -74,11 +76,24 @@ namespace cbk::mem
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
+     *  FUNC    : CreateVadNode                                                      *
+     *  DATE    : 2026                                                               *
+     *  PURPOSE : Creates a new VAD node                                             *
+     ********************************************************************************/
+    NO_DISCARD PMMVAD
+    VadInitializeNode(PMMVAD blank_node,
+                      QWORD starting_vpn,
+                      SIZE_T page_count,
+                      ULONG protect) noexcept;
+
+    /* *******************************************************************************
+     *  AUTHOR  : Trollycat                                                          *
      *  FUNC    : VadFindNode                                                        *
      *  DATE    : 2026                                                               *
      *  PURPOSE : Walks the tree to see if a vpn exists inside a range               *
      ********************************************************************************/
-    NO_DISCARD PMMVAD VadFindNode(PMM_ADDRESS_SPACE space, QWORD vpn) noexcept;
+    NO_DISCARD PMMVAD
+    VadFindNode(PMM_ADDRESS_SPACE space, QWORD vpn) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -86,7 +101,17 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Places a new block into the binary tree                            *
      ********************************************************************************/
-    NO_DISCARD CBKSTATUS VadInsertNode(PMM_ADDRESS_SPACE space, PMMVAD node) noexcept;
+    NO_DISCARD CBKSTATUS
+    VadInsertNode(PMM_ADDRESS_SPACE space, PMMVAD node) noexcept;
+
+    /* *******************************************************************************
+     * AUTHOR  : Trollycat                                                           *
+     * FUNC    : VadDeleteNode                                                       *
+     * DATE    : 2026                                                                *
+     * PURPOSE : Removes a node from the tree and rebalances                         *
+     ********************************************************************************/
+    VOID
+    VadDeleteNode(PMM_ADDRESS_SPACE space, PMMVAD node) noexcept;
 
     /* *******************************************************************************
      *  AUTHOR  : Trollycat                                                          *
@@ -94,7 +119,7 @@ namespace cbk::mem
      *  DATE    : 2026                                                               *
      *  PURPOSE : Walks the tree looking for an empty hole between nodes             *
      ********************************************************************************/
-    NO_DISCARD QWORD VadFindFreeGap(PMM_ADDRESS_SPACE space, SIZE_T page_cnt,
-                                    BOOL top_down) noexcept;
+    NO_DISCARD QWORD
+    VadFindFreeGap(PMM_ADDRESS_SPACE space, SIZE_T page_cnt, BOOL top_down) noexcept;
 
 } // namespace cbk::mem
